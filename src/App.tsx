@@ -1,6 +1,6 @@
 import './App.css';
 import {Sync} from "./EventReader"
-import ClockSource from "./components/ClockSource";
+import ClockSource from "./components/client/ClockSource";
 
 function App() {
   return (

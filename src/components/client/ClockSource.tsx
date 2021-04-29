@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer } from "react";
-import { INVALID as INVALID_POINT, parse, Point, stringify } from "./Time";
+import { INVALID as INVALID_POINT, parse, Point } from "../common/Time";
 
 export const ClockContext = createContext(INVALID_POINT);
 
@@ -47,9 +47,6 @@ const ClockSource = (props: any) => {
   }, []);
   return (
     <ClockContext.Provider value={state.clock}>
-      <ClockContext.Consumer>
-        {(clock) => <p>{stringify(clock)}</p>}
-      </ClockContext.Consumer>
       {props.children}
     </ClockContext.Provider>
   );

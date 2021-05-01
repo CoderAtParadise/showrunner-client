@@ -4,7 +4,12 @@ import {
   INVALID as INVALID_RUNSHEET,
   JSON as RJSON,
 } from "../common/Runsheet";
-import { TrackingSession, SESSION_JSON as TSJSON } from "../common/Tracking";
+import {
+  TrackingSession,
+  SESSION_JSON as TSJSON,
+  TRACKER_JSON as TJSON,
+  Tracker,
+} from "../common/Tracking";
 
 type State = {
   runsheet: RunsheetStorage;
@@ -38,8 +43,9 @@ type Action =
       type: "current";
       current: { session: string; active: string; next: string };
     }
-  | { type: "tracking" }
-  | { type: "tracking_list"; tracking_list: Map<string, TrackingSession> };
+  | { type: "tracking"; tracking: { session: string; tracker: Tracker } }
+  | { type: "tracking_list"; tracking_list: Map<string, TrackingSession> }
+  | { type: "tracking_session"; session: TrackingSession };
 
 const syncReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -58,6 +64,12 @@ const syncReducer = (state: State, action: Action): State => {
         source: state.source,
       };
     case "tracking":
+      const session = state.tracking.get(action.tracking.session);
+      if (session)
+        session.trackers.set(
+          action.tracking.tracker.tracking_id,
+          action.tracking.tracker
+        );
       return {
         runsheet: state.runsheet,
         current: state.current,
@@ -71,6 +83,14 @@ const syncReducer = (state: State, action: Action): State => {
         tracking: action.tracking_list,
         source: state.source,
       };
+    case "tracking_session":
+      state.tracking.set(action.session.session_id,action.session);
+      return {
+        runsheet: state.runsheet,
+        current: state.current,
+        tracking: state.tracking,
+        source: state.source,
+      }
   }
   return state;
 };
@@ -106,6 +126,22 @@ const SyncSource = (props: any) => {
         map.set(session.session_id, session);
       });
       dispatcher({ type: "tracking_list", tracking_list: map });
+    });
+    state.source.addEventListener("tracking", (e: any) => {
+      const json = JSON.parse(e.data);
+      const tracker: { session: string; tracker: Tracker } = {
+        session: json.session,
+        tracker: TJSON.deserialize(json.tracker),
+      };
+
+      dispatcher({ type: "tracking", tracking: tracker });
+    });
+    state.source.addEventListener("tracking_session", (e: any) => {
+      const json = JSON.parse(e.data);
+      dispatcher({
+        type: "tracking_session",
+        session: TSJSON.deserialize(json),
+      });
     });
     return () => state.source.close();
     // Disable the lint rule we have insufficient resources if it isn't how it is

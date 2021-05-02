@@ -6,7 +6,6 @@ import { CurrentContext, RunsheetContext, TrackingContext } from "./SyncSource";
 import {
   stringify,
   subtract,
-  Point,
   INVALID as INVALID_POINT,
 } from "../common/Time";
 import {
@@ -24,14 +23,26 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      height: "100%",
+      padding: theme.spacing(1),
     },
     paper: {
-      padding: theme.spacing(2),
+      padding: theme.spacing(1),
       textAlign: "center",
       color: theme.palette.text.secondary,
+      height: "80%",
     },
+    go: {
+      height: "70%",
+      width: "50%",
+      border: "solid",
+      borderColor: theme.palette.text.secondary,
+      color: theme.palette.text.secondary,
+    }
   })
 );
+
+const serverurl = process.env.SERVER_URL || "http://localhost:3001";
 
 const Current = (props: any) => {
   const classes = useStyles();
@@ -100,7 +111,7 @@ const Current = (props: any) => {
             </Paper>
           </Grid>
         </Grid>
-        <Grid container justify={"center"}>
+        <Grid container justify={"center"} alignItems={"stretch"}>
           <Grid item xs={2}>
             <Paper className={classes.paper}>
               Bracket Duration:{" "}
@@ -127,11 +138,16 @@ const Current = (props: any) => {
                 Item Timer: <TimePoint tracker={item} clock={clock} />
               </b>
               <Button>Show</Button>
+              <br />
+                2nd Timer: {stringify(INVALID_POINT)}
+              <Button>Show</Button>
             </Paper>
           </Grid>
           <Grid item xs={2}>
             <Paper className={classes.paper}>
-              <Button>Go</Button> <br />
+              <Button className={classes.go} onClick={async () => {
+                fetch(`${serverurl}/command`, { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ command: "goto", session: current.session, tracking_id: current.next }) }).then((response) => response)
+              }}>Go</Button> <br />
               <b>Next: {nis.display}</b>
             </Paper>
           </Grid>

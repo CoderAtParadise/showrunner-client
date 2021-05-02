@@ -5,7 +5,6 @@ import {
   stringify,
   greaterThan,
   INVALID as INVALID_POINT,
-  Mutable_Point,
 } from "../common/Time";
 import { Behaviour, Display } from "../common/Timer";
 import { Tracker } from "../common/Tracking";

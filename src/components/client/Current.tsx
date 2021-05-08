@@ -3,11 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { Paper } from "@material-ui/core";
 import { CurrentContext, RunsheetContext, TrackingContext } from "./SyncSource";
-import {
-  stringify,
-  subtract,
-  INVALID as INVALID_POINT,
-} from "../common/Time";
+import { stringify, subtract, INVALID as INVALID_POINT } from "../common/Time";
 import {
   get,
   Nested,
@@ -23,8 +19,10 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
-      height: "100%",
+      height: "200",
       padding: theme.spacing(1),
+      position: "fixed",
+      zIndex:5,
     },
     paper: {
       padding: theme.spacing(1),
@@ -33,12 +31,12 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "80%",
     },
     go: {
-      height: "70%",
-      width: "50%",
+      height: "70px",
+      width: "70px",
       border: "solid",
       borderColor: theme.palette.text.secondary,
       color: theme.palette.text.secondary,
-    }
+    },
   })
 );
 
@@ -139,15 +137,29 @@ const Current = (props: any) => {
               </b>
               <Button>Show</Button>
               <br />
-                2nd Timer: {stringify(INVALID_POINT)}
+              2nd Timer: {stringify(INVALID_POINT)}
               <Button>Show</Button>
             </Paper>
           </Grid>
           <Grid item xs={2}>
             <Paper className={classes.paper}>
-              <Button className={classes.go} onClick={async () => {
-                fetch(`${serverurl}/command`, { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ command: "goto", session: current.session, tracking_id: current.next }) }).then((response) => response)
-              }}>Go</Button> <br />
+              <Button
+                className={classes.go}
+                onClick={() => {
+                  fetch(`${serverurl}/command`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      command: "goto",
+                      session: current.session,
+                      tracking_id: current.next,
+                    }),
+                  }).then((response) => response);
+                }}
+              >
+                Go
+              </Button>{" "}
+              <br />
               <b>Next: {nis.display}</b>
             </Paper>
           </Grid>

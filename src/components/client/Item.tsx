@@ -112,7 +112,7 @@ const Item = (props: {
         <NewDialog/>
         </Tooltip>
         <Tooltip title="Delete">
-          <DeleteDialog delete={props.storage.tracking}/>
+          <DeleteDialog session={props.session.session_id} delete={props.storage.tracking}/>
         </Tooltip>
       </TableCell>
       <TableCell align="center" style={{ width: "5%" }}>

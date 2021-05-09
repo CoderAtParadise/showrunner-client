@@ -23,12 +23,12 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Switch from "@material-ui/core/Switch";
 import { CurrentContext } from "./SyncSource";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
-import DeleteIcon from "@material-ui/icons/Delete";
 import NotesIcon from "@material-ui/icons/Notes";
 import Tooltip from "@material-ui/core/Tooltip";
 import SendCommand from "./SendCommand";
 import EditDialog from "./EditDialog";
 import NewDialog from "./NewDialog";
+import DeleteDialog from "./DeleteDialog";
 
 const Session = (props: {
   session: TrackingSession;
@@ -112,19 +112,7 @@ const Session = (props: {
         <TableCell align="center" style={{ width: "15%" }}>
           <EditDialog edit={props.storage.tracking}/>
           <NewDialog parent={props.session.tracking_id}/>
-          <Tooltip title="Delete">
-            <IconButton
-              onClick={() => {
-                SendCommand(
-                  "delete",
-                  props.session.session_id,
-                  props.session.tracking_id
-                );
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
+          <DeleteDialog session={props.session.session_id} delete={props.storage.tracking}/>
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
           <DragIndicatorIcon />

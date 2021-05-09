@@ -128,7 +128,7 @@ const Bracket = (props: {
         <TableCell align="center" style={{ width: "15%" }}>
         <EditDialog edit={props.storage.tracking}/>
         <NewDialog/>
-          <DeleteDialog delete={props.storage.tracking}/>
+          <DeleteDialog session={props.session.session_id} delete={props.storage.tracking}/>
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
           <DragIndicatorIcon />

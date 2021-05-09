@@ -22,12 +22,13 @@ import Table from "@material-ui/core/Table";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Switch from "@material-ui/core/Switch";
 import { CurrentContext } from "./SyncSource";
-import AddIcon from "@material-ui/icons/Add";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import DeleteIcon from "@material-ui/icons/Delete";
 import NotesIcon from "@material-ui/icons/Notes";
 import Tooltip from "@material-ui/core/Tooltip";
 import SendCommand from "./SendCommand";
+import EditDialog from "./EditDialog";
+import NewDialog from "./NewDialog";
 
 const Session = (props: {
   session: TrackingSession;
@@ -89,7 +90,7 @@ const Session = (props: {
         </TableCell>
         <TableCell align="center" style={{ width: "15%" }}>
           <Tooltip title="Go">
-            <IconButton>
+            <IconButton onClick={() => { SendCommand("goto", props.session.session_id, "start") }}>
               <ExitToAppIcon />
             </IconButton>
           </Tooltip>
@@ -109,10 +110,8 @@ const Session = (props: {
           </Tooltip>
         </TableCell>
         <TableCell align="center" style={{ width: "15%" }}>
-          <Switch />
-          <IconButton>
-            <AddIcon />
-          </IconButton>
+          <EditDialog edit={props.storage.tracking}/>
+          <NewDialog parent={props.session.tracking_id}/>
           <Tooltip title="Delete">
             <IconButton
               onClick={() => {

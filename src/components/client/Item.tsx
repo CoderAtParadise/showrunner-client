@@ -8,13 +8,14 @@ import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Switch from "@material-ui/core/Switch";
-import AddIcon from "@material-ui/icons/Add";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
-import DeleteIcon from "@material-ui/icons/Delete";
 import NotesIcon from "@material-ui/icons/Notes";
 import Tooltip from "@material-ui/core/Tooltip";
+import EditDialog from "./EditDialog";
 import sendCommand from "./SendCommand";
+import NewDialog from "./NewDialog";
+import DeleteDialog from "./DeleteDialog";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -104,22 +105,14 @@ const Item = (props: {
         </Tooltip>
       </TableCell>
       <TableCell align="center" style={{ width: "15%" }}>
-        <Switch />
-        <IconButton>
-          <AddIcon />
-        </IconButton>
+      <Tooltip title="New">
+        <EditDialog edit={props.storage.tracking}/>
+        </Tooltip>
+        <Tooltip title="New">
+        <NewDialog/>
+        </Tooltip>
         <Tooltip title="Delete">
-          <IconButton
-            onClick={() => {
-              sendCommand(
-                "delete",
-                props.session.session_id,
-                props.tracking.tracking_id
-              );
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
+          <DeleteDialog delete={props.storage.tracking}/>
         </Tooltip>
       </TableCell>
       <TableCell align="center" style={{ width: "5%" }}>

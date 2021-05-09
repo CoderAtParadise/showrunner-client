@@ -17,11 +17,12 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Switch from "@material-ui/core/Switch";
 import { CurrentContext } from "./SyncSource";
 import { Point } from "../common/Time";
-import AddIcon from "@material-ui/icons/Add";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
-import DeleteIcon from "@material-ui/icons/Delete";
 import NotesIcon from "@material-ui/icons/Notes";
 import Tooltip from "@material-ui/core/Tooltip";
+import EditDialog from "./EditDialog";
+import NewDialog from "./NewDialog";
+import DeleteDialog from "./DeleteDialog";
 import SendCommand from "./SendCommand";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -125,23 +126,9 @@ const Bracket = (props: {
           </Tooltip>
         </TableCell>
         <TableCell align="center" style={{ width: "15%" }}>
-          <Switch />
-          <IconButton>
-            <AddIcon />
-          </IconButton>
-          <Tooltip title="Delete">
-            <IconButton
-              onClick={() => {
-                SendCommand(
-                  "delete",
-                  props.session.session_id,
-                  props.tracker.tracking_id
-                );
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
+        <EditDialog edit={props.storage.tracking}/>
+        <NewDialog/>
+          <DeleteDialog delete={props.storage.tracking}/>
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
           <DragIndicatorIcon />

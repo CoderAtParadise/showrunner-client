@@ -11,6 +11,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import Menu from "./Menu";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,6 +37,7 @@ const Runsheet = (props: any) => {
   const current = useContext(CurrentContext);
   const session = tracking.get(current.session);
   return (
+      <Fragment>
     <Grid container justify="center">
       <Grid item className={classes.root} xs={11}>
         <TableContainer component={Paper}>
@@ -88,6 +90,8 @@ const Runsheet = (props: any) => {
         </TableContainer>
       </Grid>
     </Grid>
+    <Menu></Menu>
+    </Fragment>
   );
 };
 

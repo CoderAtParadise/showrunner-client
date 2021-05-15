@@ -29,6 +29,7 @@ import SendCommand from "./SendCommand";
 import EditDialog from "./EditDialog";
 import NewDialog from "./NewDialog";
 import DeleteDialog from "./DeleteDialog";
+import { SessionStorage } from "../common/Session";
 
 const Session = (props: {
   session: TrackingSession;
@@ -37,10 +38,7 @@ const Session = (props: {
 }) => {
   const current = useContext(CurrentContext);
   const tparent = props.session.trackers.get(current.active)?.parent;
-  const [open, setOpen] = useState(false);
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  const [open, setOpen] = useState(props.active);
   const startTime = equals(props.session.timer.start, INVALID_POINT)
     ? props.session.startTime
     : props.session.timer.start;
@@ -51,11 +49,9 @@ const Session = (props: {
   let timeoffset = startTime;
   return (
     <Fragment>
-      <TableRow
-        key={`${props.session.session_id}-${props.session.tracking_id}`}
-      >
+      <TableRow>
         <TableCell align="center" style={{ width: "5%" }}>
-          <IconButton onClick={handleClick}>
+          <IconButton onClick={() =>setOpen(!open)}>
             {open ? (
               <ExpandLess />
             ) : props.active ? (
@@ -75,7 +71,7 @@ const Session = (props: {
           {stringify(subtract(endTime, startTime))}
         </TableCell>
         <TableCell align="center" style={{ width: "35%" }}>
-          {props.storage.display}
+        {stringify(props.session.startTime)}  {props.storage.display}
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
           <IconButton>
@@ -83,14 +79,18 @@ const Session = (props: {
           </IconButton>
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
-          {props.storage.timer.display}
+          {props.storage.timer.display.toUpperCase()}
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
-          {props.storage.timer.behaviour}
+          {props.storage.timer.behaviour.toUpperCase()}
         </TableCell>
         <TableCell align="center" style={{ width: "15%" }}>
           <Tooltip title="Go">
-            <IconButton onClick={() => { SendCommand("goto", props.session.session_id, "start") }}>
+            <IconButton
+              onClick={() => {
+                SendCommand("goto", props.session.session_id, "start");
+              }}
+            >
               <ExitToAppIcon />
             </IconButton>
           </Tooltip>
@@ -110,30 +110,39 @@ const Session = (props: {
           </Tooltip>
         </TableCell>
         <TableCell align="center" style={{ width: "15%" }}>
-          <EditDialog edit={props.storage.tracking}/>
-          <NewDialog parent={props.session.tracking_id}/>
-          <DeleteDialog session={props.session.session_id} delete={props.storage.tracking}/>
+          <EditDialog session={props.session.session_id} edit={props.storage.tracking} />
+          <NewDialog parent={props.session.tracking_id} />
+          <DeleteDialog
+            session={props.session.session_id}
+            delete={props.storage.tracking}
+          />
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
           <DragIndicatorIcon />
         </TableCell>
       </TableRow>
       <TableRow
-        key={`${props.session.session_id}-${props.session.tracking_id}-nested`}
+        key={`${props.session.session_id}_${props.session.tracking_id}-nested`}
       >
         <TableCell colSpan={11} style={{ padding: 0 }}>
-          <Collapse in={open}>
-            <Table size="small" aria-label="nested-brackets">
+          <Collapse in={open} >
+            <Table size="small" aria-label="brackets">
               <TableBody>
                 {ss.index.map((key: string) => {
                   const bs = get(ss, key);
                   const cTi = timeoffset;
                   const tracking = props.session.trackers.get(key);
-                  const active = tparent && tparent === key ? true : false;
+                  const active =
+                    props.session.session_id === current.session &&
+                    tparent &&
+                    tparent === key
+                      ? true
+                      : false;
                   if (tracking) {
                     timeoffset = add(timeoffset, tracking.settings.duration);
                     return (
                       <Bracket
+                        key = {`${props.session.session_id}_${tracking.tracking_id}`}
                         session={props.session}
                         timeOffset={cTi}
                         storage={bs}

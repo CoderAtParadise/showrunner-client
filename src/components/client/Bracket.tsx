@@ -60,7 +60,6 @@ const Bracket = (props: {
   return (
     <Fragment>
       <TableRow
-        key={`${props.session.session_id}-${props.tracker.tracking_id}`}
         classes={classes}
       >
         <TableCell align="center" style={{ width: "5%" }}>
@@ -92,10 +91,10 @@ const Bracket = (props: {
           </IconButton>
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
-          {props.storage.timer.display}
+          {props.storage.timer.display.toUpperCase()}
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
-          {props.storage.timer.behaviour}
+          {props.storage.timer.behaviour.toUpperCase()}
         </TableCell>
         <TableCell align="center" style={{ width: "15%" }}>
           <Tooltip title="Go">
@@ -126,31 +125,42 @@ const Bracket = (props: {
           </Tooltip>
         </TableCell>
         <TableCell align="center" style={{ width: "15%" }}>
-        <EditDialog edit={props.storage.tracking}/>
-        <NewDialog/>
-          <DeleteDialog session={props.session.session_id} delete={props.storage.tracking}/>
+          <EditDialog
+            session={props.session.session_id}
+            edit={props.storage.tracking}
+          />
+          <NewDialog />
+          <DeleteDialog
+            session={props.session.session_id}
+            delete={props.storage.tracking}
+          />
         </TableCell>
         <TableCell align="center" style={{ width: "5%" }}>
           <DragIndicatorIcon />
         </TableCell>
       </TableRow>
       <TableRow
-        key={`${props.session.session_id}-${props.tracker.tracking_id}-nested`}
+        key={`${props.session.session_id}_${props.tracker.tracking_id}-nested`}
       >
         <TableCell colSpan={11} style={{ padding: 0 }}>
           <Collapse in={open}>
-            <Table size="small" aria-label="nested-items">
+            <Table size="small" aria-label="items">
               <TableBody>
                 {ss.index.map((key: string) => {
                   const bs = get(ss, key);
                   const cTi = timeoffset;
                   const tracking = props.session.trackers.get(key);
                   const active =
-                    tparent && tparent.tracking_id === key ? true : false;
+                    props.session.session_id === current.session &&
+                    tparent &&
+                    tparent.tracking_id === key
+                      ? true
+                      : false;
                   if (tracking) {
                     timeoffset = add(timeoffset, tracking.settings.duration);
                     return (
                       <Item
+                        key = {`${props.session.session_id}_${tracking.tracking_id}`}
                         session={props.session}
                         timeOffset={cTi}
                         storage={bs}

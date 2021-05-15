@@ -1,16 +1,17 @@
 import {Dialog, DialogContent, DialogTitle ,DialogContentText, DialogActions } from "@material-ui/core";
-import { useState, Fragment,useContext } from "react";
+import { useState, Fragment } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
 import sendCommand from "./SendCommand";
-import {RunsheetContext} from "./SyncSource";
+import GetStorage from "./GetStorage";
 
 
 const DeleteDialog = (props:{session:string,delete:string}) => 
 {
     const [open, setOpen] = useState(false);
+    const storage = GetStorage(props.session,props.delete);
     return (
         <Fragment>
             <Tooltip title="Delete">
@@ -19,7 +20,7 @@ const DeleteDialog = (props:{session:string,delete:string}) =>
             </IconButton>
             </Tooltip>
             <Dialog open={open} onClose={() => { setOpen(false) }}>
-                <DialogTitle id="form-edit">Delete {props.delete}</DialogTitle>
+                <DialogTitle id="form-edit">Delete {storage.display}</DialogTitle>
                 <DialogContent>
                 <DialogContentText>Are you sure you want to delete?</DialogContentText>
                 </DialogContent>

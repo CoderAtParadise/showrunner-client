@@ -43,7 +43,6 @@ const Item = (props: {
       : add(props.timeOffset, props.tracking.settings.duration);
   return (
     <TableRow
-      key={`${props.session.session_id}-${props.tracking.tracking_id}`}
       classes={classes}
     >
       <TableCell align="center" style={{ width: "5%" }}>
@@ -71,10 +70,10 @@ const Item = (props: {
         </IconButton>
       </TableCell>
       <TableCell align="center" style={{ width: "5%" }}>
-        {props.storage.timer.display}
+        {props.storage.timer.display.toUpperCase()}
       </TableCell>
       <TableCell align="center" style={{ width: "5%" }}>
-        {props.storage.timer.behaviour}
+        {props.storage.timer.behaviour.toUpperCase()}
       </TableCell>
       <TableCell align="center" style={{ width: "15%" }}>
         <Tooltip title="Go">
@@ -105,15 +104,9 @@ const Item = (props: {
         </Tooltip>
       </TableCell>
       <TableCell align="center" style={{ width: "15%" }}>
-      <Tooltip title="New">
-        <EditDialog edit={props.storage.tracking}/>
-        </Tooltip>
-        <Tooltip title="New">
+        <EditDialog session={props.session.session_id} edit={props.storage.tracking}/>
         <NewDialog/>
-        </Tooltip>
-        <Tooltip title="Delete">
           <DeleteDialog session={props.session.session_id} delete={props.storage.tracking}/>
-        </Tooltip>
       </TableCell>
       <TableCell align="center" style={{ width: "5%" }}>
         <DragIndicatorIcon />

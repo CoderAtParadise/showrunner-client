@@ -1,5 +1,5 @@
 import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
-import { Fragment, useContext } from "react";
+import { useContext } from "react";
 import { CurrentContext, RunsheetContext, TrackingContext } from "./SyncSource";
 import { get } from "../common/Storage";
 import Session from "./Session";
@@ -11,7 +11,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Menu from "./Menu";
+import { TrackingSession } from "../common/Tracking";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,18 +30,16 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Runsheet = (props: any) => {
+const Runsheet = () => {
   const classes = useStyles();
   const runsheet = useContext(RunsheetContext);
   const tracking = useContext(TrackingContext);
   const current = useContext(CurrentContext);
-  const session = tracking.get(current.session);
   return (
-      <Fragment>
     <Grid container justify="center">
       <Grid item className={classes.root} xs={11}>
         <TableContainer component={Paper}>
-          <Table size="small" aria-label="runsheet">
+          <Table stickyHeader size="small" aria-label="runsheet">
             <TableHead>
               <TableRow>
                 <TableCell align="center" style={{ width: "5%" }}></TableCell>
@@ -76,22 +74,14 @@ const Runsheet = (props: any) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {session ? (
-                <Session
-                  session={session}
-                  storage={get(runsheet, session.tracking_id)}
-                  active={true}
-                ></Session>
-              ) : (
-                <Fragment />
-              )}
+              {Array.from(tracking.values()).map((value:TrackingSession) => {
+                  return <Session key={`${value.session_id}`} session={value} storage ={get(runsheet,value.tracking_id)} active={current.session === value.session_id}></Session>;
+              })}
             </TableBody>
           </Table>
         </TableContainer>
       </Grid>
     </Grid>
-    <Menu></Menu>
-    </Fragment>
   );
 };
 

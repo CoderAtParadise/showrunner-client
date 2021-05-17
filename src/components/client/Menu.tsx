@@ -7,15 +7,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { SpeedDialAction } from "@material-ui/lab";
 import MenuIcon from "@material-ui/icons/Menu";
 import FolderIcon from "@material-ui/icons/Folder";
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-  } from "@material-ui/core";
 import { Fragment } from "react";
-import { List,ListItem } from "@material-ui/core";
-import { useEffect } from "react";
 import LoadDialog from "./LoadDialog";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,8 +23,8 @@ const serverurl = process.env.SERVER_URL || "http://localhost:3001";
 const Menu = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [load,setLoad] = useState(false);
-    
+  const [load, setLoad] = useState(false);
+
   return (
     <Fragment>
       <SpeedDial
@@ -66,17 +58,7 @@ const Menu = () => {
           tooltipTitle="New Runsheet"
         />
       </SpeedDial>
-      <Dialog
-        open={load}
-        onClose={() => {
-          setLoad(false);
-        }}
-      >
-        <DialogTitle id="form-edit">Load Runsheet</DialogTitle>
-        <DialogContent>
-            <LoadDialog/>
-        </DialogContent>
-      </Dialog>
+      <LoadDialog open={load} cb={setLoad}/>
     </Fragment>
   );
 };

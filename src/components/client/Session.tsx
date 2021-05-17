@@ -21,23 +21,22 @@ import TableBody from "@material-ui/core/TableBody";
 import Table from "@material-ui/core/Table";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Switch from "@material-ui/core/Switch";
-import { CurrentContext } from "./SyncSource";
+import { SyncContext } from "./SyncSource";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import NotesIcon from "@material-ui/icons/Notes";
 import Tooltip from "@material-ui/core/Tooltip";
 import SendCommand from "./SendCommand";
 import EditDialog from "./EditDialog";
-import NewDialog from "./NewDialog";
+import AddDialog from "./AddDialog";
 import DeleteDialog from "./DeleteDialog";
-import { SessionStorage } from "../common/Session";
 
 const Session = (props: {
   session: TrackingSession;
   storage: Storage;
   active: boolean;
 }) => {
-  const current = useContext(CurrentContext);
-  const tparent = props.session.trackers.get(current.active)?.parent;
+  const sync = useContext(SyncContext);
+  const tparent = props.session.trackers.get(sync.current.active)?.parent;
   const [open, setOpen] = useState(props.active);
   const startTime = equals(props.session.timer.start, INVALID_POINT)
     ? props.session.startTime
@@ -94,24 +93,24 @@ const Session = (props: {
               <ExitToAppIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title={!props.storage.disabled ? "Disable" : "Enable"}>
+          <Tooltip title={!props.session.disabled ? "Disable" : "Enable"}>
             <Switch
               onClick={() => {
                 SendCommand(
                   "disable",
                   props.session.session_id,
-                  props.session.tracking_id
+                  ""
                 );
               }}
               name="disabled"
-              aria-label={!props.storage.disabled ? "disable" : "enable"}
-              checked={!props.storage.disabled}
+              aria-label={!props.session.disabled ? "disable" : "enable"}
+              checked={!props.session.disabled}
             />
           </Tooltip>
         </TableCell>
         <TableCell align="center" style={{ width: "15%" }}>
           <EditDialog session={props.session.session_id} edit={props.storage.tracking} />
-          <NewDialog parent={props.session.tracking_id} />
+          <AddDialog parent={props.session.tracking_id} />
           <DeleteDialog
             session={props.session.session_id}
             delete={props.storage.tracking}
@@ -133,7 +132,7 @@ const Session = (props: {
                   const cTi = timeoffset;
                   const tracking = props.session.trackers.get(key);
                   const active =
-                    props.session.session_id === current.session &&
+                    props.session.session_id === sync.current.session &&
                     tparent &&
                     tparent === key
                       ? true

@@ -5,17 +5,17 @@ import IconButton from "@material-ui/core/IconButton"
 import Tooltip from "@material-ui/core/Tooltip"
 
 
-const NewDialog = (props: { parent?: string }) => {
+const AddDialog = (props: { parent?: string }) => {
     const [open, setOpen] = useState(false);
     return (
         <Fragment>
-            <Tooltip title="New">
+            <Tooltip title="Add">
             <IconButton onClick={() => setOpen(true)}>
                 <AddIcon />
             </IconButton>
             </Tooltip>
             <Dialog open={open} onClose={() => { setOpen(false) }}>
-                <DialogTitle id="form-edit">New</DialogTitle>
+                <DialogTitle id="form-edit">Add</DialogTitle>
                 <DialogContent>
 
                 </DialogContent>
@@ -23,4 +23,4 @@ const NewDialog = (props: { parent?: string }) => {
         </Fragment>)
 }
 
-export default NewDialog;
+export default AddDialog;

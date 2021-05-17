@@ -15,13 +15,13 @@ import TableBody from "@material-ui/core/TableBody";
 import Table from "@material-ui/core/Table";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Switch from "@material-ui/core/Switch";
-import { CurrentContext } from "./SyncSource";
+import { SyncContext } from "./SyncSource";
 import { Point } from "../common/Time";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 import NotesIcon from "@material-ui/icons/Notes";
 import Tooltip from "@material-ui/core/Tooltip";
 import EditDialog from "./EditDialog";
-import NewDialog from "./NewDialog";
+import AddDialog from "./AddDialog";
 import DeleteDialog from "./DeleteDialog";
 import SendCommand from "./SendCommand";
 
@@ -41,8 +41,8 @@ const Bracket = (props: {
   active: boolean;
 }) => {
   const classes = useStyles();
-  const current = useContext(CurrentContext);
-  const tparent = props.session.trackers.get(current.active);
+  const sync = useContext(SyncContext);
+  const tparent = props.session.trackers.get(sync.current.active);
   const [open, setOpen] = useState(false);
   const handleClick = () => {
     setOpen(!open);
@@ -129,7 +129,7 @@ const Bracket = (props: {
             session={props.session.session_id}
             edit={props.storage.tracking}
           />
-          <NewDialog />
+          <AddDialog />
           <DeleteDialog
             session={props.session.session_id}
             delete={props.storage.tracking}
@@ -151,7 +151,7 @@ const Bracket = (props: {
                   const cTi = timeoffset;
                   const tracking = props.session.trackers.get(key);
                   const active =
-                    props.session.session_id === current.session &&
+                    props.session.session_id === sync.current.session &&
                     tparent &&
                     tparent.tracking_id === key
                       ? true

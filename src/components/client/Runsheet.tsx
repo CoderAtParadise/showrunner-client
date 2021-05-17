@@ -1,6 +1,6 @@
 import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
 import { useContext } from "react";
-import { CurrentContext, RunsheetContext, TrackingContext } from "./SyncSource";
+import { SyncContext} from "./SyncSource";
 import { get } from "../common/Storage";
 import Session from "./Session";
 import Table from "@material-ui/core/Table";
@@ -32,9 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Runsheet = () => {
   const classes = useStyles();
-  const runsheet = useContext(RunsheetContext);
-  const tracking = useContext(TrackingContext);
-  const current = useContext(CurrentContext);
+  const sync = useContext(SyncContext);
   return (
     <Grid container justify="center">
       <Grid item className={classes.root} xs={11}>
@@ -74,8 +72,8 @@ const Runsheet = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Array.from(tracking.values()).map((value:TrackingSession) => {
-                  return <Session key={`${value.session_id}`} session={value} storage ={get(runsheet,value.tracking_id)} active={current.session === value.session_id}></Session>;
+              {Array.from(sync.tracking.values()).map((value:TrackingSession) => {
+                  return <Session key={`${value.session_id}`} session={value} storage ={get(sync.runsheet,value.tracking_id)} active={sync.current.session === value.session_id}></Session>;
               })}
             </TableBody>
           </Table>

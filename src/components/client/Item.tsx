@@ -14,7 +14,7 @@ import NotesIcon from "@material-ui/icons/Notes";
 import Tooltip from "@material-ui/core/Tooltip";
 import EditDialog from "./EditDialog";
 import sendCommand from "./SendCommand";
-import NewDialog from "./NewDialog";
+import AddDialog from "./AddDialog";
 import DeleteDialog from "./DeleteDialog";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -105,7 +105,7 @@ const Item = (props: {
       </TableCell>
       <TableCell align="center" style={{ width: "15%" }}>
         <EditDialog session={props.session.session_id} edit={props.storage.tracking}/>
-        <NewDialog/>
+        <AddDialog/>
           <DeleteDialog session={props.session.session_id} delete={props.storage.tracking}/>
       </TableCell>
       <TableCell align="center" style={{ width: "5%" }}>

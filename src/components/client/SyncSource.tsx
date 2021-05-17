@@ -9,35 +9,25 @@ import {
   SESSION_JSON as TSJSON,
   TRACKER_JSON as TJSON,
   Tracker,
+  INVALID_SESSION,
 } from "../common/Tracking";
 
 type State = {
   runsheet: RunsheetStorage;
   current: { session: string; active: string; next: string };
   tracking: Map<string, TrackingSession>;
-  source: EventSource;
 };
 
 const serverurl = process.env.SERVER_URL || "http://localhost:3001";
-const initialState: State = {
+const syncState: State = {
   runsheet: INVALID_RUNSHEET,
   current: { session: "", active: "", next: "" },
   tracking: new Map<string, TrackingSession>(),
-  source: new EventSource(`${serverurl}/sync`),
 };
 
-export const RunsheetContext = createContext(INVALID_RUNSHEET);
-export const CurrentContext = createContext({
-  session: "",
-  active: "",
-  next: "",
-});
-export const TrackingContext = createContext(
-  new Map<string, TrackingSession>()
-);
+export const SyncContext = createContext(syncState);
 
 type Action =
-  | { type: "reconnect" }
   | { type: "runsheet"; runsheet: RunsheetStorage }
   | {
       type: "current";
@@ -54,14 +44,12 @@ const syncReducer = (state: State, action: Action): State => {
         runsheet: action.runsheet,
         current: state.current,
         tracking: state.tracking,
-        source: state.source,
       };
     case "current":
       return {
         runsheet: state.runsheet,
         current: action.current,
         tracking: state.tracking,
-        source: state.source,
       };
     case "tracking":
       const session = state.tracking.get(action.tracking.session);
@@ -74,48 +62,47 @@ const syncReducer = (state: State, action: Action): State => {
         runsheet: state.runsheet,
         current: state.current,
         tracking: state.tracking,
-        source: state.source,
       };
     case "tracking_list":
       return {
         runsheet: state.runsheet,
         current: state.current,
         tracking: action.tracking_list,
-        source: state.source,
       };
     case "tracking_session":
-      state.tracking.set(action.session.session_id,action.session);
+      state.tracking.set(action.session.session_id, action.session);
+      console.log(state.tracking.get(action.session.session_id));
       return {
         runsheet: state.runsheet,
         current: state.current,
         tracking: state.tracking,
-        source: state.source,
-      }
+      };
   }
   return state;
 };
 
-const SyncSource = (props: any) => {
-  const [state, dispatcher] = useReducer(syncReducer, initialState);
+const GetEventSource = () => {
+  const [data, dispatcher] = useReducer(syncReducer, syncState);
   useEffect(() => {
-    if (state.source.CLOSED && !state.source.CONNECTING)
-      dispatcher({ type: "reconnect" });
-    state.source.addEventListener("error", () => {
+    const source = new EventSource(`${serverurl}/sync`);
+    source.addEventListener("error", () => {
       dispatcher({ type: "runsheet", runsheet: INVALID_RUNSHEET });
+      dispatcher({type:"tracking_list",tracking_list: new Map<string,TrackingSession>()})
+      dispatcher({type:"current", current: {session:"",active:"",next:""}})
     });
-    state.source.addEventListener("runsheet", (e: any) => {
+    source.addEventListener("runsheet", (e: any) => {
       dispatcher({
         type: "runsheet",
         runsheet: RJSON.deserialize(JSON.parse(e.data)),
       });
     });
-    state.source.addEventListener("current", (e: any) => {
+    source.addEventListener("current", (e: any) => {
       dispatcher({
         type: "current",
         current: JSON.parse(e.data),
       });
     });
-    state.source.addEventListener("tracking_list", (e: any) => {
+    source.addEventListener("tracking_list", (e: any) => {
       const list = JSON.parse(e.data);
       const map: Map<string, TrackingSession> = new Map<
         string,
@@ -127,7 +114,7 @@ const SyncSource = (props: any) => {
       });
       dispatcher({ type: "tracking_list", tracking_list: map });
     });
-    state.source.addEventListener("tracking", (e: any) => {
+    source.addEventListener("tracking", (e: any) => {
       const json = JSON.parse(e.data);
       const tracker: { session: string; tracker: Tracker } = {
         session: json.session,
@@ -136,26 +123,19 @@ const SyncSource = (props: any) => {
 
       dispatcher({ type: "tracking", tracking: tracker });
     });
-    state.source.addEventListener("tracking_session", (e: any) => {
+    source.addEventListener("tracking_session", (e: any) => {
       const json = JSON.parse(e.data);
       dispatcher({
         type: "tracking_session",
         session: TSJSON.deserialize(json),
       });
     });
-    return () => state.source.close();
-    // Disable the lint rule we have insufficient resources if it isn't how it is
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  return (
-    <RunsheetContext.Provider value={state.runsheet}>
-      <TrackingContext.Provider value={state.tracking}>
-        <CurrentContext.Provider value={state.current}>
-          {props.children}
-        </CurrentContext.Provider>
-      </TrackingContext.Provider>
-    </RunsheetContext.Provider>
-  );
+  },[]);
+  return data;
 };
+
+const SyncSource = (props: any) => {
+  return (<SyncContext.Provider value={GetEventSource()}>{props.children}</SyncContext.Provider>);
+}
 
 export default SyncSource;

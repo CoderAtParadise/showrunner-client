@@ -3,10 +3,9 @@ import {
   Point,
   subtract,
   stringify,
-  greaterThan,
   INVALID as INVALID_POINT,
 } from "../common/Time";
-import { Behaviour, Display, TimerState } from "../common/Timer";
+import { Behaviour, Display, TimerState,Timer } from "../common/Timer";
 import { Tracker } from "../common/Tracking";
 
 const useStyles = makeStyles({
@@ -16,8 +15,11 @@ const useStyles = makeStyles({
 });
 
 const TimePoint = (props: { tracker: Tracker; clock: Point }) => {
-  const timer = props.tracker.timers[props.tracker.index];
-  const stop = greaterThan(props.clock, timer.end);
+  let timer: Timer;
+  if(props.tracker.index > -1)
+  timer = props.tracker.timers[props.tracker.index];
+  else 
+  timer = {start:INVALID_POINT,end:INVALID_POINT,state:TimerState.HIDDEN};
   let classes = useStyles({
     overrun: timer.state === TimerState.OVERRUN,
   });
@@ -25,7 +27,7 @@ const TimePoint = (props: { tracker: Tracker; clock: Point }) => {
     case Display.ELAPSED:
       if (timer.state === TimerState.HIDDEN)
         return <span className={classes.root}>{stringify(INVALID_POINT)}</span>;
-      else if (stop && props.tracker.settings.behaviour === Behaviour.STOP)
+      else if (timer.state === TimerState.STOPPED && props.tracker.settings.behaviour === Behaviour.STOP)
         return (
           <span className={classes.root}>
             {stringify(subtract(timer.start, timer.end))}
@@ -41,7 +43,7 @@ const TimePoint = (props: { tracker: Tracker; clock: Point }) => {
     case Display.COUNTDOWN:
       if (timer.state === TimerState.HIDDEN)
         return <span className={classes.root}>{stringify(INVALID_POINT)}</span>;
-      else if (stop && props.tracker.settings.behaviour === Behaviour.STOP)
+      else if (timer.state === TimerState.STOPPED && props.tracker.settings.behaviour === Behaviour.STOP)
         return (
           <span className={classes.root}>
             {stringify(subtract(timer.end, timer.start))}

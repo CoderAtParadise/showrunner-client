@@ -9,6 +9,7 @@ import FolderIcon from "@material-ui/icons/Folder";
 import { Fragment } from "react";
 import LoadDialog from "./LoadDialog";
 import DeleteRunsheetDialog from "./DeleteRunsheetDialog"
+import NewRunsheet from "./NewRunsheet";
 
 const SPD = styled(SpeedDial)`
 position: fixed;
@@ -19,6 +20,7 @@ const Menu = () => {
   const [open, setOpen] = useState(false);
   const [load, setLoad] = useState(false);
   const [deleteR, setDelete] = useState(false);
+  const [newR, setNew] = useState(false);
 
   return (
     <Fragment>
@@ -46,10 +48,12 @@ const Menu = () => {
           key="new"
           icon={<AddIcon />}
           tooltipTitle = "New Runsheet"
+          onClick={() =>setNew(true)}
         />
       </SPD>
       <LoadDialog open={load} cb={setLoad}/>
       <DeleteRunsheetDialog open={deleteR} cb={setDelete}/>
+      <NewRunsheet open={newR} cb={setNew}/>
     </Fragment>
   );
 };

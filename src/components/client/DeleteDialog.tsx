@@ -6,7 +6,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
 import sendCommand from "./SendCommand";
 import GetStorage from "./GetStorage";
+import {experimentalStyled as styled} from "@material-ui/core/styles";
 
+const SButton = styled(Button)`
+    color: ${({theme}) => theme.palette.text.secondary};
+`
 
 const DeleteDialog = (props:{session:string,delete:string}) => 
 {
@@ -25,8 +29,8 @@ const DeleteDialog = (props:{session:string,delete:string}) =>
                 <DialogContentText>Are you sure you want to delete?</DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={() =>setOpen(false)}>Cancel</Button>
-                <Button onClick={() => {sendCommand("delete",props.session,props.delete); setOpen(false)}}>Delete</Button>
+                <SButton onClick={() =>setOpen(false)}>Cancel</SButton>
+                <SButton onClick={() => {sendCommand("delete",props.session,props.delete); setOpen(false)}}>Delete</SButton>
                 </DialogActions>
             </Dialog>
         </Fragment>)

@@ -24,6 +24,10 @@ const Li = styled(ListItem)`
   justify-content: center;
 `
 
+const SButton = styled(Button)`
+    color: ${({theme}) => theme.palette.text.secondary};
+`
+
 const serverurl = process.env.SERVER_URL || "http://localhost:3001";
 const DeleteRunsheetDialog = (props: {
   open: boolean;
@@ -42,7 +46,7 @@ const DeleteRunsheetDialog = (props: {
       }}
       scroll={"body"}
     >
-      <DialogTitle id="form-edit">Load Runsheet</DialogTitle>
+      <DialogTitle id="form-edit">Delete Runsheet</DialogTitle>
       <SDialog dividers={false}>
         <SList>
           {runsheets.map((value: string) => (
@@ -59,7 +63,7 @@ const DeleteRunsheetDialog = (props: {
         </SList>
       </SDialog>
       <DialogActions>
-        <Button onClick={() => props.cb(false)}>Cancel</Button>
+        <SButton onClick={() => props.cb(false)}>Cancel</SButton>
       </DialogActions>
     </Dialog>
   );

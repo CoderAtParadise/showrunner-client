@@ -17,7 +17,7 @@ const Background = styled.div`
   height: 100vh;
   background-color: #121212;
   position: fixed;
-  overflowX: hidden;
+  overflow-x: hidden;
 `
 
 function App() {

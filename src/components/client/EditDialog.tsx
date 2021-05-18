@@ -27,6 +27,10 @@ const SDialog = styled(DialogContent)`
   width: 250px;
 `;
 
+const SButton = styled(Button)`
+    color: ${({theme}) => theme.palette.text.secondary};
+`
+
 const EditDialog = (props: { session: string; parent:string; edit: string }) => {
   const storage = GetStorage(props.session, props.edit);
   const [open, setOpen] = useState(false);
@@ -100,7 +104,7 @@ const EditDialog = (props: { session: string; parent:string; edit: string }) => 
           </FormControl>
         </SDialog>
         <DialogActions>
-          <Button
+          <SButton
             onClick={() => {
               setDisplay(storage.display);
               setDuration(storage.timer.duration);
@@ -110,8 +114,8 @@ const EditDialog = (props: { session: string; parent:string; edit: string }) => 
             }}
           >
             Cancel
-          </Button>
-          <Button
+          </SButton>
+          <SButton
             onClick={() => {
               storage.display = display;
               storage.timer.duration = duration;
@@ -133,7 +137,7 @@ const EditDialog = (props: { session: string; parent:string; edit: string }) => 
             }}
           >
             Update
-          </Button>
+          </SButton>
         </DialogActions>
       </Dialog>
     </Fragment>

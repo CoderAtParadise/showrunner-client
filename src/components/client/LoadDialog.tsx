@@ -24,6 +24,10 @@ const Li = styled(ListItem)`
   justify-content: center;
 `
 
+const SButton = styled(Button)`
+    color: ${({theme}) => theme.palette.text.secondary};
+`
+
 const serverurl = process.env.SERVER_URL || "http://localhost:3001";
 const LoadDialog = (props: {
   open: boolean;
@@ -62,7 +66,7 @@ const LoadDialog = (props: {
         </SList>
       </SDialog>
       <DialogActions>
-        <Button onClick={() => props.cb(false)}>Cancel</Button>
+        <SButton onClick={() => props.cb(false)}>Cancel</SButton>
       </DialogActions>
     </Dialog>
   );

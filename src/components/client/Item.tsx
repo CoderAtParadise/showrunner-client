@@ -104,7 +104,7 @@ const Item = (props: {
         </Tooltip>
       </TableCell>
       <TableCell align="center" style={{ width: "15%" }}>
-        <EditDialog session={props.session.session_id} edit={props.storage.tracking}/>
+        <EditDialog session={props.session.session_id} parent={props.tracking.parent} edit={props.storage.tracking}/>
         <AddDialog/>
           <DeleteDialog session={props.session.session_id} delete={props.storage.tracking}/>
       </TableCell>

@@ -1,64 +1,55 @@
-import SpeedDial from "@material-ui/lab/SpeedDial";
+import SpeedDial from "@material-ui/core/SpeedDial";
 import AddIcon from "@material-ui/icons/Add";
-import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
+import { experimentalStyled as styled } from "@material-ui/core/styles";
 import { useState } from "react";
-import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { SpeedDialAction } from "@material-ui/lab";
+import SpeedDialAction from "@material-ui/core/SpeedDialAction";
 import MenuIcon from "@material-ui/icons/Menu";
 import FolderIcon from "@material-ui/icons/Folder";
 import { Fragment } from "react";
 import LoadDialog from "./LoadDialog";
+import DeleteRunsheetDialog from "./DeleteRunsheetDialog"
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    fab: {
-      position: "fixed",
-      bottom: theme.spacing(4),
-      right: theme.spacing(4),
-    },
-  })
-);
-const serverurl = process.env.SERVER_URL || "http://localhost:3001";
+const SPD = styled(SpeedDial)`
+position: fixed;
+bottom: ${({theme}) => theme.spacing(4)};
+right: ${({theme}) => theme.spacing(4)};
+`
 const Menu = () => {
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [load, setLoad] = useState(false);
+  const [deleteR, setDelete] = useState(false);
 
   return (
     <Fragment>
-      <SpeedDial
+      <SPD
         ariaLabel="speeddial"
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         icon={<MenuIcon />}
-        className={classes.fab}
         direction={"up"}
         open={open}
       >
         <SpeedDialAction
           key="delete"
           icon={<DeleteIcon />}
-          tooltipTitle="Delete Runsheet"
-        />
-        <SpeedDialAction
-          key="save"
-          icon={<SaveIcon />}
-          tooltipTitle="Save Runsheet"
+          onClick={() => setDelete(true)}
+          tooltipTitle = "Delete Runsheet"
         />
         <SpeedDialAction
           key="load"
           icon={<FolderIcon />}
-          tooltipTitle="Load Runsheet"
           onClick={() => setLoad(true)}
+          tooltipTitle = "Load Runsheet"
         />
         <SpeedDialAction
           key="new"
           icon={<AddIcon />}
-          tooltipTitle="New Runsheet"
+          tooltipTitle = "New Runsheet"
         />
-      </SpeedDial>
+      </SPD>
       <LoadDialog open={load} cb={setLoad}/>
+      <DeleteRunsheetDialog open={deleteR} cb={setDelete}/>
     </Fragment>
   );
 };

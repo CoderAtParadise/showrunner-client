@@ -109,7 +109,7 @@ const Session = (props: {
           </Tooltip>
         </TableCell>
         <TableCell align="center" style={{ width: "15%" }}>
-          <EditDialog session={props.session.session_id} edit={props.storage.tracking} />
+          <EditDialog session={props.session.session_id} parent="" edit={props.storage.tracking} />
           <AddDialog parent={props.session.tracking_id} />
           <DeleteDialog
             session={props.session.session_id}

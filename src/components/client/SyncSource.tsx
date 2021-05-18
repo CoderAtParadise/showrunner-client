@@ -71,7 +71,6 @@ const syncReducer = (state: State, action: Action): State => {
       };
     case "tracking_session":
       state.tracking.set(action.session.session_id, action.session);
-      console.log(state.tracking.get(action.session.session_id));
       return {
         runsheet: state.runsheet,
         current: state.current,

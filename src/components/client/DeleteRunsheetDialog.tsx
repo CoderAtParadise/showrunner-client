@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { experimentalStyled as styled } from "@material-ui/core/styles";
+import { useEffect, useState } from "react";
 import { List, ListItem } from "@material-ui/core";
 import sendCommand from "./SendCommand";
 import { Dispatch, SetStateAction } from "react";
@@ -25,34 +25,31 @@ const Li = styled(ListItem)`
 `
 
 const serverurl = process.env.SERVER_URL || "http://localhost:3001";
-const LoadDialog = (props: {
+const DeleteRunsheetDialog = (props: {
   open: boolean;
   cb: Dispatch<SetStateAction<boolean>>;
 }) => {
   const initialState: string[] = [];
   const [runsheets, setRunsheets] = useState(initialState);
-  useEffect(() => {
-    fetch(`${serverurl}/runsheets`)
-      .then((res) => res.json())
-      .then((runsheets) => setRunsheets(runsheets));
-  }, []);
+  useEffect(() => {fetch(`${serverurl}/runsheets`)
+  .then((res) => res.json())
+  .then((runsheets) => setRunsheets(runsheets));}, []);
   return (
     <Dialog
       open={props.open}
       onClose={() => {
         props.cb(false);
       }}
-      scroll={"paper"}
+      scroll={"body"}
     >
       <DialogTitle id="form-edit">Load Runsheet</DialogTitle>
       <SDialog dividers={false}>
         <SList>
           {runsheets.map((value: string) => (
-            <Li
-              key={value}
+            <Li key={value}
               button
               onClick={() => {
-                sendCommand("load", "", "", value);
+                sendCommand("deleterunsheet", "", "", value);
                 props.cb(false);
               }}
             >
@@ -68,4 +65,4 @@ const LoadDialog = (props: {
   );
 };
 
-export default LoadDialog;
+export default DeleteRunsheetDialog;

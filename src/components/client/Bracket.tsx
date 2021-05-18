@@ -127,6 +127,7 @@ const Bracket = (props: {
         <TableCell align="center" style={{ width: "15%" }}>
           <EditDialog
             session={props.session.session_id}
+            parent = {props.session.tracking_id}
             edit={props.storage.tracking}
           />
           <AddDialog />

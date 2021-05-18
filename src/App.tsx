@@ -3,18 +3,27 @@ import SyncSource from "./components/client/SyncSource";
 import Current from "./components/client/Current";
 import Runsheet from "./components/client/Runsheet";
 import Menu from "./components/client/Menu";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
+import { createTheme, ThemeProvider } from "@material-ui/core";
+import styled from '@emotion/styled'
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
-    type: "dark",
+    mode: "dark",
   },
 });
 
+const Background = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-color: #121212;
+  position: fixed;
+  overflowX: hidden;
+`
+
 function App() {
   return (
-    <MuiThemeProvider theme={theme}>
-      <div style={{width:"100%", height:"100vh",backgroundColor:"#121212", position:"fixed", overflowX:"hidden",}}>
+    <ThemeProvider theme={theme}>
+      <Background>
         <SyncSource>
           <ClockSource>
             <Current/>
@@ -23,8 +32,8 @@ function App() {
             <Menu/>
           </ClockSource>
         </SyncSource>
-      </div>
-    </MuiThemeProvider>
+      </Background>
+    </ThemeProvider>
   );
 }
 

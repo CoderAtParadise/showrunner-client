@@ -1,4 +1,4 @@
-import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
+import { experimentalStyled as styled } from "@material-ui/core/styles";
 import { useContext } from "react";
 import { SyncContext} from "./SyncSource";
 import { get } from "../common/Storage";
@@ -13,29 +13,22 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { TrackingSession } from "../common/Tracking";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      height: "100%",
-      padding: theme.spacing(1),
-      paddingTop: "180px",
-    },
-    paper: {
-      padding: theme.spacing(1),
-      textAlign: "center",
-      color: theme.palette.text.secondary,
-      height: "80%",
-    },
-  })
-);
+const HGrid = styled(Grid)`
+flex-grow: 1;
+height: 100%;
+padding: ${({ theme }) => theme.spacing(1)};
+padding-top: 180px;
+`
+
+const JGrid = styled(Grid)`
+  justify-content: center;
+`;
 
 const Runsheet = () => {
-  const classes = useStyles();
   const sync = useContext(SyncContext);
   return (
-    <Grid container justify="center">
-      <Grid item className={classes.root} xs={11}>
+    <JGrid container>
+      <HGrid item xs={11}>
         <TableContainer component={Paper}>
           <Table stickyHeader size="small" aria-label="runsheet">
             <TableHead>
@@ -78,8 +71,8 @@ const Runsheet = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Grid>
-    </Grid>
+      </HGrid>
+    </JGrid>
   );
 };
 

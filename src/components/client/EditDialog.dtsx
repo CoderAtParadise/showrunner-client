@@ -18,7 +18,7 @@ import GetStorage from "./GetStorage";
 import Button from "@material-ui/core/Button";
 import { Display, Behaviour } from "../common/Timer";
 import { stringify, parse } from "../common/Time";
-import sendCommand from "./SendCommand";
+import sendCommand from "./Commands";
 import { Type } from "../common/Storage";
 import { JSON as SJSON, SessionStorage } from "../common/Session";
 import { BracketStorage, JSON as BJSON } from "../common/Bracket";

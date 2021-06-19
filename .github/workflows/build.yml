@@ -1,0 +1,38 @@
+name: Build Image 
+on:
+  push:
+    tags:
+      - "*.*.*"
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Repo
+        uses: actions/checkout@v2
+      - name: Docker Login
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            ghcr.io/coderatparadise/showrunner-client:0.0.0
+            ghcr.io/coderatparadise/showrunner-client:latest
+      
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{secrets.GITHUB_TOKEN}}"
+          prerelease: false
+          files: |
+            ${{needs.build.outputs}}
+        

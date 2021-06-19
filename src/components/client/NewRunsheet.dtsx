@@ -2,7 +2,7 @@ import { experimentalStyled as styled } from "@material-ui/core/styles";
 import { Dispatch, SetStateAction } from "react";
 import {Dialog,DialogTitle,DialogContent,DialogActions,TextField,Button} from "@material-ui/core";
 import { useState } from "react";
-import SendCommand from "./SendCommand";
+import SendCommand from "./Commands";
 
 const SDialog = styled(DialogContent)`
   width: 150px;

@@ -2,18 +2,17 @@ import { experimentalStyled as styled } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { Paper } from "@material-ui/core";
-import { SyncContext } from "./SyncSource";
-import { stringify, subtract } from "../common/Time";
-import { get, Nested, Storage } from "../common/Storage";
-import { ClockContext } from "./ClockSource";
-import { useContext } from "react";
-import TimePoint from "./TimePoint";
-import sendCommand from "./SendCommand";
 import {
-  INVALID_SESSION,
-  INVALID_TRACKER,
-  TrackingSession,
-} from "../common/Tracking";
+  stringify,
+  subtract,
+  INVALID as INVALID_POINT,
+} from "../common/TimePoint";
+import sendCommand from "./Commands";
+import RunsheetHandler from "../common/RunsheetHandler";
+import { getProperty } from "../common/Storage";
+import { TimerProperty } from "../common/property/Timer";
+import Storage from "../common/Storage";
+import Timer from "./Timer";
 
 const HGrid = styled(Grid)`
   flex-grow: 1;
@@ -38,38 +37,25 @@ const HPaper = styled(Paper)`
 `;
 
 const Go = styled(Button)`
-height: 70px;
-width: 70px;
-border: solid;
-border-color: ${({ theme }) => theme.palette.text.secondary};
-color: ${({ theme }) => theme.palette.text.secondary};
-`
+  height: 70px;
+  width: 70px;
+  border: solid;
+  border-color: ${({ theme }) => theme.palette.text.secondary};
+  color: ${({ theme }) => theme.palette.text.secondary};
+`;
 
-function GetTSession(id: string): TrackingSession {
-  const sync = useContext(SyncContext);
-  return sync.tracking.get(id) || INVALID_SESSION;
-}
-
-function GetInSession(session: TrackingSession, id: string) {
-  return session.trackers.get(id) || INVALID_TRACKER;
-}
-
-const Current = () => {
-  const sync = useContext(SyncContext);
-  const clock = useContext(ClockContext);
-
-  const tsession = GetTSession(sync.current.session);
-  const titem = GetInSession(tsession, sync.current.active);
-  const tbracket = GetInSession(tsession, titem.parent);
-  const session = get(sync.runsheet, tsession.tracking_id) as Storage & Nested;
-  const bracket = get(session, tbracket.tracking_id) as Storage & Nested;
-  const item = get(bracket, titem.tracking_id);
-
-  const ntitem = GetInSession(tsession, sync.current.next);
-  const ntbracket = GetInSession(tsession, ntitem.parent);
-  const nbracket = get(session, ntbracket.tracking_id) as Storage & Nested;
-  const nitem = get(nbracket, ntitem.tracking_id);
-
+const Current = (props: { handler: RunsheetHandler; show: string }) => {
+  const clock = props.handler.getClock("internal")?.clock() || INVALID_POINT;
+  const tshow = props.handler.getTrackingShow(props.show);
+  const show = props.handler.getShow(props.show);
+  const active = props.handler.getStorage(tshow?.active || "");
+  const next = props.handler.getStorage(tshow?.next || "");
+  const session = props.handler.getStorage(show?.session || "");
+  let bracket: Storage<any> | undefined;
+  if (active && show)
+    bracket = props.handler.getStorage(
+      getProperty(active, show, "parent")?.value
+    );
   return (
     <HGrid container>
       <JGrid container>
@@ -77,28 +63,44 @@ const Current = () => {
           <HPaper>
             <b>Total Run Time</b>
             <br />
-            {stringify(subtract(clock, tsession.timer.start))}
+            {stringify(
+              subtract(
+                clock,
+                tshow?.trackers.get(show?.session || "")?.timer.start ||
+                  INVALID_POINT
+              )
+            )}
           </HPaper>
         </Grid>
         <Grid item xs={3}>
           <HPaper>
             <b>Service</b>
             <br />
-            {get(sync.runsheet, tsession.tracking_id).display}
+            {session && show
+              ? getProperty(session, show, "display")?.value
+              : ""}
           </HPaper>
         </Grid>
         <Grid item xs={2}>
           <HPaper>
             <b>Start Time</b>
             <br />
-            {stringify(tsession.timer.start)}
+            {stringify(
+              session && show
+                ? getProperty(session, show, "start_time")?.value ||
+                    INVALID_POINT
+                : INVALID_POINT
+            )}
           </HPaper>
         </Grid>
         <Grid item xs={2}>
           <HPaper>
             <b>Projected End Time</b>
             <br />
-            {stringify(tsession.timer.end)}
+            {stringify(
+              tshow?.trackers.get(show?.session || "")?.timer.end ||
+                INVALID_POINT
+            )}
           </HPaper>
         </Grid>
         <Grid item xs={2}>
@@ -112,38 +114,55 @@ const Current = () => {
       <SGrid container>
         <Grid item xs={2}>
           <HPaper>
-            Bracket Duration: {stringify(tbracket.settings.duration)}
+            Bracket Duration:{" "}
+            {stringify(
+              bracket && show
+                ? (getProperty(bracket, show, "timer") as TimerProperty).value
+                    .duration
+                : INVALID_POINT
+            )}
             <br />
-            <b>Item Duration: {stringify(titem.settings.duration)} </b>
+            <b>
+              Item Duration:{" "}
+              {stringify(
+                active && show
+                  ? (getProperty(active, show, "timer") as TimerProperty).value
+                      .duration
+                  : INVALID_POINT
+              )}
+            </b>
           </HPaper>
         </Grid>
         <Grid item xs={4}>
           <HPaper>
-            Current Bracket: {bracket.display}
+            Current Bracket:{" "}
+            {bracket && show
+              ? getProperty(bracket, show, "display")?.value
+              : ""}
             <br />
-            <b>Current Item: {item.display}</b>
+            <b>
+              Current Item:{" "}
+              {active && show
+                ? getProperty(active, show, "display")?.value
+                : ""}
+            </b>
           </HPaper>
         </Grid>
         <Grid item xs={3}>
           <HPaper>
-            Bracket Timer: <TimePoint tracker={tbracket} clock={clock} />
+            Bracket Timer: <Timer/>
             <br />
-            <b>
-              Item Timer: <TimePoint tracker={titem} clock={clock} />
-            </b>
+            <b>Item Timer: <Timer/></b>
           </HPaper>
         </Grid>
         <Grid item xs={2}>
           <HPaper>
-            <Go
-              onClick={() => {
-                sendCommand("goto", sync.current.session, sync.current.next);
-              }}
-            >
-              Go
-            </Go>
+            <Go onClick={() => {}}>Go</Go>
             <br />
-            <b>Next: {nitem.display}</b>
+            <b>
+              Next:{" "}
+              {next && show ? getProperty(next, show, "display")?.value : ""}
+            </b>
           </HPaper>
         </Grid>
       </SGrid>

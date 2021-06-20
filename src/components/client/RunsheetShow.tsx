@@ -88,7 +88,7 @@ const View = (props: {
         {...props.provided.draggableProps}
       >
         <Header container>
-          <Status active={false} hasChildren={true} open={open} cb={setOpen} />
+          <Status active={props.handler.activeShow() === props.rubric.draggableId} hasChildren={true} open={open} cb={setOpen} />
           <Text>
             <b>Service: </b>{" "}
             {session && show

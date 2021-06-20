@@ -8,6 +8,7 @@ import { ClientRunsheetData } from "./ClientRunsheetHandler";
 
 type Action =
   | { type: "runsheet"; runsheet: Runsheet | undefined }
+  | {type: "show"; show:string}
   | { type: "clock"; source: ClockSource }
   | { type: "tracking"; tracking: TrackingShow };
 
@@ -21,19 +22,29 @@ const reducer = (
       state.clocks.set(action.source.id, action.source);
       return {
         runsheet: state.runsheet,
+        active: state.active,
         tracking: state.tracking,
         clocks: state.clocks,
       };
     case "runsheet":
       return {
         runsheet: action.runsheet,
+        active: state.active,
         tracking: state.tracking,
         clocks: state.clocks,
       };
+    case "show":
+      return {
+        runsheet: state.runsheet,
+        active: action.show,
+        tracking: state.tracking,
+        clocks: state.clocks,
+      }
     case "tracking":
       state.tracking.set(action.tracking.id, action.tracking);
       return {
         runsheet: state.runsheet,
+        active: state.active,
         tracking: state.tracking,
         clocks: state.clocks,
       };
@@ -44,6 +55,7 @@ const reducer = (
 
 const dataState: ClientRunsheetData = {
   runsheet: undefined,
+  active: "",
   tracking: new Map<string, TrackingShow>(),
   clocks: new Map<string, ClockSource>(),
 };
@@ -63,6 +75,9 @@ const GetEventSource = () => {
         runsheet: RJSON.deserialize(JSON.parse(e.data)),
       });
     });
+    source.addEventListener("show",(e:any) => {
+      dispatcher({type:"show",show:e.data as string});
+    })
     source.addEventListener("tracking", (e: any) => {
         dispatcher({
           type: "tracking",

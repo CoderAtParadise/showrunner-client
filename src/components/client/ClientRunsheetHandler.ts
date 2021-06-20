@@ -7,6 +7,7 @@ import Storage, { Type } from "../common/Storage";
 
 export interface ClientRunsheetData {
   runsheet: Runsheet | undefined;
+  active: string;
   tracking: Map<string, TrackingShow>;
   clocks: Map<string, ClockSource>;
 }
@@ -59,7 +60,7 @@ class ClientRunsheet implements RunsheetHandler {
   }
 
   activeShow() : string {
-    return "";
+    return this.data.active;
   }
 
   setActiveShow(id:string) : void {

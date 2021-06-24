@@ -1,5 +1,3 @@
-import Runsheet from "./Runsheet";
-
 const serverurl = process.env.SERVER_URL || "http://localhost:3001";
 function sendCommand(command: string, data: any) {
   if (!data) data = {};
@@ -25,11 +23,15 @@ export const Update = (
   });
 export const Goto = (show: string, tracking: string) =>
   sendCommand("goto", { show: show, tracking: tracking });
-export const LoadRunsheet = (runsheet:string) => {
-  sendCommand("load_runsheet",{id:runsheet});
-}
-export const DeleteRunsheet = (runsheet:string) => {
-  sendCommand("delete_runsheet",{id:runsheet});
-}
+export const LoadRunsheet = (runsheet: string) => {
+  sendCommand("load_runsheet", { id: runsheet });
+};
+export const DeleteRunsheet = (runsheet: string) => {
+  sendCommand("delete_runsheet", { id: runsheet });
+};
+
+export const Delete = (show: string, id: string, global: boolean) => {
+  sendCommand("delete", { show: show, tracking: id, global: global });
+};
 
 export default sendCommand;

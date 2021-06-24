@@ -23,6 +23,7 @@ import { Switch } from "@material-ui/core";
 import sendCommand, { Goto, Update } from "./Commands";
 import Status from "./Status";
 import DragHandle from "./DragHandle";
+import DeleteDialog from "./DeleteDialog";
 
 const Container = styled(Grid)`
   width: 100%;
@@ -204,9 +205,7 @@ const View = (props: {
           <IconButton>
             <Add />
           </IconButton>
-          <IconButton>
-            <Delete />
-          </IconButton>
+          <DeleteDialog handler={props.handler} show={props.show.id} delete={split[1]}/>
         </Controls>
         <DragHandle dragHandle={props.provided.dragHandleProps} />
         {hasProperty(storage, "index_list") ? (

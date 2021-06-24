@@ -9,14 +9,15 @@ import {
 } from "react-beautiful-dnd";
 import Grid from "@material-ui/core/Grid";
 import Collapse from "@material-ui/core/Collapse";
-import { getProperty, hasProperty } from "../common/Storage";
+import { getProperty, Type } from "../common/Storage";
 import { useState } from "react";
 import Status from "./Status";
 import DragHandle from "./DragHandle";
 import { add, stringify, INVALID as INVALID_POINT } from "../common/TimePoint";
 import IconButton from "@material-ui/core/IconButton";
-import { Stop, Edit, PlayArrow } from "@material-ui/icons";
+import { Stop, PlayArrow, Edit, Add, Delete } from "@material-ui/icons";
 import RunsheetItem from "./RunsheetItem";
+import { Goto } from "./Commands";
 
 const Container = styled(Grid)`
   background-color: ${({ theme }) => theme.palette.background.default};
@@ -80,7 +81,7 @@ const View = (props: {
   const show = props.handler.getShow(props.rubric.draggableId);
   if (show) {
     const session = props.handler.getStorage(show?.session || "");
-    const renderItem = RunsheetItem(props.handler, show,INVALID_POINT);
+    const renderItem = RunsheetItem(props.handler, show, INVALID_POINT);
     return (
       <Container
         container
@@ -88,7 +89,12 @@ const View = (props: {
         {...props.provided.draggableProps}
       >
         <Header container>
-          <Status active={props.handler.activeShow() === props.rubric.draggableId} hasChildren={true} open={open} cb={setOpen} />
+          <Status
+            active={props.handler.activeShow() === show.id}
+            hasChildren={true}
+            open={open}
+            cb={setOpen}
+          />
           <Text>
             <b>Service: </b>{" "}
             {session && show
@@ -131,11 +137,23 @@ const View = (props: {
             )}
           </Text>
           <Control>
-            <IconButton>
-              <Stop />
+            <IconButton
+              onClick={() => {
+                if (props.handler.activeShow() === show.id) Goto(show.id, "");
+                else Goto(show.id, show.session);
+              }}
+            >
+              {props.handler.activeShow() === show.id ? (
+                <Stop />
+              ) : (
+                <PlayArrow />
+              )}
             </IconButton>
             <IconButton>
-              <Edit />
+              <Add />
+            </IconButton>
+            <IconButton>
+              <Delete />
             </IconButton>
           </Control>
           <DragHandle dragHandle={props.provided.dragHandleProps} />
@@ -151,8 +169,8 @@ const View = (props: {
             {(provided, snapshot) => (
               <Children
                 container
-                {...provided.droppableProps}
                 ref={provided.innerRef}
+                {...provided.droppableProps}
               >
                 {session
                   ? getProperty(session, show, "index_list")?.value.map(
@@ -165,8 +183,7 @@ const View = (props: {
                         );
                       }
                     )
-                  : null}
-                {provided.placeholder}
+                  : provided.placeholder}   
               </Children>
             )}
           </Droppable>

@@ -35,7 +35,7 @@ const NewRunsheet = (props: {
         </SDialog>
         <DialogActions>
             <SButton onClick={() => clear()}>Cancel</SButton>
-            <SButton onClick={() => {SendCommand("newrunsheet","","",name);clear()}}>Create</SButton>
+            <SButton onClick={() => {clear()}}>Create</SButton>
         </DialogActions>
     </Dialog>
   );

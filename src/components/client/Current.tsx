@@ -7,7 +7,7 @@ import {
   subtract,
   INVALID as INVALID_POINT,
 } from "../common/TimePoint";
-import sendCommand from "./Commands";
+import {Goto} from "./Commands";
 import RunsheetHandler from "../common/RunsheetHandler";
 import { getProperty } from "../common/Storage";
 import { TimerProperty } from "../common/property/Timer";
@@ -44,10 +44,10 @@ const Go = styled(Button)`
   color: ${({ theme }) => theme.palette.text.secondary};
 `;
 
-const Current = (props: { handler: RunsheetHandler; show: string }) => {
+const Current = (props: { handler: RunsheetHandler;}) => {
   const clock = props.handler.getClock("internal")?.clock() || INVALID_POINT;
-  const tshow = props.handler.getTrackingShow(props.show);
-  const show = props.handler.getShow(props.show);
+  const tshow = props.handler.getTrackingShow(props.handler.activeShow());
+  const show = props.handler.getShow(props.handler.activeShow());
   const active = props.handler.getStorage(tshow?.active || "");
   const next = props.handler.getStorage(tshow?.next || "");
   const session = props.handler.getStorage(show?.session || "");
@@ -157,7 +157,7 @@ const Current = (props: { handler: RunsheetHandler; show: string }) => {
         </Grid>
         <Grid item xs={2}>
           <HPaper>
-            <Go onClick={() => {}}>Go</Go>
+            <Go onClick={() => {if(tshow && show) Goto(show.id,tshow.next)}}>Go</Go>
             <br />
             <b>
               Next:{" "}

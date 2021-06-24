@@ -7,16 +7,17 @@ import SpeedDialAction from "@material-ui/core/SpeedDialAction";
 import MenuIcon from "@material-ui/icons/Menu";
 import FolderIcon from "@material-ui/icons/Folder";
 import { Fragment } from "react";
-import LoadDialog from "./LoadDialog";
-import DeleteRunsheetDialog from "./DeleteRunsheetDialog"
-import NewRunsheet from "./NewRunsheet";
+import MenuRunsheetDialog, { StorageKey } from "./MenuRunsheetDialog";
+import { LoadRunsheet,DeleteRunsheet } from "./Commands";
+import RunsheetHandler from "../common/RunsheetHandler";
+//import NewRunsheet from "./NewRunsheet";
 
 const SPD = styled(SpeedDial)`
 position: fixed;
 bottom: ${({theme}) => theme.spacing(4)};
 right: ${({theme}) => theme.spacing(4)};
 `
-const Menu = () => {
+const Menu = (props:{handler:RunsheetHandler}) => {
   const [open, setOpen] = useState(false);
   const [load, setLoad] = useState(false);
   const [deleteR, setDelete] = useState(false);
@@ -51,11 +52,15 @@ const Menu = () => {
           onClick={() =>setNew(true)}
         />
       </SPD>
-      <LoadDialog open={load} cb={setLoad}/>
-      <DeleteRunsheetDialog open={deleteR} cb={setDelete}/>
-      <NewRunsheet open={newR} cb={setNew}/>
+      <MenuRunsheetDialog handler={props.handler} display="Load" open={load} openCb={setLoad} cb={(runsheet:StorageKey) => LoadRunsheet(runsheet.id) }/>
+      <MenuRunsheetDialog handler={props.handler} display="Delete" open={deleteR} openCb={setDelete} cb={(runsheet:StorageKey) => DeleteRunsheet(runsheet.id) }/>
     </Fragment>
   );
 };
+
+/**
+ * 
+      <NewRunsheet open={newR} cb={setNew}/>
+ */
 
 export default Menu;

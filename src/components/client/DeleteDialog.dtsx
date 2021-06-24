@@ -30,7 +30,7 @@ const DeleteDialog = (props:{session:string,delete:string}) =>
                 </DialogContent>
                 <DialogActions>
                 <SButton onClick={() =>setOpen(false)}>Cancel</SButton>
-                <SButton onClick={() => {sendCommand("delete",props.session,props.delete); setOpen(false)}}>Delete</SButton>
+                <SButton onClick={() => {sendCommand("delete_runsheet",props.delete); setOpen(false)}}>Delete</SButton>
                 </DialogActions>
             </Dialog>
         </Fragment>)

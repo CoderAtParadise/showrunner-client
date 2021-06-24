@@ -76,7 +76,7 @@ const GetEventSource = () => {
       });
     });
     source.addEventListener("show",(e:any) => {
-      dispatcher({type:"show",show:e.data as string});
+      dispatcher({type:"show",show:JSON.parse(e.data)});
     })
     source.addEventListener("tracking", (e: any) => {
         dispatcher({

@@ -18,16 +18,8 @@ class ClientRunsheet implements RunsheetHandler {
     this.data = data;
   }
 
-  setRunsheet(runsheet:Runsheet) : void {
-      //NOOP
-  }
-
-  dirty(): boolean {
-    return true;
-  }
-
-  markDirty(): void {
-    //NOOP
+  id() : string {
+    return this.data.runsheet?.id || "";
   }
 
   hasLoadedRunsheet(): boolean {
@@ -50,8 +42,9 @@ class ClientRunsheet implements RunsheetHandler {
     //Implement
   }
 
-  deleteShow(id: string): void {
+  deleteShow(id: string): boolean {
     //Implement
+    return false;
   }
 
   showList(): string[] {
@@ -75,8 +68,9 @@ class ClientRunsheet implements RunsheetHandler {
       //NOOP
   }
   
-  deleteTrackingShow(id:string) : void {
+  deleteTrackingShow(id:string) : boolean {
       //NOOP
+      return false;
   }
 
   sessionList(showId:string) : string[] {
@@ -101,8 +95,9 @@ class ClientRunsheet implements RunsheetHandler {
       //Implement
   }
 
-  deleteStorage(id:string) : void {
+  deleteStorage(id:string) : boolean {
       //Implement
+      return false;
   }
 }
 

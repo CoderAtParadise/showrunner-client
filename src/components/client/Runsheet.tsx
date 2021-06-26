@@ -2,16 +2,10 @@ import { experimentalStyled as styled } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import {
   DragDropContext,
-  DraggableProvided,
-  DraggableRubric,
-  DraggableStateSnapshot,
   Droppable,
   Draggable,
 } from "react-beautiful-dnd";
 import RunsheetHandler from "../common/RunsheetHandler";
-import DragHandle from "./DragHandle";
-import Status from "./Status";
-import { useState } from "react";
 import RunsheetShow from "./RunsheetShow";
 
 const Container = styled(Grid)`
@@ -76,33 +70,3 @@ const Runsheet = (props: { handler: RunsheetHandler }) => {
 };
 
 export default Runsheet;
-
-/**
- * <JGrid container>
-      <HGrid item xs={11}>
-        {props.handler.hasLoadedRunsheet() ? (
-          <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
-            <Droppable droppableId="runsheet" direction="vertical" type="show">
-              {(provided) => (
-                <Grid item {...provided.droppableProps} ref={provided.innerRef}>
-                  {props.handler
-                    .showList()
-                    .map((show: string, index: number) => {
-                      return (
-                        <RunsheetShow
-                          key={show}
-                          handler={props.handler}
-                          show={show}
-                          index={index}
-                        />
-                      );
-                    })}
-                  {provided.placeholder}
-                </Grid>
-              )}
-            </Droppable>
-          </DragDropContext>
-        ) : null}
-      </HGrid>
-    </JGrid>
- */

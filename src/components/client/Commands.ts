@@ -34,4 +34,8 @@ export const Delete = (show: string, id: string, global: boolean) => {
   sendCommand("delete", { show: show, tracking: id, global: global });
 };
 
+export const RefreshList= (type:string) => {
+  sendCommand("refresh",{type:type});
+}
+
 export default sendCommand;

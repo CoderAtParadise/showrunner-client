@@ -10,11 +10,10 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { LoadRunsheet } from "./Commands";
 import RunsheetHandler from "../common/RunsheetHandler";
 
 const SDialog = styled(DialogContent)`
-  width: 150px;
+  width: 200px;
 `;
 
 const SList = styled(List)`
@@ -27,6 +26,10 @@ const Li = styled(ListItemButton)`
   border-radius: 25px;
 `;
 
+const Title = styled(DialogTitle)`
+  text-align: center;
+`;
+
 const SButton = styled(Button)`
   color: ${({ theme }) => theme.palette.text.secondary};
 `;
@@ -35,7 +38,7 @@ export const initialStorageKey = { display: "", id: "" };
 
 const serverurl = process.env.SERVER_URL || "http://localhost:3001";
 const MenuRunsheetDialog = (props: {
-  handler:RunsheetHandler;
+  handler: RunsheetHandler;
   display: string;
   open: boolean;
   openCb: Dispatch<SetStateAction<boolean>>;
@@ -47,8 +50,9 @@ const MenuRunsheetDialog = (props: {
   useEffect(() => {
     fetch(`${serverurl}/runsheets`)
       .then((res) => res.json())
-      .then((newR) => setRunsheets(Array.from(newR)))
+      .then((newR) => setRunsheets(Array.from(newR)));
   }, [props.open]);
+
   return (
     <Dialog
       open={props.open}
@@ -57,7 +61,7 @@ const MenuRunsheetDialog = (props: {
       }}
       scroll={"paper"}
     >
-      <DialogTitle id="form-edit">{props.display} Runsheet</DialogTitle>
+      <Title id="form-edit">{props.display} Runsheet</Title>
       <SDialog dividers={false}>
         <SList>
           {runsheets.map((value: StorageKey) => (

@@ -35,9 +35,7 @@ const Wrapper = (props: any) => {
   );
 };
 
-const serverurl = process.env.SERVER_URL || "http://localhost:3001";
 function App() {
-  // eslint-disable-line no-unused-expressions
   init();
   return (
     <ThemeProvider theme={theme}>

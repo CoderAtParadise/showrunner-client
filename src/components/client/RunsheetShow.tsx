@@ -9,15 +9,16 @@ import {
 } from "react-beautiful-dnd";
 import Grid from "@material-ui/core/Grid";
 import Collapse from "@material-ui/core/Collapse";
-import { getProperty, Type } from "../common/Storage";
+import { getProperty,Type } from "../common/Storage";
 import { useState } from "react";
 import Status from "./Status";
 import DragHandle from "./DragHandle";
 import { add, stringify, INVALID as INVALID_POINT } from "../common/TimePoint";
 import IconButton from "@material-ui/core/IconButton";
-import { Stop, PlayArrow, Edit, Add, Delete } from "@material-ui/icons";
+import { Stop, PlayArrow,  Delete } from "@material-ui/icons";
 import RunsheetItem from "./RunsheetItem";
 import { Goto } from "./Commands";
+import MenuAddDropdown from "./RunsheetAddDropdown";
 
 const Container = styled(Grid)`
   background-color: ${({ theme }) => theme.palette.background.default};
@@ -79,7 +80,8 @@ const View = (props: {
 }) => {
   const [open, setOpen] = useState(false);
   const show = props.handler.getShow(props.rubric.draggableId);
-  if (show) {
+  const tshow = props.handler.getTrackingShow(props.rubric.draggableId);
+  if (show && tshow) {
     const session = props.handler.getStorage(show?.session || "");
     const renderItem = RunsheetItem(props.handler, show, INVALID_POINT);
     return (
@@ -149,9 +151,7 @@ const View = (props: {
                 <PlayArrow />
               )}
             </IconButton>
-            <IconButton>
-              <Add />
-            </IconButton>
+            <MenuAddDropdown handler={props.handler} show={show.id} caller={show.session} blacklist={[Type.INVALID]}/>
             <IconButton>
               <Delete />
             </IconButton>
@@ -176,14 +176,16 @@ const View = (props: {
                   ? getProperty(session, show, "index_list")?.value.map(
                       (child: string, index: number) => {
                         const id = `${show.id}_${child}`;
-                        return (
+                        return show.tracking_list.includes(child) ? (
                           <Draggable key={id} draggableId={id} index={index}>
                             {renderItem}
                           </Draggable>
+                        ) : (
+                          provided.placeholder
                         );
                       }
                     )
-                  : provided.placeholder}   
+                  : provided.placeholder}
               </Children>
             )}
           </Droppable>
@@ -191,7 +193,14 @@ const View = (props: {
       </Container>
     );
   }
-  return null;
+  return (
+    <Container
+      container
+      ref={props.provided.innerRef}
+      {...props.provided.draggableProps}
+      {...props.provided.dragHandleProps}
+    ></Container>
+  );
 };
 
 export default RunsheetShow;

@@ -1,12 +1,11 @@
-import Storage, { Type, getProperty, hasProperty } from "../common/Storage";
+import { Type, getProperty, hasProperty } from "../common/Storage";
 import Show from "../common/Show";
 import Grid from "@material-ui/core/Grid";
 import Collapse from "@material-ui/core/Collapse";
-import Tooltip from "@material-ui/core/Tooltip";
 import { experimentalStyled as styled } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
-import { Dispatch, useState, SetStateAction } from "react";
-import { Notes, ExitToApp, Edit, Add, Delete } from "@material-ui/icons";
+import { useState } from "react";
+import { Notes, ExitToApp, Edit } from "@material-ui/icons";
 import RunsheetHandler from "../common/RunsheetHandler";
 import {
   Draggable,
@@ -20,10 +19,11 @@ import TimeView from "./Time";
 import TimePoint, { INVALID as INVALID_POINT } from "../common/TimePoint";
 import { ParentProperty } from "../common/property/Parent";
 import { Switch } from "@material-ui/core";
-import sendCommand, { Goto, Update } from "./Commands";
+import { Goto, Update } from "./Commands";
 import Status from "./Status";
 import DragHandle from "./DragHandle";
 import DeleteDialog from "./DeleteDialog";
+import MenuAddDropdown from "./RunsheetAddDropdown";
 
 const Container = styled(Grid)`
   width: 100%;
@@ -202,9 +202,7 @@ const View = (props: {
           <IconButton>
             <Edit />
           </IconButton>
-          <IconButton>
-            <Add />
-          </IconButton>
+          <MenuAddDropdown handler={props.handler} show={props.show.id} caller={split[1]} blacklist={[Type.INVALID,Type.SESSION, storage.type !== Type.BRACKET ? Type.BRACKET : Type.INVALID]}/>
           <DeleteDialog handler={props.handler} show={props.show.id} delete={split[1]}/>
         </Controls>
         <DragHandle dragHandle={props.provided.dragHandleProps} />
@@ -246,187 +244,3 @@ const View = (props: {
 };
 
 export default RunsheetItem;
-
-/*export const getRenderItem =
-  (
-    handler: RunsheetHandler,
-    show: Show,
-    tshow: TrackingShow,
-    storage: Storage<any>,
-    offset: TimePoint,
-    active: boolean,
-    open: boolean,
-    cb: Dispatch<SetStateAction<boolean>>
-  ) =>
-  (
-    provided: DraggableProvided,
-    snapshot: DraggableStateSnapshot,
-    rubric: DraggableRubric
-  ) => {
-    return (
-      <Container
-        container
-        {...provided.draggableProps}
-        ref={provided.innerRef}
-        data-is-dragging={snapshot.isDragging}
-      >
-        <Status
-          active={active}
-          hasChildren={hasProperty(storage, "index_list")}
-          open={open}
-          cb={cb}
-        />
-        <DragHandle dragHandle={provided.dragHandleProps} />
-        {hasProperty(storage, "index_list") ? (
-          <Collapsable in={open}>
-            <Droppable
-              droppableId={storage.id}
-              direction="vertical"
-              type={storage.type}
-            >
-              {(provided) => (
-                <Children
-                  container
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {getProperty(storage, show, "index_list")?.value.map(
-                    (child: string, cindex: number) => {
-                      if (show.tracking_list.includes(child))
-                        return (
-                          <RunsheetItem
-                            key={child}
-                            handler={handler}
-                            show={show.id}
-                            tracking={child}
-                            index={cindex}
-                            offset={offset}
-                          />
-                        );
-                      return null;
-                    }
-                  )}
-                  {provided.placeholder}
-                </Children>
-              )}
-            </Droppable>
-          </Collapsable>
-        ) : null}
-      </Container>
-    );
-  };
-
-/*const RunsheetItem = (props: {
-  handler: RunsheetHandler;
-  show: string;
-  tracking: string;
-  index: number;
-  offset: TimePoint;
-}) => {
-  const [open, setOpen] = useState(false);
-  const tshow = props.handler.getTrackingShow(props.show);
-  const show = props.handler.getShow(props.show);
-  const storage = props.handler.getStorage(props.tracking);
-  let offset: TimePoint = props.offset;
-  if (tshow && show && storage) {
-    const active = isActive(props.handler, show, tshow, storage);
-    const renderItem = getRenderItem(
-      props.handler,
-      show,
-      tshow,
-      storage,
-      props.offset,
-      active,
-      open,
-      setOpen
-    );
-    return (
-      <Draggable
-        key={props.tracking}
-        draggableId={props.tracking}
-        index={props.index}
-      >
-        {renderItem}
-      </Draggable>
-    );
-  } else return null;
-};
-
-export default RunsheetItem;
-
-/*
-<Time
-              handler={props.handler}
-              show={props.show}
-              id={props.tracking}
-              offset={offset}
-            />
-            <Time
-              handler={props.handler}
-              show={props.show}
-              id={props.tracking}
-              offset={offset}
-              calEnd={true}
-            />
-            <Time
-              handler={props.handler}
-              show={props.show}
-              id={props.tracking}
-            />
-            <Display item>
-              {getProperty(storage, show, "display")?.value || ""}
-            </Display>
-            <Medium item>
-              <IconButton>
-                <Notes />
-              </IconButton>
-            </Medium>
-            <Medium item>
-              {getProperty(storage, show, "timer")?.value.type.toUpperCase() ||
-                ""}
-            </Medium>
-            <Medium item>
-              {getProperty(
-                storage,
-                show,
-                "timer"
-              )?.value.behaviour.toUpperCase() || ""}
-            </Medium>
-            <Medium>
-              <Tooltip title="Go">
-                <IconButton
-                  onClick={() => {
-                    Goto(props.show, props.tracking);
-                  }}
-                >
-                  <ExitToApp />
-                </IconButton>
-              </Tooltip>
-              <Tooltip
-                title={
-                  !getProperty(storage, show, "disabled")?.value
-                    ? "Disable"
-                    : "Enable"
-                }
-              >
-                <Switch
-                  onClick={() => {
-                    Update(props.show, props.tracking, [
-                      {
-                        reset: false,
-                        override: true,
-                        property: {
-                          key: "disabled",
-                          value: !getProperty(storage, show, "disabled")?.value,
-                        },
-                      },
-                    ]);
-                  }}
-                  name="disabled"
-                  checked={
-                    !getProperty(storage, show, "disabled")?.value || false
-                  }
-                />
-              </Tooltip>
-            </Medium>
-            <Medium></Medium>*/

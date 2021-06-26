@@ -26,7 +26,6 @@ const Menu = (props: { handler: RunsheetHandler }) => {
   const [deleteR, setDelete] = useState(false);
   const [newR, setNew] = useState(false);
   const [add, setAdd] = useState(false);
-
   return (
     <Fragment>
       <SPD

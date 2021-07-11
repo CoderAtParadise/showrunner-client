@@ -13,6 +13,7 @@ import { Fragment } from "react";
 import MenuRunsheetDialog, { StorageKey } from "./MenuRunsheetDialog";
 import { LoadRunsheet, DeleteRunsheet } from "./Commands";
 import RunsheetHandler from "../common/RunsheetHandler";
+import New from "./screens/New";
 //import NewRunsheet from "./NewRunsheet";
 
 const SPD = styled(SpeedDial)`
@@ -75,13 +76,9 @@ const Menu = (props: { handler: RunsheetHandler }) => {
         openCb={setDelete}
         cb={(runsheet: StorageKey) => DeleteRunsheet(runsheet.id)}
       />
+      <New open={newR} cb={setNew}/>
     </Fragment>
   );
 };
-
-/**
- * 
-      <NewRunsheet open={newR} cb={setNew}/>
- */
 
 export default Menu;

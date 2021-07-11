@@ -13,6 +13,9 @@ const Container = styled(Grid)`
   padding: ${({ theme }) => theme.spacing(1)};
   padding-top: 220px;
   justify-content: center;
+  height: 600px;
+  max-height:100%;
+  overflow-y: scroll;
 `;
 
 const DropContainer = styled(Grid)`

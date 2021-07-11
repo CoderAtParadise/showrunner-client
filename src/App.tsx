@@ -1,14 +1,12 @@
 import Runsheet from "./components/client/Runsheet";
 import { createTheme, ThemeProvider } from "@material-ui/core";
-import ClientRunsheet from "./components/client/ClientRunsheetHandler";
 //import styled from "@emotion/styled";
-import { useContext, Fragment } from "react";
-import SyncState, { SyncContext } from "./components/client/SyncState";
+import SyncState from "./components/client/SyncState";
 import init from "./components/common/Init";
-import Current from "./components/client/Current";
-import Menu from "./components/client/Menu";
+
 import { experimentalStyled as styled } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
+import ViewRunsheet from "./views/Runsheet";
 
 const theme = createTheme({
   palette: {
@@ -24,24 +22,13 @@ const Background = styled(Box)`
   overflow-x: hidden;
 `;
 
-const Wrapper = (props: any) => {
-  const handler = new ClientRunsheet(useContext(SyncContext));
-  return (
-    <Fragment>
-      <Current handler={handler} />
-      <Runsheet handler={handler} />
-      <Menu handler={handler} />
-    </Fragment>
-  );
-};
-
 function App() {
   init();
   return (
     <ThemeProvider theme={theme}>
       <Background>
         <SyncState>
-          <Wrapper />
+          <ViewRunsheet />
         </SyncState>
       </Background>
     </ThemeProvider>

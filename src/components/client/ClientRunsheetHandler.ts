@@ -4,6 +4,7 @@ import RunsheetHandler from "../common/RunsheetHandler";
 import TrackingShow from "../common/TrackingShow";
 import Show from "../common/Show";
 import Storage, { Type } from "../common/Storage";
+import { Goto } from "./Commands";
 
 export interface ClientRunsheetData {
   runsheet: Runsheet | undefined;
@@ -43,7 +44,7 @@ class ClientRunsheet implements RunsheetHandler {
   }
 
   deleteShow(id: string): boolean {
-    //Implement
+    //NOOP
     return false;
   }
 
@@ -57,7 +58,7 @@ class ClientRunsheet implements RunsheetHandler {
   }
 
   setActiveShow(id:string) : void {
-    //IMPLEMENT
+    //NOOP
   }
 
   getTrackingShow(id:string): TrackingShow | undefined {
@@ -96,7 +97,7 @@ class ClientRunsheet implements RunsheetHandler {
   }
 
   deleteStorage(id:string) : boolean {
-      //Implement
+      //NOOP
       return false;
   }
 }

@@ -29,7 +29,7 @@ const NewRunsheet = (props: {
       }}
       scroll={"body"}
     >
-        <DialogTitle id="new-runsheet">New Runsheet</DialogTitle>
+        <DialogTitle id="new-runsheet">New</DialogTitle>
         <SDialog>
             <TextField id="name" variant="outlined" label="Name" onChange={(event) => setName(event.target.value)}/>
         </SDialog>

@@ -10,7 +10,7 @@ import {
   DialogActions,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import RunsheetHandler from "../common/RunsheetHandler";
+import RunsheetHandler from "../components/common/RunsheetHandler";
 
 const SDialog = styled(DialogContent)`
   width: 200px;
@@ -37,7 +37,7 @@ export type StorageKey = { display: string; id: string };
 export const initialStorageKey = { display: "", id: "" };
 
 const serverurl = process.env.SERVER_URL || "http://localhost:3001";
-const MenuRunsheetDialog = (props: {
+const ListRunsheets = (props: {
   handler: RunsheetHandler;
   display: string;
   open: boolean;
@@ -93,4 +93,4 @@ const MenuRunsheetDialog = (props: {
   );
 };
 
-export default MenuRunsheetDialog;
+export default ListRunsheets;

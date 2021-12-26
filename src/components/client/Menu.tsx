@@ -10,10 +10,10 @@ import {
 import SpeedDialAction from "@material-ui/core/SpeedDialAction";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Fragment } from "react";
-import MenuRunsheetDialog, { StorageKey } from "./MenuRunsheetDialog";
+import ListRunsheets, { StorageKey } from "../../dialog/ListRunsheets";
 import { LoadRunsheet, DeleteRunsheet } from "./Commands";
 import RunsheetHandler from "../common/RunsheetHandler";
-import New from "./screens/New";
+import New from "../../dialog/New";
 //import NewRunsheet from "./NewRunsheet";
 
 const SPD = styled(SpeedDial)`
@@ -62,14 +62,14 @@ const Menu = (props: { handler: RunsheetHandler }) => {
           onClick={() => setNew(true)}
         />
       </SPD>
-      <MenuRunsheetDialog
+      <ListRunsheets
         handler={props.handler}
         display="Load"
         open={load}
         openCb={setLoad}
         cb={(runsheet: StorageKey) => LoadRunsheet(runsheet.id)}
       />
-      <MenuRunsheetDialog
+      <ListRunsheets
         handler={props.handler}
         display="Delete"
         open={deleteR}

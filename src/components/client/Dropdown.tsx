@@ -8,11 +8,13 @@ import { Tooltip } from "@material-ui/core";
 import { Type } from "../common/Storage";
 
 
-const MenuAddDropdown = (props: {
+const Dropdown = <T extends string>(props: {
   handler: RunsheetHandler;
   show: string;
   caller: string;
-  blacklist: Type[];
+  title: string;
+  values: T[];
+  blacklist: T[];
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -24,7 +26,7 @@ const MenuAddDropdown = (props: {
   };
   return (
     <Fragment>
-      <Tooltip title="Add...">
+      <Tooltip title={`${props.title}...`}>
         <IconButton onClick={handleClick}>
           <Add />
         </IconButton>
@@ -35,9 +37,9 @@ const MenuAddDropdown = (props: {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {Object.values(Type).map((value: string) => {
-            if(props.blacklist.indexOf(value as Type) === -1)
-          return <MenuItem key={value}>Add {value}</MenuItem>;
+        {props.values.map((value: string) => {
+            if(props.blacklist.indexOf(value as T) === -1)
+          return <MenuItem key={value}>{props.title} {value}</MenuItem>;
           return null;
         })}
       </Menu>
@@ -45,4 +47,4 @@ const MenuAddDropdown = (props: {
   );
 };
 
-export default MenuAddDropdown;
+export default Dropdown;

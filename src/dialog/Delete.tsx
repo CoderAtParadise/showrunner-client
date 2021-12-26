@@ -10,10 +10,10 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
-import { Delete } from "./Commands";
+import { Delete as DeleteCommand } from "../components/client/Commands";
 import { experimentalStyled as styled } from "@material-ui/core/styles";
-import RunsheetHandler from "../common/RunsheetHandler";
-import { getProperty } from "../common/Storage";
+import RunsheetHandler from "../components/common/RunsheetHandler";
+import { getProperty } from "../components/common/Storage";
 import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 
@@ -29,7 +29,7 @@ const DText = styled(Grid)`
   color: ${({ theme }) => theme.palette.text.secondary};
 `;
 
-const DeleteDialog = (props: {
+const Delete = (props: {
   handler: RunsheetHandler;
   show: string;
   delete: string;
@@ -74,6 +74,15 @@ const DeleteDialog = (props: {
           </DText>
         </DialogContent>
         <DialogActions>
+        <SButton
+            onClick={() => {
+              DeleteCommand(props.show, props.delete, global);
+              setGlobal(false);
+              setOpen(false);
+            }}
+          >
+            Delete
+          </SButton>
           <SButton
             onClick={() => {
               setGlobal(false);
@@ -82,19 +91,10 @@ const DeleteDialog = (props: {
           >
             Cancel
           </SButton>
-          <SButton
-            onClick={() => {
-              Delete(props.show, props.delete, global);
-              setGlobal(false);
-              setOpen(false);
-            }}
-          >
-            Delete
-          </SButton>
         </DialogActions>
       </Dialog>
     </Fragment>
   );
 };
 
-export default DeleteDialog;
+export default Delete;

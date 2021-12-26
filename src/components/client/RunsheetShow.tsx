@@ -18,7 +18,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { Stop, PlayArrow,  Delete } from "@material-ui/icons";
 import RunsheetItem from "./RunsheetItem";
 import { Goto } from "./Commands";
-import MenuAddDropdown from "./RunsheetAddDropdown";
+import Dropdown from "./Dropdown";
 
 const Container = styled(Grid)`
   background-color: ${({ theme }) => theme.palette.background.default};
@@ -151,7 +151,7 @@ const View = (props: {
                 <PlayArrow />
               )}
             </IconButton>
-            <MenuAddDropdown handler={props.handler} show={show.id} caller={show.session} blacklist={[Type.INVALID]}/>
+            <Dropdown handler={props.handler} show={show.id} caller={show.session} title="Add" values={Object.values(Type)} blacklist={[Type.INVALID]}/>
             <IconButton>
               <Delete />
             </IconButton>

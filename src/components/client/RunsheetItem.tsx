@@ -22,8 +22,8 @@ import { Switch } from "@material-ui/core";
 import { Goto, Update } from "./Commands";
 import Status from "./Status";
 import DragHandle from "./DragHandle";
-import DeleteDialog from "./DeleteDialog";
-import MenuAddDropdown from "./RunsheetAddDropdown";
+import Delete from "../../dialog/Delete";
+import Dropdown from "./Dropdown";
 
 const Container = styled(Grid)`
   width: 100%;
@@ -202,8 +202,8 @@ const View = (props: {
           <IconButton>
             <Edit />
           </IconButton>
-          <MenuAddDropdown handler={props.handler} show={props.show.id} caller={split[1]} blacklist={[Type.INVALID,Type.SESSION, storage.type !== Type.BRACKET ? Type.BRACKET : Type.INVALID]}/>
-          <DeleteDialog handler={props.handler} show={props.show.id} delete={split[1]}/>
+          <Dropdown handler={props.handler} show={props.show.id} caller={split[1]} title="Add" values={Object.values(Type)} blacklist={[Type.INVALID,Type.SESSION, storage.type !== Type.BRACKET ? Type.BRACKET : Type.INVALID]}/>
+          <Delete handler={props.handler} show={props.show.id} delete={split[1]}/>
         </Controls>
         <DragHandle dragHandle={props.provided.dragHandleProps} />
         {hasProperty(storage, "index_list") ? (

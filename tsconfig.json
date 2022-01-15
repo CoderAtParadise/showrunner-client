@@ -1,17 +1,16 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "commonjs",
+    "module": "esnext",
     "lib": ["dom",
       "dom.iterable",
-      "ES2020"],
+      "esnext"],
+    "skipLibCheck": true,
     "moduleResolution": "node",
-    "rootDir": "./",
     "outDir": "./dist",
     "esModuleInterop": true,
     "strict": true,
     "jsx": "react-jsx"
   },
-  "files": ["app.ts"],
   "include": ["src/**/*" ]
 }

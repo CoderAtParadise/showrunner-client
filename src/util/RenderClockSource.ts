@@ -14,6 +14,8 @@ export interface RenderIdentifier {
     type: string;
     data: object;
     state: string;
+    overrun: boolean;
+    automation: boolean;
 }
 
 export class RenderClockSource implements ClockSource {
@@ -26,6 +28,8 @@ export class RenderClockSource implements ClockSource {
         this.mData = identifier.data;
         this.displayName = identifier.displayName;
         this.state = identifier.state as ClockState;
+        this.overrun = identifier.overrun;
+        this.automation = identifier.automation;
         this.mCurrent = identifier.current;
     }
 
@@ -67,6 +71,8 @@ export class RenderClockSource implements ClockSource {
     type: string;
     displayName: string;
     state: ClockState;
+    overrun: boolean;
+    automation: boolean;
     private mData: object;
     private mCurrent: string;
     private framerate: number;

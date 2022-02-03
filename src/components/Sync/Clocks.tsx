@@ -1,5 +1,8 @@
 import { ReactNode, useEffect } from "react";
-import { ClockIdentifier } from "@coderatparadise/showrunner-common";
+import {
+    ClockIdentifier,
+    RenderChannel
+} from "@coderatparadise/showrunner-common";
 import {
     RenderClockSource,
     RenderIdentifier
@@ -26,21 +29,21 @@ const GetEventSource = (props: { show: string }): ReactNode => {
             const data = JSON.parse(e.data) as {
                 clock: RenderIdentifier;
                 active: boolean;
-                automation: boolean;
-                renderChannel: string[];
+                configurable: boolean;
+                renderChannel: RenderChannel[];
             }[];
             const updateClocks = new Map<string, ClockIdentifier>();
             Array.from(data).forEach(
                 (source: {
                     clock: RenderIdentifier;
                     active: boolean;
-                    automation: boolean;
-                    renderChannel: string[];
+                    configurable: boolean;
+                    renderChannel: RenderChannel[];
                 }) => {
                     updateClocks.set(source.clock.id, {
                         clock: new RenderClockSource(source.clock),
                         active: source.active,
-                        automation: source.automation,
+                        configurable: source.configurable,
                         renderChannel: source.renderChannel
                     });
                 }

@@ -4,9 +4,8 @@ import {
     experimentalStyled as styled,
     Box
 } from "@mui/material";
-import Menu from "./components/ClockMenuComponent";
 import ClockSyncState from "./components/Sync/Clocks";
-import ClockList from "./components/ClockListComponent";
+import ClockList from "./components/clock/ClockListComponent";
 import { RecoilRoot } from "recoil";
 
 const theme = createTheme({
@@ -32,7 +31,6 @@ function App(props: { className?: string }) {
             <Background className={props.className}>
                 <RecoilRoot>
                     <ClockSyncState show="system">
-                        <Menu />
                         <ClockList show="system" />
                     </ClockSyncState>
                 </RecoilRoot>

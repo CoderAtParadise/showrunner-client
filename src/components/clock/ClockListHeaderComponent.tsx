@@ -376,7 +376,7 @@ const ClockListHeader = (props: { className?: string; show: string }) => {
                                 behaviour: behaviour,
                                 direction: direction
                             });
-                            setOpen(false);
+                            closeDialog();
                         }}
                     >
                         Create

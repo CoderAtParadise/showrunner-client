@@ -7,6 +7,8 @@ import {
 import ClockSyncState from "./components/Sync/Clocks";
 import ClockList from "./components/clock/ClockListComponent";
 import { RecoilRoot } from "recoil";
+import { Widget } from "./dashboard/widget/Widget";
+import { RenderMode } from "./dashboard/widget/IWidgetLayout";
 
 const theme = createTheme({
     palette: {
@@ -29,6 +31,16 @@ function App(props: { className?: string }) {
     return (
         <ThemeProvider theme={theme}>
             <Background className={props.className}>
+                <Widget
+                    widget={{
+                        id: "testing",
+                        displayName: "Testing",
+                        widget: "TestWidget",
+                        position: { x: 0, y: 0, z: 0 },
+                        renderMode: RenderMode.COMPACT,
+                        config: { test: "Hello" }
+                    }}
+                />
                 <RecoilRoot>
                     <ClockSyncState show="system">
                         <ClockList show="system" />

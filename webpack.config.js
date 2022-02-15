@@ -1,7 +1,6 @@
 const path = require("path");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { EnvironmentPlugin } = require("webpack");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
@@ -23,7 +22,8 @@ module.exports = {
     entry: path.resolve(__dirname, "src", "index.tsx"),
     output: {
         path: path.resolve(__dirname, "public"),
-        filename: "bundle.js"
+        filename: "[name].bundle.js",
+        chunkFilename: "[name].bundle.js"
     },
     module: {
         rules: [

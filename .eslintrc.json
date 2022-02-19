@@ -41,6 +41,7 @@
         "@emotion/jsx-import" : "error",
         "tsdoc/syntax": "warn",
         "no-unused-vars": "off",
+        "multiline-ternary": "off",
         "@typescript-eslint/no-unused-vars": ["error"],
         "semi": ["error","always"],
         "quotes": ["warn","double"],

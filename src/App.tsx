@@ -7,8 +7,8 @@ import {
 import ClockSyncState from "./components/Sync/Clocks";
 import ClockList from "./components/clock/ClockListComponent";
 import { RecoilRoot } from "recoil";
-import { Widget } from "./dashboard/widget/Widget";
-import { RenderMode } from "./dashboard/widget/IWidgetLayout";
+import { Widget } from "./components/dashboard/widget/Widget";
+import { RenderMode } from "./components/dashboard/widget/IWidgetLayout";
 
 const theme = createTheme({
     palette: {
@@ -32,13 +32,47 @@ function App(props: { className?: string }) {
         <ThemeProvider theme={theme}>
             <Background className={props.className}>
                 <Widget
-                    widget={{
+                    edit
+                    layout={{
                         id: "testing",
-                        displayName: "Testing",
                         widget: "TestWidget",
-                        position: { x: 0, y: 0, z: 0 },
                         renderMode: RenderMode.COMPACT,
-                        config: { test: "Hello" }
+                        style: {
+                            widget: {
+                                header: true
+                            }
+                        },
+                        position: { x: 0, y: 0, z: 0 },
+                        config: {
+                            widget: {
+                                displayName: "Testing"
+                            }
+                        }
+                    }}
+                />
+                <Widget
+                    edit
+                    layout={{
+                        id: "clocktesting",
+                        widget: "WidgetClock",
+                        renderMode: RenderMode.COMPACT,
+                        style: {
+                            time: {
+                                overrunColor: "#cf352e",
+                                color: "#FFC354",
+                                fontSize: "48px"
+                            }
+                        },
+                        position: { x: 0, y: 0, z: 0 },
+                        config: {
+                            widget: {
+                                displayName: "Clock Testing"
+                            },
+                            clock: {
+                                source: "",
+                                controlBar: true
+                            }
+                        }
                     }}
                 />
                 <RecoilRoot>

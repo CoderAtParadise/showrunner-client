@@ -282,6 +282,7 @@ const ClockListHeader = (props: { className?: string; show: string }) => {
                     </AddButton>
                 </Tooltip>
             </Header>
+            <HR />
             <Dialog open={open} onClose={closeDialog}>
                 <DialogTitle>Create Clock</DialogTitle>
                 <DialogContent>
@@ -363,16 +364,16 @@ const ClockListHeader = (props: { className?: string; show: string }) => {
                                 time:
                                     type === "offset"
                                         ? `${offset}${zeroPad(
-                                            hrs,
-                                            2
-                                        )}:${zeroPad(min, 2)}:${zeroPad(
-                                            sec,
-                                            2
-                                        )}:00`
+                                              hrs,
+                                              2
+                                          )}:${zeroPad(min, 2)}:${zeroPad(
+                                              sec,
+                                              2
+                                          )}:00`
                                         : `${zeroPad(hrs, 2)}:${zeroPad(
-                                            min,
-                                            2
-                                        )}:${zeroPad(sec, 2)}:00`,
+                                              min,
+                                              2
+                                          )}:${zeroPad(sec, 2)}:00`,
                                 behaviour: behaviour,
                                 direction: direction
                             });
@@ -383,7 +384,6 @@ const ClockListHeader = (props: { className?: string; show: string }) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <HR />
         </Container>
     );
 };

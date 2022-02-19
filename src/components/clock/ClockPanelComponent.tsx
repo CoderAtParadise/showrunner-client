@@ -59,7 +59,6 @@ const SettingsButton = styled(IconButton)`
     position: absolute;
     right: 5px;
     top: 5px;
-    z-index: 5;
     &:hover {
         color: rgb(200, 200, 200);
     }
@@ -73,7 +72,6 @@ const DisplaySettingsButton = styled(IconButton)`
     position: absolute;
     right: 30px;
     top: 5px;
-    z-index: 5;
     &:hover {
         color: rgb(200, 200, 200);
     }

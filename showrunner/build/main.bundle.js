@@ -143,8 +143,8 @@
     width: 0.8em;
     height: 0.8em;
     float: right;
-    right: 0.2em;
-    top: 0.2em;
+    /* right: 0.2em;
+    top: 0.2em; */
     position: relative;
     &:hover {
         color: rgb(200, 200, 200);

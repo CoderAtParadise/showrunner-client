@@ -6,9 +6,7 @@
   "url": "/",
   "enableServer": true,
   "enableNativeAPI": true,
-  "nativeAllowList": [
-    "app.*"
-  ],
+  "nativeAllowList": ["app.*"],
   "modes": {
     "window": {
       "title": "Showrunner",
@@ -25,6 +23,10 @@
     "extensionsPath": "/extensions/",
     "clientLibrary": "/showrunner/public/neutralino.js",
     "binaryVersion": "4.2.0",
-    "clientVersion": "3.1.0"
+    "clientVersion": "3.1.0",
+    "frontendLibrary": {
+      "patchFile": "/showrunner/public/index.html",
+      "devUrl": "http://localhost:3000"
+    }
   }
 }

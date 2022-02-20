@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { IWidgetLayout } from "./IWidgetLayout";
 import { WidgetConfigure } from "./WidgetConfigure";
 import styled from "@emotion/styled";

@@ -21,7 +21,7 @@ module.exports = {
     },
     entry: path.resolve(__dirname, "src", "index.tsx"),
     output: {
-        path: path.resolve(__dirname, "public"),
+        path: path.resolve(__dirname, "build"),
         filename: "[name].bundle.js",
         chunkFilename: "[name].bundle.js"
     },

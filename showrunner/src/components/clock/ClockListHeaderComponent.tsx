@@ -364,16 +364,16 @@ const ClockListHeader = (props: { className?: string; show: string }) => {
                                 time:
                                     type === "offset"
                                         ? `${offset}${zeroPad(
-                                              hrs,
-                                              2
-                                          )}:${zeroPad(min, 2)}:${zeroPad(
-                                              sec,
-                                              2
-                                          )}:00`
+                                            hrs,
+                                            2
+                                        )}:${zeroPad(min, 2)}:${zeroPad(
+                                            sec,
+                                            2
+                                        )}:00`
                                         : `${zeroPad(hrs, 2)}:${zeroPad(
-                                              min,
-                                              2
-                                          )}:${zeroPad(sec, 2)}:00`,
+                                            min,
+                                            2
+                                        )}:${zeroPad(sec, 2)}:00`,
                                 behaviour: behaviour,
                                 direction: direction
                             });

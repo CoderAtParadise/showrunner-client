@@ -25,7 +25,7 @@ interface WidgetClockStyle {
 interface WidgetClockConfig {
     clock: {
         source: string;
-        controlbar: boolean;
+        controlBar: boolean;
         displayPause: boolean;
     };
 }
@@ -134,7 +134,7 @@ const WidgetClockCompactRenderer: IWidgetRenderer<
                 >
                     {new SMPTE().toString()}
                 </DisplayTime>
-                {props.layout.config.clock.controlbar ? (
+                {props.layout.config.clock.controlBar ? (
                     <ControlBar widgetStyle={props.layout.style.controlBar} />
                 ) : null}
             </Container>

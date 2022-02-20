@@ -4,7 +4,6 @@
     "main": "./src/index.tsx",
     "scripts": {
         "start": "yarn webpack serve --mode development",
-        "start:neu": "cd ../ && neu run --frontend-lib-dev",
         "build": "yarn webpack --mode production",
         "lint": "yarn eslint src/**/*.tsx",
         "format": "yarn prettier --write 'src/**/*.tsx'"

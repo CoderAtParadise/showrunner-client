@@ -1,6 +1,5 @@
-import { useState, SyntheticEvent, ReactNode, Children } from "react";
+import { useState, SyntheticEvent, ReactNode } from "react";
 import {
-    IconButton,
     Tooltip,
     Popper,
     ClickAwayListener,
@@ -35,21 +34,17 @@ const Content = styled(Scrollable)`
     min-height: 5em;
 `;
 
-const SettingsButton = styled(IconButton)`
+const SettingsButton = styled(Settings)`
     width: 0.8em;
     height: 0.8em;
     float: right;
-    /* right: 0.2em;
-    top: 0.2em; */
-    position: relative;
+    position:relative;
+    top:0.2em;
+    right:0.2em;
+    color: rgb(255, 255, 255);
     &:hover {
         color: rgb(200, 200, 200);
     }
-`;
-
-const SettingsIcon = styled(Settings)`
-    width: 0.8em;
-    height: 0.8em; ;
 `;
 
 interface TabPanelProps {
@@ -97,12 +92,7 @@ export const WidgetConfigure = (props: {
     return (
         <div className={props.className}>
             <Tooltip title="Configure">
-                <SettingsButton
-                    disableRipple
-                    onClick={(event) => handleClick(event)}
-                >
-                    <SettingsIcon />
-                </SettingsButton>
+                <SettingsButton onClick={(event) => handleClick(event)}/>
             </Tooltip>
             <Popper
                 open={open}

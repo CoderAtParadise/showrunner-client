@@ -16,7 +16,7 @@ export const Widget = (props: {
     const fetchWidget = useCallback(async () => {
         const Widget = await import(`./${props.layout.widget}`);
         const menus = Widget.default.config;
-        //menus.push()
+        // menus.push()
         setConfigMenus(menus);
         const looseRenderList = Widget.default.renderMode as LooseObject;
         let renderMode = looseRenderList[props.layout.renderMode as string];

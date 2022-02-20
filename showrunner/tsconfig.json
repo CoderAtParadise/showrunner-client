@@ -12,5 +12,5 @@
     "strict": true,
     "jsx": "react-jsx"
   },
-  "include": ["showrunner/src/**/*" ]
+  "include": ["src/**/*" ]
 }

@@ -54,7 +54,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/dotenv-webpack", "npm:7.0.3"],
             ["@types/eslint", "npm:8.4.1"],
             ["@types/loadable__component", "npm:5.13.4"],
-            ["@types/node", "npm:17.0.17"],
+            ["@types/node", "npm:17.0.18"],
             ["@types/prettier", "npm:2.4.4"],
             ["@types/react", "npm:17.0.39"],
             ["@types/react-dom", "npm:17.0.11"],
@@ -2572,7 +2572,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["@coderatparadise/showrunner-common", [
         ["portal:/D:/Dev/showrunner-common::locator=showrunner-client%40workspace%3A.", {
-          "packageLocation": "../showrunner-common/",
+          "packageLocation": "../../showrunner-common/",
           "packageDependencies": [
             ["@coderatparadise/showrunner-common", "portal:/D:/Dev/showrunner-common::locator=showrunner-client%40workspace%3A."]
           ],
@@ -3554,10 +3554,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["npm:17.0.17", {
-          "packageLocation": "./.yarn/cache/@types-node-npm-17.0.17-8bac2a57aa-8ddba2829a.zip/node_modules/@types/node/",
+        ["npm:17.0.18", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-17.0.18-a816928b08-6c4edfc2b3.zip/node_modules/@types/node/",
           "packageDependencies": [
-            ["@types/node", "npm:17.0.17"]
+            ["@types/node", "npm:17.0.18"]
           ],
           "linkType": "HARD",
         }],
@@ -10405,7 +10405,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/dotenv-webpack", "npm:7.0.3"],
             ["@types/eslint", "npm:8.4.1"],
             ["@types/loadable__component", "npm:5.13.4"],
-            ["@types/node", "npm:17.0.17"],
+            ["@types/node", "npm:17.0.18"],
             ["@types/prettier", "npm:2.4.4"],
             ["@types/react", "npm:17.0.39"],
             ["@types/react-dom", "npm:17.0.11"],

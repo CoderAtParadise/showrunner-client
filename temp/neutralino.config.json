@@ -1,0 +1,30 @@
+{
+  "applicationId": "showrunner",
+  "version": "1.0.0",
+  "defaultMode": "window",
+  "documentRoot": "/showrunner/build",
+  "url": "/",
+  "enableServer": true,
+  "enableNativeAPI": true,
+  "nativeAllowList": [
+    "app.*"
+  ],
+  "modes": {
+    "window": {
+      "title": "Showrunner",
+      "width": 800,
+      "height": 500,
+      "minWidth": 400,
+      "minHeight": 200,
+      "icon": "/showrunner/public/logo192.png"
+    }
+  },
+  "cli": {
+    "binaryName": "Showrunner-client",
+    "resourcesPath": "/showrunner/build/",
+    "extensionsPath": "/extensions/",
+    "clientLibrary": "/showrunner/public/neutralino.js",
+    "binaryVersion": "4.2.0",
+    "clientVersion": "3.1.0"
+  }
+}

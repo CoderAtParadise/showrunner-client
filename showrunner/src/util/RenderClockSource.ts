@@ -7,9 +7,9 @@ import {
 export interface RenderIdentifier {
     current: string;
     framerate: number;
-    displayName: string;
     id: string;
     owner: string;
+    settings: {displayName:string} & any;
     show: string;
     type: string;
     data: object;
@@ -18,7 +18,7 @@ export interface RenderIdentifier {
     automation: boolean;
 }
 
-export class RenderClockSource implements ClockSource {
+export class RenderClockSource implements ClockSource<any> {
     constructor(identifier: RenderIdentifier) {
         this.owner = identifier.owner;
         this.framerate = identifier.framerate;
@@ -26,7 +26,7 @@ export class RenderClockSource implements ClockSource {
         this.id = identifier.id;
         this.type = identifier.type;
         this.mData = identifier.data;
-        this.displayName = identifier.displayName;
+        this.settings = identifier.settings;
         this.state = identifier.state as ClockState;
         this.overrun = identifier.overrun;
         this.automation = identifier.automation;
@@ -69,7 +69,7 @@ export class RenderClockSource implements ClockSource {
     show: string;
     id: string;
     type: string;
-    displayName: string;
+    settings: { displayName: string } & any;
     state: ClockState;
     overrun: boolean;
     automation: boolean;

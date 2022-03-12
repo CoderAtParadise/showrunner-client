@@ -3,32 +3,23 @@ export enum RenderMode {
     EXPANDED = "expanded"
 }
 
-export interface WidgetStyle {
+export interface WidgetConfig {
     widget: {
+        displayName?: string;
         header?: boolean;
         height?: string;
         width?: string;
     };
 }
 
-export interface WidgetConfig {
-    widget: {
-        displayName: string;
-    };
-}
-
-export interface IWidgetLayout<
-    Style,
-    Config
-> {
+export interface IWidgetLayout<Config> {
     id: string;
     widget: string;
     renderMode: RenderMode;
-    style: WidgetStyle & Style
+    config: WidgetConfig & Config;
     position: {
         x: number;
         y: number;
         z: number;
     };
-    config: WidgetConfig & Config;
 }

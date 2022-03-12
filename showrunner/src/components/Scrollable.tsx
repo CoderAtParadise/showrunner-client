@@ -63,10 +63,10 @@ export const Scrollable = (props: {
 
     const handleMouseOver = useCallback(() => {
         setHovering(true);
-    }, [hovering]);
+    }, []);
     const handleMouseOut = useCallback(() => {
         setHovering(false);
-    }, [hovering]);
+    }, []);
 
     const handleDocumentMouseUp = useCallback(
         (e: any) => {
@@ -105,6 +105,13 @@ export const Scrollable = (props: {
         [isDragging, lastScrollThumbPosition, scrollBoxHeight, scrollBoxTop]
     );
 
+    const shouldDisplayScroll = useCallback(() => {
+        if (!scrollHostRef) return false;
+        const scrollHostElement = scrollHostRef.current as HTMLDivElement;
+        const { clientHeight, scrollHeight } = scrollHostElement;
+        return clientHeight < scrollHeight;
+    }, []);
+
     const handleScrollThumbMouseDown = useCallback(
         (e: MouseEvent<HTMLDivElement>) => {
             if (shouldDisplayScroll()) {
@@ -114,7 +121,7 @@ export const Scrollable = (props: {
                 setDragging(true);
             }
         },
-        []
+        [shouldDisplayScroll]
     );
 
     const handleScroll = useCallback(() => {
@@ -124,14 +131,7 @@ export const Scrollable = (props: {
         let newTop = (scrollTop / scrollHeight) * offsetHeight;
         newTop = Math.min(newTop, offsetHeight - scrollBoxHeight);
         setScrollBoxTop(newTop);
-    }, []);
-
-    const shouldDisplayScroll = useCallback(() => {
-        if (!scrollHostRef) return false;
-        const scrollHostElement = scrollHostRef.current as HTMLDivElement;
-        const { clientHeight, scrollHeight } = scrollHostElement;
-        return clientHeight < scrollHeight;
-    }, []);
+    }, [scrollBoxHeight]);
 
     const scrollHostRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -152,7 +152,7 @@ export const Scrollable = (props: {
                 true
             );
         };
-    }, [props.children]);
+    }, [handleScroll, props.children]);
 
     useEffect(() => {
         document.addEventListener("mousemove", handleDocumentMouseMove);

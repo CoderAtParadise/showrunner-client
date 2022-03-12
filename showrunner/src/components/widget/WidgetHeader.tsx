@@ -1,7 +1,7 @@
 import { IWidgetLayout } from "./IWidgetLayout";
-import { WidgetConfigure } from "./WidgetConfigure";
+import { WidgetConfigure } from "./WidgetPopupConfig";
 import styled from "@emotion/styled";
-import { IWidgetConfigMenu } from "./IWidget";
+import { ConfigBuilder } from "../config/ConfigBuilder";
 
 const Header = styled.div`
     position: relative;
@@ -25,16 +25,15 @@ const Title = styled.div`
 
 export const WidgetHeader = (props: {
     className?: string;
-    configMenus: IWidgetConfigMenu<any>[];
-    layout: IWidgetLayout<any, any>;
+    layout: IWidgetLayout<any>;
+    config: ConfigBuilder;
     edit?: boolean;
 }) => {
-    if (!props.layout.style.widget?.header && !props.edit) return null;
+    if (!props.layout.config.widget?.header && !props.edit) return null;
     return (
         <>
             <Header className={props.className}>
                 <WidgetConfigure
-                    configMenus={props.configMenus}
                     layout={props.layout}
                     edit={props.edit}
                 />

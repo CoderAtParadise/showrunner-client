@@ -1,13 +1,12 @@
 import { SMPTE } from "@coderatparadise/showrunner-common";
 import styled from "@emotion/styled";
-import { IWidget } from "./IWidget";
-import { BugReport } from "@mui/icons-material";
+import { IWidget } from "../components/widget/IWidget";
 
 const Styled = styled.div`
     font-size: 45px;
 `;
 
-const TestWidget: IWidget<any, any> = {
+const TestWidget: IWidget<any> = {
     renderMode: {
         compact: {
             render: () => {
@@ -38,23 +37,7 @@ const TestWidget: IWidget<any, any> = {
             }
         }
     },
-    config: [
-        {
-            menu: "test",
-            icon: (
-                <BugReport
-                    style={{
-                        width: "0.8em",
-                        height: "0.8em"
-                    }}
-                />
-            ),
-            tooltip: "Testing",
-            render: () => {
-                return <div>Test Menu</div>;
-            }
-        }
-    ]
+    config: []
 };
 
 export default TestWidget;

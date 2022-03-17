@@ -6,6 +6,7 @@ import {
 } from "@mui/material";
 import ClockSyncState from "./components/Sync/Clocks";
 import { RecoilRoot } from "recoil";
+import RecoilNexus from "recoil-nexus";
 import { Widget } from "./components/widget/Widget";
 import { RenderMode } from "./components/widget/IWidgetLayout";
 
@@ -31,6 +32,7 @@ function App(props: { className?: string }) {
         <ThemeProvider theme={theme}>
             <Background className={props.className}>
                 <RecoilRoot>
+                    <RecoilNexus />
                     <ClockSyncState show="system">
                         <Widget
                             edit
@@ -66,7 +68,7 @@ function App(props: { className?: string }) {
                                         fontSize: "36px"
                                     },
                                     controlBar: {
-                                        show: true
+                                        display: true
                                     }
                                 }
                             }}

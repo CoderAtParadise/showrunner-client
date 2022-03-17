@@ -8,5 +8,5 @@ export interface ConfigValue<T> {
     storage: (config:ConfigBuilder) => LooseObject;
     get: (index?: number | string) => T;
     set: (value: T, index?: number | string) => void;
-    render: (props: { className?: string }) => ReactNode;
+    render: () => ReactNode;
 }

@@ -17,18 +17,23 @@ export class ConfigValueSwatch implements ConfigValue<string> {
     }
 
     get(): string {
-        return this.storage(this.builder)[this.configurable.group][this.configurable.key];
+        return this.storage(this.builder).get(
+            `${this.configurable.group}.${this.configurable.key}`
+        );
     }
 
     set(value: string): void {
-        this.storage(this.builder)[this.configurable.group][this.configurable.key] = value;
+        this.storage(this.builder).set(
+            `${this.configurable.group}.${this.configurable.key}`,
+            value
+        );
     }
 
-    render(props: { className?: string }): ReactNode {
+    render(): ReactNode {
         return (
-            <div className={props.className}>
+            <div>
                 <div>{this.configurable.displayName}</div>
-                <ColorSwatch color={this.get()} onChange={(c) => this.set(c)} />
+                <ColorSwatch color={this.get() || "#000000"} onChange={(c) => this.set(c)} />
             </div>
         );
     }

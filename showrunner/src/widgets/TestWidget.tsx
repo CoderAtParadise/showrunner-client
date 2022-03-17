@@ -6,7 +6,7 @@ const Styled = styled.div`
     font-size: 45px;
 `;
 
-const TestWidget: IWidget<any> = {
+const TestWidget: IWidget = {
     renderMode: {
         compact: {
             render: () => {

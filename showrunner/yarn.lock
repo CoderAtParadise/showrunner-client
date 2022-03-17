@@ -2484,6 +2484,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash-es@npm:^4":
+  version: 4.17.6
+  resolution: "@types/lodash-es@npm:4.17.6"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 9bd239dd525086e278821949ce12fbdd4f100a060fed9323fc7ad5661113e1641f28a7ebab617230ed3474680d8f4de705c1928b48252bb684be6ec9eed715db
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.14.180
+  resolution: "@types/lodash@npm:4.14.180"
+  checksum: fc42ae3473695cac6e91553f832fef8eb51a31c1c0381cafa81b00dc3efe18e279786bdda77caf0b90a8340ba2ba7aa46ae6541d69870565f775d04c89128bc1
+  languageName: node
+  linkType: hard
+
 "@types/mime@npm:^1":
   version: 1.3.2
   resolution: "@types/mime@npm:1.3.2"
@@ -6454,7 +6470,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash-es@npm:^4.17.15":
+"lodash-es@npm:^4.17.15, lodash-es@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash-es@npm:4.17.21"
   checksum: 05cbffad6e2adbb331a4e16fbd826e7faee403a1a04873b82b42c0f22090f280839f85b95393f487c1303c8a3d2a010048bf06151a6cbe03eee4d388fb0a12d2
@@ -7783,6 +7799,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"recoil-nexus@npm:^0.3.15":
+  version: 0.3.15
+  resolution: "recoil-nexus@npm:0.3.15"
+  peerDependencies:
+    "@types/react": ">=16.8.0"
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+    recoil: ">=0.2.0"
+    typescript: ">=4.1.0"
+  checksum: a95d69fe7e30d199f5aafe7009abcc9cfb0c25536bb7cd999cea2e50454301ac33922442cde79ede34ec7644091d9d29c142181c3f0fa75b2414c1161ae6b360
+  languageName: node
+  linkType: hard
+
 "recoil@npm:^0.6.1":
   version: 0.6.1
   resolution: "recoil@npm:0.6.1"
@@ -8321,6 +8350,7 @@ __metadata:
     "@types/dotenv-webpack": ^7.0.3
     "@types/eslint": ^8.4.1
     "@types/loadable__component": ^5.13.4
+    "@types/lodash-es": ^4
     "@types/node": ^17.0.18
     "@types/prettier": ^2.4.4
     "@types/react": ^17.0.39
@@ -8349,6 +8379,7 @@ __metadata:
     eslint-webpack-plugin: ^3.1.1
     file-loader: ^6.2.0
     html-webpack-plugin: ^5.5.0
+    lodash-es: ^4.17.21
     prettier: ^2.5.1
     react: ^17.0.2
     react-color: ^2.19.3
@@ -8356,6 +8387,7 @@ __metadata:
     react-grid-layout: ^1.3.3
     react-popper: ^2.2.5
     recoil: ^0.6.1
+    recoil-nexus: ^0.3.15
     source-map-loader: ^3.0.1
     style-loader: ^3.3.1
     ts-loader: ^9.2.6

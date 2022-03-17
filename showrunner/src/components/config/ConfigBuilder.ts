@@ -1,15 +1,21 @@
 import { LooseObject } from "../../util/LooseObject";
+import { ConfigStorageWatcher } from "./ConfigStorageWatcher";
 import { ConfigValue } from "./ConfigValue";
 import { ConfigValueBoolean } from "./ConfigValueBoolean";
 import { ConfigValueSwatch } from "./ConfigValueSwatch";
 import { ConfigValueText } from "./ConfigValueText";
+import { ConfigValueOptions } from "./ConfigValueOptions";
 import { ConfigurableType, IConfigurable } from "./IConfigurable";
-import structuredClone from "@ungap/structured-clone";
 
 export class ConfigBuilder {
-    constructor(storage: LooseObject) {
-        this.storage = storage;
-        this.oldCache = structuredClone(storage); // We are using v16 LTS version of Nodejs. structuredClone is only introduced in v17 of Nodejs
+    constructor(
+        show: string,
+        defaultStorageWatcher: ConfigStorageWatcher,
+        edit: boolean = false
+    ) {
+        this.show = show;
+        this.storage = defaultStorageWatcher;
+        this.edit = edit;
     }
 
     buildConfig(config: IConfigurable[]) {
@@ -32,11 +38,21 @@ export class ConfigBuilder {
                     this.configs.push(
                         new ConfigValueText(this, value, storage)
                     );
+                    break;
+                case ConfigurableType.Options:
+                    this.configs.push(
+                        new ConfigValueOptions(this, value, storage)
+                    );
             }
         });
     }
 
+    setStorage(storage: LooseObject) {
+        this.storage.updateStorage(storage);
+    }
+
     filter(key: string): ConfigValue<any>[] {
+        if (key === "") return this.configs;
         const keysplit = key.split(":");
         const filtered: ConfigValue<any>[] = [];
         if (keysplit.length > 1) {
@@ -67,14 +83,20 @@ export class ConfigBuilder {
 
     get(key: string): ConfigValue<any> | undefined {
         const keysplit = key.split(".");
-        this.configs.forEach((value: ConfigValue<any>) => {
+        for (let i = 0; i < this.configs.length; i++) {
+            const value = this.configs[i];
             if (value.configurable.group === keysplit[0])
                 if (value.configurable.key === keysplit[1]) return value;
-        });
+        }
         return undefined;
     }
 
+    raw(key: string): any {
+        return this.storage.get(key);
+    }
+
+    show: string;
+    edit: boolean;
     private configs: ConfigValue<any>[] = [];
-    private storage: LooseObject;
-    private oldCache: LooseObject;
+    private storage: ConfigStorageWatcher;
 }

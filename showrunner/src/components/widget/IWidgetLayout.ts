@@ -1,7 +1,26 @@
+import { ConfigurableType, IConfigurable } from "../config/IConfigurable";
+
 export enum RenderMode {
     COMPACT = "compact",
     EXPANDED = "expanded"
 }
+
+export const WidgetConfigurable: IConfigurable[] = [
+    {
+        type: ConfigurableType.Text,
+        category: "widget",
+        displayName: "Widget Name",
+        group: "widget",
+        key: "displayName"
+    },
+    {
+        type: ConfigurableType.Boolean,
+        category: "widget",
+        displayName: "Show Header",
+        group: "widget",
+        key: "header"
+    }
+];
 
 export interface WidgetConfig {
     widget: {

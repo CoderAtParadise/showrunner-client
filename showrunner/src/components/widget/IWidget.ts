@@ -1,21 +1,21 @@
 import { ReactNode } from "react";
+import { ConfigBuilder } from "../config/ConfigBuilder";
 import { IConfigurable } from "../config/IConfigurable";
-import { IWidgetLayout } from "./IWidgetLayout";
-export interface IWidgetRenderer<C> {
+export interface IWidgetRenderer {
     render: (props: {
         className?: string;
-        layout: IWidgetLayout<C>;
+        config: ConfigBuilder;
     }) => ReactNode;
 }
 
-export interface IWidget<C> {
+export interface IWidget {
     renderMode: {
-        default: IWidgetRenderer<C>;
-        compact?: IWidgetRenderer<C>;
-        compactExpanded?: IWidgetRenderer<C>;
-        expandedCompact?: IWidgetRenderer<C>;
-        expanded?: IWidgetRenderer<C>;
-        resizeable?: IWidgetRenderer<C>;
+        default: IWidgetRenderer;
+        compact?: IWidgetRenderer;
+        compactExpanded?: IWidgetRenderer;
+        expandedCompact?: IWidgetRenderer;
+        expanded?: IWidgetRenderer;
+        resizeable?: IWidgetRenderer;
     };
     config: IConfigurable[];
 }

@@ -3,8 +3,9 @@ import { LooseObject } from "../../util/LooseObject";
 import { ConfigBuilder } from "./ConfigBuilder";
 import { ConfigValue } from "./ConfigValue";
 import { IConfigurable } from "./IConfigurable";
+import { Autocomplete, TextField } from "@mui/material";
 
-export class ConfigValueText implements ConfigValue<string> {
+export class ConfigValueOptions implements ConfigValue<string> {
     constructor(
         builder: ConfigBuilder,
         configurable: IConfigurable,
@@ -29,15 +30,21 @@ export class ConfigValueText implements ConfigValue<string> {
     }
 
     render(): ReactNode {
+        const options = this.configurable.Options?.(this.builder) || [];
+        console.log(options);
         return (
             <div>
                 <div>{this.configurable.displayName}</div>
-                <input
-                    type="text"
-                    value={this.get() || ""}
-                    onChange={(e) => {
-                        this.set(e.target.value);
-                    }}
+                <Autocomplete
+                    options={options}
+                    value={options.find(
+                        (value: { label: string; id: string }) =>
+                            value.id === this.get()
+                    )}
+                    onChange={(event, value) =>
+                        this.set((value as { label: string; id: string }).id)
+                    }
+                    renderInput={(params) => <TextField {...params} />}
                 />
             </div>
         );

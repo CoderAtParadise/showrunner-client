@@ -1,3 +1,3 @@
 export interface LooseObject {
-    [key: string]: any;
+    [key: string | number | symbol]: any;
 }

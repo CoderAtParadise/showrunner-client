@@ -55,6 +55,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/dotenv-webpack", "npm:7.0.3"],
             ["@types/eslint", "npm:8.4.1"],
             ["@types/loadable__component", "npm:5.13.4"],
+            ["@types/lodash-es", "npm:4.17.6"],
             ["@types/node", "npm:17.0.18"],
             ["@types/prettier", "npm:2.4.4"],
             ["@types/react", "npm:17.0.39"],
@@ -83,6 +84,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-webpack-plugin", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:3.1.1"],
             ["file-loader", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:6.2.0"],
             ["html-webpack-plugin", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.5.0"],
+            ["lodash-es", "npm:4.17.21"],
             ["prettier", "npm:2.5.1"],
             ["react", "npm:17.0.2"],
             ["react-color", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:2.19.3"],
@@ -90,6 +92,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-grid-layout", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:1.3.3"],
             ["react-popper", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:2.2.5"],
             ["recoil", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:0.6.1"],
+            ["recoil-nexus", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:0.3.15"],
             ["source-map-loader", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:3.0.1"],
             ["style-loader", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:3.3.1"],
             ["ts-loader", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:9.2.6"],
@@ -3975,6 +3978,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@types/loadable__component", "npm:5.13.4"],
             ["@types/react", "npm:17.0.38"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/lodash", [
+        ["npm:4.14.180", {
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.180-37662c62d4-fc42ae3473.zip/node_modules/@types/lodash/",
+          "packageDependencies": [
+            ["@types/lodash", "npm:4.14.180"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/lodash-es", [
+        ["npm:4.17.6", {
+          "packageLocation": "./.yarn/cache/@types-lodash-es-npm-4.17.6-fd5abbdc74-9bd239dd52.zip/node_modules/@types/lodash-es/",
+          "packageDependencies": [
+            ["@types/lodash-es", "npm:4.17.6"],
+            ["@types/lodash", "npm:4.14.180"]
           ],
           "linkType": "HARD",
         }]
@@ -10559,6 +10581,40 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["recoil-nexus", [
+        ["npm:0.3.15", {
+          "packageLocation": "./.yarn/cache/recoil-nexus-npm-0.3.15-716d93f265-a95d69fe7e.zip/node_modules/recoil-nexus/",
+          "packageDependencies": [
+            ["recoil-nexus", "npm:0.3.15"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:0.3.15", {
+          "packageLocation": "./.yarn/__virtual__/recoil-nexus-virtual-6106d224f5/0/cache/recoil-nexus-npm-0.3.15-716d93f265-a95d69fe7e.zip/node_modules/recoil-nexus/",
+          "packageDependencies": [
+            ["recoil-nexus", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:0.3.15"],
+            ["@types/react", "npm:17.0.39"],
+            ["@types/react-dom", "npm:17.0.11"],
+            ["@types/recoil", null],
+            ["@types/typescript", null],
+            ["react", "npm:17.0.2"],
+            ["react-dom", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:17.0.2"],
+            ["recoil", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:0.6.1"],
+            ["typescript", "patch:typescript@npm%3A4.5.5#~builtin<compat/typescript>::version=4.5.5&hash=493e53"]
+          ],
+          "packagePeers": [
+            "@types/react-dom",
+            "@types/react",
+            "@types/recoil",
+            "@types/typescript",
+            "react-dom",
+            "react",
+            "recoil",
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["regenerate", [
         ["npm:1.4.2", {
           "packageLocation": "./.yarn/cache/regenerate-npm-1.4.2-b296c5b63a-3317a09b2f.zip/node_modules/regenerate/",
@@ -11090,6 +11146,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/dotenv-webpack", "npm:7.0.3"],
             ["@types/eslint", "npm:8.4.1"],
             ["@types/loadable__component", "npm:5.13.4"],
+            ["@types/lodash-es", "npm:4.17.6"],
             ["@types/node", "npm:17.0.18"],
             ["@types/prettier", "npm:2.4.4"],
             ["@types/react", "npm:17.0.39"],
@@ -11118,6 +11175,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-webpack-plugin", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:3.1.1"],
             ["file-loader", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:6.2.0"],
             ["html-webpack-plugin", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.5.0"],
+            ["lodash-es", "npm:4.17.21"],
             ["prettier", "npm:2.5.1"],
             ["react", "npm:17.0.2"],
             ["react-color", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:2.19.3"],
@@ -11125,6 +11183,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react-grid-layout", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:1.3.3"],
             ["react-popper", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:2.2.5"],
             ["recoil", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:0.6.1"],
+            ["recoil-nexus", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:0.3.15"],
             ["source-map-loader", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:3.0.1"],
             ["style-loader", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:3.3.1"],
             ["ts-loader", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:9.2.6"],

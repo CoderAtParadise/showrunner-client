@@ -16,20 +16,25 @@ export class ConfigValueBoolean implements ConfigValue<boolean> {
     }
 
     get(): boolean {
-        return this.storage(this.builder)[this.configurable.group][this.configurable.key];
+        return this.storage(this.builder).get(
+            `${this.configurable.group}.${this.configurable.key}`
+        );
     }
 
     set(value: boolean): void {
-        this.storage(this.builder)[this.configurable.group][this.configurable.key] = value;
+        this.storage(this.builder).set(
+            `${this.configurable.group}.${this.configurable.key}`,
+            value
+        );
     }
 
-    render(props: { className?: string }): ReactNode {
+    render(): ReactNode {
         return (
-            <div className={props.className}>
+            <div>
                 <div>{this.configurable.displayName}</div>
                 <input
-                    type="text"
-                    checked={this.get()}
+                    type="checkbox"
+                    checked={this.get() || false}
                     onChange={(e) => {
                         this.set(e.target.checked);
                     }}

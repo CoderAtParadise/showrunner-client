@@ -3,9 +3,11 @@ import { ConfigBuilder } from "./ConfigBuilder";
 
 export enum ConfigurableType {
     Text,
+    number,
     Swatch,
     Boolean,
-    Options
+    Options,
+    Time
 }
 
 export interface IConfigurable {
@@ -14,7 +16,7 @@ export interface IConfigurable {
     readonly category: string;
     readonly group: string;
     readonly key: string;
-    Enabled?: (config: ConfigBuilder) => boolean;
-    Storage?: (config: ConfigBuilder) => LooseObject;
-    Options?: (data?: any) => { label: string; id: string }[];
+    Enabled?: (builder: ConfigBuilder) => boolean;
+    Storage?: (builder: ConfigBuilder) => LooseObject;
+    Options?: (builder: ConfigBuilder) => { label: string; id: string }[];
 }

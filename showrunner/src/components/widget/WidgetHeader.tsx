@@ -1,5 +1,4 @@
-import { IWidgetLayout } from "./IWidgetLayout";
-import { WidgetConfigure } from "./WidgetPopupConfig";
+import { WidgetConfig } from "./WidgetConfig";
 import styled from "@emotion/styled";
 import { ConfigBuilder } from "../config/ConfigBuilder";
 
@@ -25,19 +24,16 @@ const Title = styled.div`
 
 export const WidgetHeader = (props: {
     className?: string;
-    layout: IWidgetLayout<any>;
     config: ConfigBuilder;
-    edit?: boolean;
 }) => {
-    if (!props.layout.config.widget?.header && !props.edit) return null;
+    if (!props.config.get("widget.header")?.get() && !props.config.edit) return null;
     return (
         <>
             <Header className={props.className}>
-                <WidgetConfigure
-                    layout={props.layout}
-                    edit={props.edit}
+                <WidgetConfig
+                    config={props.config}
                 />
-                <Title>{props.layout.config.widget.displayName}</Title>
+                <Title>{props.config.get("widget.displayName")?.get() as string || ""}</Title>
             </Header>
             <HR />
         </>

@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import { Scrollable } from "../Scrollable";
-import { IWidgetLayout } from "./IWidgetLayout";
 import { WidgetHeader } from "./WidgetHeader";
 import styled from "@emotion/styled";
 import { ConfigBuilder } from "../config/ConfigBuilder";
@@ -29,20 +28,13 @@ const Content = styled(Scrollable)`
 
 export const WidgetCompact = (props: {
     className?: string;
-    widgetLayout: IWidgetLayout<any>;
     config: ConfigBuilder,
     content: ReactNode;
-    edit?: boolean;
 }) => {
-    // config.addConfig();
-
-    // Sync config object to client
     return (
         <CompactContainer>
             <WidgetHeader
-                layout={props.widgetLayout}
                 config={props.config}
-                edit={props.edit}
             />
             <Content>{props.content || "Loading..."}</Content>
         </CompactContainer>

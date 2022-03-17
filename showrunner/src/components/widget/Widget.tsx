@@ -1,49 +1,57 @@
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { IWidgetLayout, RenderMode } from "./IWidgetLayout";
+import { IWidgetLayout, RenderMode, WidgetConfigurable } from "./IWidgetLayout";
 import { LooseObject } from "../../util/LooseObject";
 import { WidgetCompact } from "./WidgetCompact";
 import { ConfigBuilder } from "../config/ConfigBuilder";
+import { StateStorageWatcher } from "../config/StateConfigStorageWatcher";
+import { IConfigurable } from "../config/IConfigurable";
 
 export const Widget = (props: {
     className?: string;
     layout: IWidgetLayout<any>;
     edit?: boolean;
 }) => {
-    const config = useMemo(
-        () => new ConfigBuilder(props.layout.config),
-        [props.layout.config]
-    );
+    const [config, setConfig] = useState(props.layout.config);
+    const builder = useMemo(() => {
+        return new ConfigBuilder(
+            "system",
+            new StateStorageWatcher(config, setConfig),
+            props.edit
+        );
+    }, [props.edit]); // eslint-disable-line react-hooks/exhaustive-deps
+    /* Disabled exhaustive deps as we don't want to recreate the builder when the config changes instead use
+        useEffect to update the storage on the builder
+     */
+    useEffect(() => {
+        builder.setStorage(config);
+        if (config !== props.layout.config) {
+            const delayChange = setTimeout(() => {
+                console.log("Synced");
+            }, 500);
+            return () => clearTimeout(delayChange);
+        }
+        return () => {};
+    }, [builder, config, props.layout.config]);
     const [content, setContent] = useState<ReactNode | ReactNode[]>(null);
     const fetchWidget = useCallback(async () => {
         const Widget = await import(`../../widgets/${props.layout.widget}`);
-        config.buildConfig(Array.from(Widget.default.config));
+        builder.buildConfig(
+            Array.from(Widget.default.config).concat(
+                Array.from(WidgetConfigurable) as IConfigurable[]
+            ) as IConfigurable[]
+        );
         const looseRenderList = Widget.default.renderMode as LooseObject;
         let renderMode = looseRenderList[props.layout.renderMode as string];
         if (renderMode === undefined) renderMode = looseRenderList.default;
-        setContent(renderMode.render({ layout: props.layout }));
-    }, [config, props.layout]);
+        setContent(renderMode.render({ config: builder }));
+    }, [builder, props.layout]);
     useEffect(() => {
         fetchWidget();
     }, [fetchWidget]);
-    console.log(config);
     switch (props.layout.config.renderMode) {
         case RenderMode.COMPACT:
-            return (
-                <WidgetCompact
-                    widgetLayout={props.layout}
-                    config={config}
-                    content={content}
-                    edit={props.edit}
-                />
-            );
+            return <WidgetCompact config={builder} content={content} />;
         default:
-            return (
-                <WidgetCompact
-                    widgetLayout={props.layout}
-                    config={config}
-                    content={content}
-                    edit={props.edit}
-                />
-            );
+            return <WidgetCompact config={builder} content={content} />;
     }
 };

@@ -51,5 +51,6 @@ module.exports = {
                 loader: "source-map-loader"
             }
         ]
-    }
+    },
+    ignoreWarnings: [/Failed to parse source map/]
 };

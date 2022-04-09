@@ -3,6 +3,21 @@ import { LooseObject } from "../../util/LooseObject";
 import { ConfigBuilder } from "./ConfigBuilder";
 import { ConfigValue } from "./ConfigValue";
 import { IConfigurable } from "./IConfigurable";
+import styled from "@emotion/styled";
+
+const Content = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+
+const Input = styled.input`
+    background-color: rgb(54, 54, 54);
+    border: solid;
+    color: white;
+    margin-left: 5px;
+    border-color: rgb(150, 150, 150);
+    border-radius: 3px;
+`;
 
 export class ConfigValueText implements ConfigValue<string> {
     constructor(
@@ -18,7 +33,7 @@ export class ConfigValueText implements ConfigValue<string> {
     get(): string {
         return this.storage(this.builder).get(
             `${this.configurable.group}.${this.configurable.key}`
-        );
+        ) || this.configurable?.defaultValue;
     }
 
     set(value: string): void {
@@ -30,16 +45,16 @@ export class ConfigValueText implements ConfigValue<string> {
 
     render(): ReactNode {
         return (
-            <div>
-                <div>{this.configurable.displayName}</div>
-                <input
+            <Content>
+                <div>{this.configurable.displayName}: </div>
+                <Input
                     type="text"
                     value={this.get() || ""}
                     onChange={(e) => {
                         this.set(e.target.value);
                     }}
                 />
-            </div>
+            </Content>
         );
     }
 

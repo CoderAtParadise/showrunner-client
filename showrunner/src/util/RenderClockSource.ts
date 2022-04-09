@@ -6,11 +6,13 @@ import {
 
 export interface RenderIdentifier {
     current: string;
+    duration: string;
     framerate: number;
     id: string;
     owner: string;
-    settings: {displayName:string} & any;
-    show: string;
+    displayName: string;
+    settings: { displayName: string } & any;
+    session: string;
     type: string;
     data: object;
     state: string;
@@ -22,15 +24,30 @@ export class RenderClockSource implements ClockSource<any> {
     constructor(identifier: RenderIdentifier) {
         this.owner = identifier.owner;
         this.framerate = identifier.framerate;
-        this.show = identifier.show;
+        this.session = identifier.session;
         this.id = identifier.id;
         this.type = identifier.type;
         this.mData = identifier.data;
         this.settings = identifier.settings;
+        this.mDisplayName = identifier.displayName;
         this.state = identifier.state as ClockState;
         this.overrun = identifier.overrun;
         this.automation = identifier.automation;
         this.mCurrent = identifier.current;
+        this.mDuration = identifier.duration;
+    }
+
+    duration(): SMPTE {
+        try {
+            return new SMPTE(this.mDuration, this.framerate);
+        } catch (e) {
+            return new SMPTE();
+        }
+    }
+
+    displayName(): string {
+        if (this.mDisplayName !== "") return this.mDisplayName;
+        return this.settings.displayName;
     }
 
     current(): SMPTE {
@@ -41,7 +58,7 @@ export class RenderClockSource implements ClockSource<any> {
         }
     }
 
-    data(): object | undefined {
+    data(): object {
         return this.mData;
     }
 
@@ -66,7 +83,7 @@ export class RenderClockSource implements ClockSource<any> {
     }
 
     owner: string;
-    show: string;
+    session: string;
     id: string;
     type: string;
     settings: { displayName: string } & any;
@@ -76,4 +93,6 @@ export class RenderClockSource implements ClockSource<any> {
     private mData: object;
     private mCurrent: string;
     private framerate: number;
+    private mDuration: string;
+    private mDisplayName: string;
 }

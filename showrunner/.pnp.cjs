@@ -46,6 +46,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@emotion/react", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:11.7.1"],
             ["@emotion/styled", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:11.6.0"],
             ["@loadable/component", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.15.2"],
+            ["@microsoft/fetch-event-source", "npm:2.0.1"],
             ["@mui/icons-material", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.4.1"],
             ["@mui/material", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.4.1"],
             ["@popperjs/core", "npm:2.11.2"],
@@ -3016,6 +3017,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [
             "@types/react",
             "react"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@microsoft/fetch-event-source", [
+        ["npm:2.0.1", {
+          "packageLocation": "./.yarn/cache/@microsoft-fetch-event-source-npm-2.0.1-679d34d9ba-a50e1c0f33.zip/node_modules/@microsoft/fetch-event-source/",
+          "packageDependencies": [
+            ["@microsoft/fetch-event-source", "npm:2.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -11137,6 +11147,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@emotion/react", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:11.7.1"],
             ["@emotion/styled", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:11.6.0"],
             ["@loadable/component", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.15.2"],
+            ["@microsoft/fetch-event-source", "npm:2.0.1"],
             ["@mui/icons-material", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.4.1"],
             ["@mui/material", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.4.1"],
             ["@popperjs/core", "npm:2.11.2"],

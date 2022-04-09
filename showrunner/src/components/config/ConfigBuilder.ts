@@ -5,6 +5,7 @@ import { ConfigValueBoolean } from "./ConfigValueBoolean";
 import { ConfigValueSwatch } from "./ConfigValueSwatch";
 import { ConfigValueText } from "./ConfigValueText";
 import { ConfigValueOptions } from "./ConfigValueOptions";
+import { ConfigValueDropdown } from "./ConfigValueDropdown";
 import { ConfigurableType, IConfigurable } from "./IConfigurable";
 
 export class ConfigBuilder {
@@ -14,15 +15,48 @@ export class ConfigBuilder {
         edit: boolean = false
     ) {
         this.show = show;
-        this.storage = defaultStorageWatcher;
+        this.storageWatchers.set("default", defaultStorageWatcher);
         this.edit = edit;
     }
 
     buildConfig(config: IConfigurable[]) {
         config.forEach((value: IConfigurable) => {
+            if (
+                !this.filters.find(
+                    (v: {
+                        display: string;
+                        filter: string;
+                        category?: string;
+                    }) => v.filter === `category:${value.category}`
+                )
+            ) {
+                this.filters.push({
+                    display: value.category,
+                    filter: `category:${value.category}`,
+                    groups: []
+                });
+            }
+            const category = this.filters.find(
+                (v: { display: string; filter: string; category?: string }) =>
+                    v.filter === `category:${value.category}`
+            );
+            if (
+                !category!.groups.find(
+                    (v: { display: string; filter: string }) =>
+                        v.filter === `group:${value.group}`
+                )
+            ) {
+                category!.groups.push({
+                    display: value.group,
+                    filter: `group:${value.group}`
+                });
+            }
             const storage = value.Storage
                 ? value.Storage
-                : (builder: ConfigBuilder) => builder.storage;
+                : (builder: ConfigBuilder) =>
+                      builder.storageWatchers.get(
+                          "default"
+                      ) as ConfigStorageWatcher;
             switch (value.type) {
                 case ConfigurableType.Boolean:
                     this.configs.push(
@@ -43,12 +77,18 @@ export class ConfigBuilder {
                     this.configs.push(
                         new ConfigValueOptions(this, value, storage)
                     );
+                    break;
+                case ConfigurableType.Dropdown:
+                    this.configs.push(
+                        new ConfigValueDropdown(this, value, storage)
+                    );
+                    break;
             }
         });
     }
 
-    setStorage(storage: LooseObject) {
-        this.storage.updateStorage(storage);
+    setStorage(storage: LooseObject, watcher: string = "default") {
+        this.storageWatchers.get(watcher)?.updateStorage(storage);
     }
 
     filter(key: string): ConfigValue<any>[] {
@@ -59,7 +99,7 @@ export class ConfigBuilder {
             if (keysplit[0] === "category") {
                 this.configs.forEach((value: ConfigValue<any>) => {
                     if (
-                        value.configurable.category === keysplit[0] &&
+                        value.configurable.category === keysplit[1] &&
                         (value.configurable.Enabled
                             ? value.configurable?.Enabled(this)
                             : true)
@@ -69,7 +109,7 @@ export class ConfigBuilder {
             } else if (keysplit[0] === "group") {
                 this.configs.forEach((value: ConfigValue<any>) => {
                     if (
-                        value.configurable.group === keysplit[0] &&
+                        value.configurable.group === keysplit[1] &&
                         (value.configurable.Enabled
                             ? value.configurable?.Enabled(this)
                             : true)
@@ -91,12 +131,31 @@ export class ConfigBuilder {
         return undefined;
     }
 
-    raw(key: string): any {
-        return this.storage.get(key);
+    getStorageWatcher(key:string) : ConfigStorageWatcher {
+        return this.storageWatchers.get(key) || this.storageWatchers.get("default") as ConfigStorageWatcher;
+    }
+
+    addStorageWatcher(key: string, watcher: ConfigStorageWatcher): void {
+        this.storageWatchers.set(key, watcher);
+    }
+
+    raw(key: string, watcher: string = "default"): any {
+        return this.storageWatchers.get(watcher)?.get(key);
     }
 
     show: string;
     edit: boolean;
+    filters: {
+        display: string;
+        filter: string;
+        groups: { display: string; filter: string }[];
+    }[] = [];
+
     private configs: ConfigValue<any>[] = [];
-    private storage: ConfigStorageWatcher;
+    private storageWatchers: Map<string, ConfigStorageWatcher> = new Map<
+        string,
+        ConfigStorageWatcher
+    >();
+
+    prefetched: LooseObject | undefined;
 }

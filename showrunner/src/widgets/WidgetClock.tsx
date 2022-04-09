@@ -1,7 +1,7 @@
 import { IWidget, IWidgetRenderer } from "../components/widget/IWidget";
 import styled from "@emotion/styled";
 import { css, keyframes } from "@emotion/react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import {
     PlayArrow,
@@ -12,12 +12,13 @@ import {
 import { Start, Stop, Pause, Reset } from "../commands/Clock";
 import { ClockState, ClockSource } from "@coderatparadise/showrunner-common";
 import { useClock } from "../hooks/useClock";
-import { ClockSourceComponent } from "../components/clock/ClockSourceComponent";
-import { useRecoilValue } from "recoil";
+import { ClockSourceComponent } from "../components/ClockSourceComponent";
 import { clocksState } from "../components/Sync/Clocks";
 import { ConfigurableType } from "../components/config/IConfigurable";
 import { ConfigBuilder } from "../components/config/ConfigBuilder";
 import { getRecoil } from "recoil-nexus";
+import { StateStorageWatcher } from "../components/config/StateConfigStorageWatcher";
+import { LooseObject } from "../util/LooseObject";
 
 const blink = keyframes`
     50% {
@@ -26,10 +27,16 @@ const blink = keyframes`
 `;
 
 const Container = styled.div``;
+const ClockName = styled.div<{ widgetStyle: {} }>``;
 const DisplayTime = styled(ClockSourceComponent)<{
     paused: boolean;
     overrun: boolean;
-    widgetStyle: { overrunColor: string; color: string; fontSize: string };
+    widgetStyle: {
+        flashPaused: boolean;
+        overrunColor: string;
+        color: string;
+        fontSize: string;
+    };
 }>`
     font-weight: bold;
     font-size: ${(props: { widgetStyle: { fontSize: string } }) =>
@@ -42,7 +49,11 @@ const DisplayTime = styled(ClockSourceComponent)<{
         props.overrun
             ? props.widgetStyle.overrunColor
             : props.widgetStyle.color};
-    animation: ${(props: { paused: boolean }) =>
+    animation: ${(props: {
+        paused: boolean;
+        widgetStyle: { flashPaused: boolean };
+    }) =>
+        props.widgetStyle.flashPaused &&
         props.paused &&
         css`
             ${blink} 1s linear infinite
@@ -57,8 +68,10 @@ const ControlBarButton = styled(IconButton)`
         color: rgb(200, 200, 200);
     }
 `;
+
 const renderControlBar = (props: {
     className?: string;
+    show: string;
     clock: ClockSource<any> | null;
 }) => {
     return (
@@ -67,7 +80,11 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Start(props.clock?.show || "", props.clock?.id || "");
+                        Start(
+                            props.show,
+                            props.clock?.session || "",
+                            props.clock?.id || ""
+                        );
                     }}
                 >
                     <PlayArrow />
@@ -77,7 +94,11 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Pause(props.clock?.show || "", props.clock?.id || "");
+                        Pause(
+                            props.show,
+                            props.clock?.session || "",
+                            props.clock?.id || ""
+                        );
                     }}
                 >
                     <PauseIcon />
@@ -87,7 +108,11 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Stop(props.clock?.show || "", props.clock?.id || "");
+                        Stop(
+                            props.show,
+                            props.clock?.session || "",
+                            props.clock?.id || ""
+                        );
                     }}
                 >
                     <StopIcon />
@@ -97,7 +122,11 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Reset(props.clock?.show || "", props.clock?.id || "");
+                        Reset(
+                            props.show,
+                            props.clock?.session || "",
+                            props.clock?.id || ""
+                        );
                     }}
                 >
                     <RestartAlt />
@@ -109,21 +138,46 @@ const renderControlBar = (props: {
 
 const ControlBar = styled(renderControlBar)<{ widgetStyle: {} }>``;
 
-const ClockDisplayContainer = (props: { config: ConfigBuilder }) => {
+const ClockDisplayContainer = (props: { builder: ConfigBuilder }) => {
     // const clock = useClock(props.config.get("display.source")?.get() || "");
-    const clock = useClock(props.config.raw("display.source") || "");
+    const clock = useClock(props.builder.raw("display.source") || "");
+    const [config, setConfig] = useState<LooseObject>(clock?.settings);
+    useEffect(() => {
+        if (config === undefined) {
+            setConfig(clock?.settings);
+            return;
+        }
+        props.builder.setStorage(config, "clock");
+        if (config !== clock?.settings) {
+            const delayChange = setTimeout(() => {
+                console.log("Synced");
+            }, 500);
+            return () => clearTimeout(delayChange);
+        }
+        return () => {};
+    }, [props.builder, config, clock?.settings]);
+    props.builder.addStorageWatcher(
+        "clock",
+        new StateStorageWatcher(config, setConfig)
+    );
     return (
         <Container>
+            {props.builder.get("display.clockName")?.get() ? (
+                <ClockName widgetStyle={props.builder.raw("display")}>
+                    {clock?.displayName!()}
+                </ClockName>
+            ) : null}
             <DisplayTime
-                paused={clock?.clock.state === ClockState.PAUSED}
-                overrun={clock?.clock.overrun || false}
-                widgetStyle={props.config.raw("display")}
-                clock={clock?.clock || null}
+                paused={clock?.state === ClockState.PAUSED}
+                overrun={clock?.overrun || false}
+                widgetStyle={props.builder.raw("display")}
+                clock={clock || null}
             />
-            {props.config.get("controlBar.display")?.get() ? (
+            {props.builder.get("controlBar.display")?.get() ? (
                 <ControlBar
-                    widgetStyle={props.config.raw("controlBar")}
-                    clock={clock?.clock || null}
+                    widgetStyle={props.builder.raw("controlBar")}
+                    show={props.builder.show}
+                    clock={clock || null}
                 />
             ) : null}
         </Container>
@@ -133,18 +187,8 @@ const ClockDisplayContainer = (props: { config: ConfigBuilder }) => {
 const WidgetClockCompactRenderer: IWidgetRenderer = {
     render: (props: { config: ConfigBuilder }): ReactNode => {
         // Wrap because of hook constrains
-        return <ClockDisplayContainer config={props.config} />;
+        return <ClockDisplayContainer builder={props.config} />;
     }
-};
-
-const tmp = (source: string) => {};
-
-const ClockStorage = (builder: ConfigBuilder) => {
-    const source = builder.get("display.source")?.get();
-    const [show, id] = source.split(":");
-    const clocks = getRecoil(clocksState(show));
-    const clock = clocks.get(id);
-    return clock?.clock || { settings: {} };
 };
 
 const WidgetClock: IWidget = {
@@ -164,8 +208,8 @@ const WidgetClock: IWidget = {
                 const ret: { label: string; id: string }[] = [];
                 Array.from(clocks.values()).forEach((clock) =>
                     ret.push({
-                        label: clock.clock.settings.displayName,
-                        id: `${clock.clock.show}:${clock.clock.id}`
+                        label: clock.displayName!(),
+                        id: `${clock.session}:${clock.id}`
                     })
                 );
                 return ret;
@@ -202,55 +246,69 @@ const WidgetClock: IWidget = {
         {
             type: ConfigurableType.Boolean,
             category: "clock",
+            displayName: "Show Name",
+            group: "display",
+            key: "clockName"
+        },
+        {
+            type: ConfigurableType.Boolean,
+            category: "clock",
             displayName: "Show Control Bar",
             group: "controlBar",
             key: "display"
+        },
+        {
+            type: ConfigurableType.Options,
+            category: "clock",
+            displayName: "Behaviour",
+            group: "settings",
+            key: "behaviour",
+            Enabled: (builder: ConfigBuilder) => {
+                return builder.get("settings.behaviour")?.get() !== undefined;
+            },
+            Options: () => {
+                return [
+                    { id: "stop", label: "Stop" },
+                    { id: "overrun", label: "Overrun" }
+                ];
+            },
+            Storage: (builder: ConfigBuilder) => {
+                console.log(builder.getStorageWatcher("clock"));
+                return builder.getStorageWatcher("clock");
+            }
+        },
+        {
+            type: ConfigurableType.Dropdown,
+            category: "clock",
+            displayName: "Direction",
+            group: "settings",
+            key: "direction",
+            Enabled: (builder: ConfigBuilder) => {
+                return builder.get("settings.direction")?.get() !== undefined;
+            },
+            Options: () => {
+                return [
+                    { id: "countup", label: "Count Up" },
+                    { id: "countdown", label: "Count Down" }
+                ];
+            },
+            Storage: (builder: ConfigBuilder) => {
+                return builder.getStorageWatcher("clock");
+            }
+        },
+        {
+            type: ConfigurableType.Time,
+            category: "clock",
+            displayName: "Time",
+            group: "settings",
+            key: "time",
+            Enabled: (config: ConfigBuilder) => {
+                return config.get("settings.time")?.get() !== undefined;
+            },
+            Storage: (builder: ConfigBuilder) => {
+                return builder.getStorageWatcher("clock");
+            }
         }
-        // {
-        //     type: ConfigurableType.Options,
-        //     category: "clock",
-        //     displayName: "Behaviour",
-        //     group: "settings",
-        //     key: "behaviour",
-        //     Enabled: (builder: ConfigBuilder) => {
-        //         return builder.get("settings.behaviour")?.get() !== undefined;
-        //     },
-        //     Options: () => {
-        //         return [
-        //             { id: "stop", label: "Stop" },
-        //             { id: "overrun", label: "Overrun" }
-        //         ];
-        //     },
-        //     Storage: ClockStorage
-        // },
-        // {
-        //     type: ConfigurableType.Options,
-        //     category: "clock",
-        //     displayName: "Direction",
-        //     group: "settings",
-        //     key: "direction",
-        //     Enabled: (builder: ConfigBuilder) => {
-        //         return builder.get("settings.direction")?.get() !== undefined;
-        //     },
-        //     Options: () => {
-        //         return [
-        //             { id: "countup", label: "Count Up" },
-        //             { id: "countdown", label: "Count Down" }
-        //         ];
-        //     },
-        //     Storage: ClockStorage
-        // },
-        // {
-        //     type: ConfigurableType.Time,
-        //     category: "clock",
-        //     displayName: "Time",
-        //     group: "settings",
-        //     key: "time",
-        //     Enabled: (config: ConfigBuilder) => {
-        //         return config.get("settings.time")?.get() !== undefined;
-        //     },
-        //     Storage: ClockStorage
-        // },
         // {
         //     type: ConfigurableType.Options,
         //     category: "clock",
@@ -266,19 +324,21 @@ const WidgetClock: IWidget = {
         //         Array.from(clocks.values())
         //             .filter(
         //                 (clock) =>
-        //                     clock.clock.type !== "offset" &&
-        //                     clock.clock.type !== "tod:offset" &&
-        //                     clock.clock.type !== "sync"
+        //                     clock.type !== "offset" &&
+        //                     clock.type !== "tod:offset" &&
+        //                     clock.type !== "sync"
         //             )
         //             .forEach((clock) =>
         //                 ret.push({
-        //                     label: clock.clock.settings.displayName,
-        //                     id: `${clock.clock.show}:${clock.clock.id}`
+        //                     label: clock.settings.displayName,
+        //                     id: `${clock.session}:${clock.id}`
         //                 })
         //             );
         //         return ret;
         //     },
-        //     Storage: ClockStorage
+        //     Storage: (builder: ConfigBuilder) => {
+        //         return builder.getStorageWatcher("clock");
+        //     }
         // }
     ]
 };

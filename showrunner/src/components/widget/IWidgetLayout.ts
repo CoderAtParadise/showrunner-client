@@ -28,6 +28,8 @@ export interface WidgetConfig {
         header?: boolean;
         height?: string;
         width?: string;
+        backgroundColor?: string;
+        border?: boolean;
     };
 }
 

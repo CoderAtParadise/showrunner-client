@@ -18,10 +18,7 @@ export const Widget = (props: {
             new StateStorageWatcher(config, setConfig),
             props.edit
         );
-    }, [props.edit]); // eslint-disable-line react-hooks/exhaustive-deps
-    /* Disabled exhaustive deps as we don't want to recreate the builder when the config changes instead use
-        useEffect to update the storage on the builder
-     */
+    }, [props.edit]);
     useEffect(() => {
         builder.setStorage(config);
         if (config !== props.layout.config) {

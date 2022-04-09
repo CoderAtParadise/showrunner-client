@@ -4,6 +4,12 @@ import { ColorSwatch } from "../ColorSwatch";
 import { ConfigBuilder } from "./ConfigBuilder";
 import { ConfigValue } from "./ConfigValue";
 import { IConfigurable } from "./IConfigurable";
+import styled from "@emotion/styled";
+
+const Content = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
 
 export class ConfigValueSwatch implements ConfigValue<string> {
     constructor(
@@ -19,7 +25,7 @@ export class ConfigValueSwatch implements ConfigValue<string> {
     get(): string {
         return this.storage(this.builder).get(
             `${this.configurable.group}.${this.configurable.key}`
-        );
+        ) || this.configurable?.defaultValue;
     }
 
     set(value: string): void {
@@ -31,10 +37,13 @@ export class ConfigValueSwatch implements ConfigValue<string> {
 
     render(): ReactNode {
         return (
-            <div>
-                <div>{this.configurable.displayName}</div>
-                <ColorSwatch color={this.get() || "#000000"} onChange={(c) => this.set(c)} />
-            </div>
+            <Content>
+                <div>{this.configurable.displayName}: </div>
+                <ColorSwatch
+                    color={this.get() || "#000000"}
+                    onChange={(c) => this.set(c)}
+                />
+            </Content>
         );
     }
 

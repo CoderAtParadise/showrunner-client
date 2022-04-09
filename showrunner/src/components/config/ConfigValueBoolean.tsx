@@ -3,6 +3,19 @@ import { LooseObject } from "../../util/LooseObject";
 import { ConfigBuilder } from "./ConfigBuilder";
 import { ConfigValue } from "./ConfigValue";
 import { IConfigurable } from "./IConfigurable";
+import styled from "@emotion/styled";
+
+const Content = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+
+const Input = styled.input`
+    margin-right: 5px;
+    /* :checked {
+        filter: invert(100%) hue-rotate(18deg) brightness(1.7);
+    } */
+`;
 
 export class ConfigValueBoolean implements ConfigValue<boolean> {
     constructor(
@@ -16,9 +29,10 @@ export class ConfigValueBoolean implements ConfigValue<boolean> {
     }
 
     get(): boolean {
-        return this.storage(this.builder).get(
+        const value = this.storage(this.builder).get(
             `${this.configurable.group}.${this.configurable.key}`
         );
+        return value || this.configurable?.defaultValue;
     }
 
     set(value: boolean): void {
@@ -30,16 +44,16 @@ export class ConfigValueBoolean implements ConfigValue<boolean> {
 
     render(): ReactNode {
         return (
-            <div>
-                <div>{this.configurable.displayName}</div>
-                <input
+            <Content>
+                <Input
                     type="checkbox"
                     checked={this.get() || false}
                     onChange={(e) => {
                         this.set(e.target.checked);
                     }}
                 />
-            </div>
+                <div>{this.configurable.displayName}</div>
+            </Content>
         );
     }
 

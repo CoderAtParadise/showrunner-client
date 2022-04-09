@@ -58,7 +58,7 @@ function App(props: { className?: string }) {
                                 position: { x: 0, y: 0, z: 0 },
                                 config: {
                                     widget: {
-                                        displayName: "Amp Testing",
+                                        displayName: "Clock Testing",
                                         header: true
                                     },
                                     display: {
@@ -66,9 +66,6 @@ function App(props: { className?: string }) {
                                         overrunColor: "#cf352e",
                                         color: "#FFC354",
                                         fontSize: "36px"
-                                    },
-                                    controlBar: {
-                                        display: true
                                     }
                                 }
                             }}
@@ -82,14 +79,17 @@ function App(props: { className?: string }) {
                                 position: { x: 0, y: 0, z: 0 },
                                 config: {
                                     widget: {
-                                        displayName: "Clock Testing",
+                                        displayName: "Amp Testing",
                                         header: true
                                     },
                                     display: {
-                                        source: "system:ampctrl",
+                                        source: "system:PVS",
                                         overrunColor: "#cf352e",
                                         color: "#FFC354",
                                         fontSize: "36px"
+                                    },
+                                    controlBar: {
+                                        display: true
                                     }
                                 }
                             }}

@@ -1801,6 +1801,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@microsoft/fetch-event-source@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@microsoft/fetch-event-source@npm:2.0.1"
+  checksum: a50e1c0f33220206967266d0a4bbba0703e2793b079d9f6e6bfd48f71b2115964a803e14cf6e902c6fab321edc084f26022334f5eaacc2cec87f174715d41852
+  languageName: node
+  linkType: hard
+
 "@microsoft/tsdoc-config@npm:0.15.2":
   version: 0.15.2
   resolution: "@microsoft/tsdoc-config@npm:0.15.2"
@@ -8341,6 +8348,7 @@ __metadata:
     "@emotion/react": ^11.7.1
     "@emotion/styled": ^11.6.0
     "@loadable/component": ^5.15.2
+    "@microsoft/fetch-event-source": ^2.0.1
     "@mui/icons-material": ^5.4.1
     "@mui/material": ^5.4.1
     "@popperjs/core": ^2.11.2

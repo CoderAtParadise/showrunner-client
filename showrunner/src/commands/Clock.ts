@@ -1,19 +1,19 @@
 import { sendCommand } from "./SendCommand";
 
-export const Start = (show: string, id: string) => {
-    sendCommand("clock.play", { show: show, id: id });
+export const Start = (show: string, session: string, id: string) => {
+    sendCommand("clock.play", { show: show, session: session, id: id });
 };
 
-export const Stop = (show: string, id: string) => {
-    sendCommand("clock.stop", { show: show, id: id });
+export const Stop = (show: string, session: string, id: string) => {
+    sendCommand("clock.stop", { show: show, session: session, id: id });
 };
 
-export const Pause = (show: string, id: string) => {
-    sendCommand("clock.pause", { show: show, id: id });
+export const Pause = (show: string, session: string, id: string) => {
+    sendCommand("clock.pause", { show: show ,session: session, id: id });
 };
 
-export const Reset = (show: string, id: string) => {
-    sendCommand("clock.reset", { show: show, id: id });
+export const Reset = (show: string, session: string, id: string) => {
+    sendCommand("clock.reset", { show: show, session: session, id: id });
 };
 
 export const Create = (

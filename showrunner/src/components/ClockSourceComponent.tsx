@@ -5,7 +5,7 @@ import {
     Offset
 } from "@coderatparadise/showrunner-common";
 import styled from "@emotion/styled";
-import { zeroPad } from "../../util/ZeroPad";
+import { zeroPad } from "../util/ZeroPad";
 
 const Container = styled.div``;
 
@@ -16,8 +16,8 @@ export const ClockSourceComponent = (props: {
     if (!props.clock)
         return <Container className={props.className}>{"--:--:--"}</Container>;
     let time = props.clock.current();
-    if ((props.clock.data() as any).settings !== undefined) {
-        const settings = (props.clock.data() as any)!.settings;
+    if (props.clock.settings !== undefined) {
+        const settings = props.clock.settings;
         if (settings.time && settings.time) {
             const duration = new SMPTE(settings.time);
             if (settings.direction === ClockDirection.COUNTDOWN) {

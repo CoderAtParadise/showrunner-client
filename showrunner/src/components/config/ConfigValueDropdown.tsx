@@ -5,14 +5,14 @@ import { ConfigValue } from "./ConfigValue";
 import { IConfigurable } from "./IConfigurable";
 // import { Autocomplete, TextField } from "@mui/material";
 import styled from "@emotion/styled";
-import { AutoComplete } from "../AutoComplete";
+import { Dropdown } from "../Dropdown";
 
 const Content = styled.div`
     display: flex;
     flex-direction: row;
 `;
 
-export class ConfigValueOptions implements ConfigValue<string> {
+export class ConfigValueDropdown implements ConfigValue<string> {
     constructor(
         builder: ConfigBuilder,
         configurable: IConfigurable,
@@ -26,7 +26,7 @@ export class ConfigValueOptions implements ConfigValue<string> {
     get(): string {
         return this.storage(this.builder).get(
             `${this.configurable.group}.${this.configurable.key}`
-        );
+        ) || this.configurable?.defaultValue;
     }
 
     set(value: string): void {
@@ -42,7 +42,7 @@ export class ConfigValueOptions implements ConfigValue<string> {
         return (
             <Content>
                 <div>{this.configurable.displayName}:</div>
-                <AutoComplete
+                <Dropdown
                     options={options}
                     value={
                         options.find(
@@ -50,9 +50,9 @@ export class ConfigValueOptions implements ConfigValue<string> {
                                 value.id === this.get()
                         ) || { label: "", id: "" }
                     }
-                    onChange={(
-                        value: { label: string; id: string }
-                    ) => this.set(value.id)}
+                    onChange={(value: { label: string; id: string }) =>
+                        this.set(value.id)
+                    }
                 />
             </Content>
         );

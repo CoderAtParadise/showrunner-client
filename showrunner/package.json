@@ -17,6 +17,7 @@
         "@emotion/react": "^11.7.1",
         "@emotion/styled": "^11.6.0",
         "@loadable/component": "^5.15.2",
+        "@microsoft/fetch-event-source": "^2.0.1",
         "@mui/icons-material": "^5.4.1",
         "@mui/material": "^5.4.1",
         "@popperjs/core": "^2.11.2",

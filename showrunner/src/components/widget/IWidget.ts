@@ -5,6 +5,7 @@ export interface IWidgetRenderer {
     render: (props: {
         className?: string;
         config: ConfigBuilder;
+        forceUpdate: () => void;
     }) => ReactNode;
 }
 

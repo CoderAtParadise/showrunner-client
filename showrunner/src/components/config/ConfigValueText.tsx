@@ -49,7 +49,7 @@ export class ConfigValueText implements ConfigValue<string> {
                 <div>{this.configurable.displayName}: </div>
                 <Input
                     type="text"
-                    value={this.get() || ""}
+                    defaultValue={this.get() || ""}
                     onChange={(e) => {
                         this.set(e.target.value);
                     }}

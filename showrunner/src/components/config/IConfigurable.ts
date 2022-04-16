@@ -1,6 +1,4 @@
-import { LooseObject } from "../../util/LooseObject";
 import { ConfigBuilder } from "./ConfigBuilder";
-import { ConfigStorageWatcher } from "./ConfigStorageWatcher";
 
 export enum ConfigurableType {
     Text,
@@ -19,8 +17,7 @@ export interface IConfigurable {
     readonly group: string;
     readonly key: string;
     readonly defaultValue?: any;
+    readonly storage?: string;
     Enabled?: (builder: ConfigBuilder) => boolean;
-    Storage?: (builder: ConfigBuilder) => ConfigStorageWatcher;
     Options?: (builder: ConfigBuilder) => { label: string; id: string }[];
-    preload?: (builder: ConfigBuilder) => LooseObject;
 }

@@ -9,6 +9,7 @@ import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
 import { Widget } from "./components/widget/Widget";
 import { RenderMode } from "./components/widget/IWidgetLayout";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const theme = createTheme({
     palette: {
@@ -29,76 +30,78 @@ const Background = styled(Box)`
 
 function App(props: { className?: string }) {
     return (
-        <ThemeProvider theme={theme}>
-            <Background className={props.className}>
-                <RecoilRoot>
-                    <RecoilNexus />
-                    <ClockSyncState show="system">
-                        <Widget
-                            edit
-                            layout={{
-                                id: "testing",
-                                widget: "TestWidget",
-                                renderMode: RenderMode.COMPACT,
-                                position: { x: 0, y: 0, z: 0 },
-                                config: {
-                                    widget: {
-                                        displayName: "Testing",
-                                        header: true
+        <ErrorBoundary>
+            <ThemeProvider theme={theme}>
+                <Background className={props.className}>
+                    <RecoilRoot>
+                        <RecoilNexus />
+                        <ClockSyncState show="system">
+                            <Widget
+                                edit
+                                layout={{
+                                    id: "testing",
+                                    widget: "TestWidget",
+                                    renderMode: RenderMode.COMPACT,
+                                    position: { x: 0, y: 0, z: 0 },
+                                    config: {
+                                        widget: {
+                                            displayName: "Testing",
+                                            header: true
+                                        }
                                     }
-                                }
-                            }}
-                        />
-                        <Widget
-                            edit
-                            layout={{
-                                id: "amptesting",
-                                widget: "WidgetClock",
-                                renderMode: RenderMode.COMPACT,
-                                position: { x: 0, y: 0, z: 0 },
-                                config: {
-                                    widget: {
-                                        displayName: "Clock Testing",
-                                        header: true
-                                    },
-                                    display: {
-                                        source: "system:fallback",
-                                        overrunColor: "#cf352e",
-                                        color: "#FFC354",
-                                        fontSize: "36px"
+                                }}
+                            />
+                            <Widget
+                                edit
+                                layout={{
+                                    id: "amptesting",
+                                    widget: "WidgetClock",
+                                    renderMode: RenderMode.COMPACT,
+                                    position: { x: 0, y: 0, z: 0 },
+                                    config: {
+                                        widget: {
+                                            displayName: "Clock Testing",
+                                            header: true
+                                        },
+                                        display: {
+                                            source: "system:fallback",
+                                            overrunColor: "#cf352e",
+                                            color: "#FFC354",
+                                            fontSize: "36px"
+                                        }
                                     }
-                                }
-                            }}
-                        />
-                        <Widget
-                            edit
-                            layout={{
-                                id: "clocktesting",
-                                widget: "WidgetClock",
-                                renderMode: RenderMode.COMPACT,
-                                position: { x: 0, y: 0, z: 0 },
-                                config: {
-                                    widget: {
-                                        displayName: "Amp Testing",
-                                        header: true
-                                    },
-                                    display: {
-                                        source: "system:PVS",
-                                        overrunColor: "#cf352e",
-                                        color: "#FFC354",
-                                        fontSize: "36px"
-                                    },
-                                    controlBar: {
-                                        display: true
+                                }}
+                            />
+                            <Widget
+                                edit
+                                layout={{
+                                    id: "clocktesting",
+                                    widget: "WidgetClock",
+                                    renderMode: RenderMode.COMPACT,
+                                    position: { x: 0, y: 0, z: 0 },
+                                    config: {
+                                        widget: {
+                                            displayName: "Amp Testing",
+                                            header: true
+                                        },
+                                        display: {
+                                            source: "system:PVS",
+                                            overrunColor: "#cf352e",
+                                            color: "#FFC354",
+                                            fontSize: "36px"
+                                        },
+                                        controlBar: {
+                                            display: true
+                                        }
                                     }
-                                }
-                            }}
-                        />
-                        {/* <ClockList show="system" /> */}
-                    </ClockSyncState>
-                </RecoilRoot>
-            </Background>
-        </ThemeProvider>
+                                }}
+                            />
+                            {/* <ClockList show="system" /> */}
+                        </ClockSyncState>
+                    </RecoilRoot>
+                </Background>
+            </ThemeProvider>
+        </ErrorBoundary>
     );
 }
 

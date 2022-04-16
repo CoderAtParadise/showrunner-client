@@ -51,12 +51,9 @@ export class ConfigBuilder {
                     filter: `group:${value.group}`
                 });
             }
-            const storage = value.Storage
-                ? value.Storage
-                : (builder: ConfigBuilder) =>
-                      builder.storageWatchers.get(
-                          "default"
-                      ) as ConfigStorageWatcher;
+            const storagekey = value.storage || "default";
+            const storage = (builder: ConfigBuilder) =>
+                builder.storageWatchers.get(storagekey) as ConfigStorageWatcher;
             switch (value.type) {
                 case ConfigurableType.Boolean:
                     this.configs.push(
@@ -131,8 +128,15 @@ export class ConfigBuilder {
         return undefined;
     }
 
-    getStorageWatcher(key:string) : ConfigStorageWatcher {
-        return this.storageWatchers.get(key) || this.storageWatchers.get("default") as ConfigStorageWatcher;
+    getStorageWatcher(key: string): ConfigStorageWatcher {
+        return (
+            this.storageWatchers.get(key) ||
+            (this.storageWatchers.get("default") as ConfigStorageWatcher)
+        );
+    }
+
+    hasStorageWatcher(key: string): boolean {
+        return this.storageWatchers.has(key);
     }
 
     addStorageWatcher(key: string, watcher: ConfigStorageWatcher): void {
@@ -141,6 +145,14 @@ export class ConfigBuilder {
 
     raw(key: string, watcher: string = "default"): any {
         return this.storageWatchers.get(watcher)?.get(key);
+    }
+
+    fetched(key: string, watcher: string = "default"): any | [] {
+        return this.storageWatchers.get(watcher)?.fetched(key);
+    }
+
+    setFetched(storage: LooseObject, watcher: string = "default"): void {
+        this.storageWatchers.get(watcher)?.updateFetched(storage);
     }
 
     show: string;
@@ -156,6 +168,4 @@ export class ConfigBuilder {
         string,
         ConfigStorageWatcher
     >();
-
-    prefetched: LooseObject | undefined;
 }

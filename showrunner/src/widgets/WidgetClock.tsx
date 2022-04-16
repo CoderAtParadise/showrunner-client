@@ -18,7 +18,6 @@ import { ConfigurableType } from "../components/config/IConfigurable";
 import { ConfigBuilder } from "../components/config/ConfigBuilder";
 import { getRecoil } from "recoil-nexus";
 import { StateStorageWatcher } from "../components/config/StateConfigStorageWatcher";
-import { LooseObject } from "../util/LooseObject";
 
 const blink = keyframes`
     50% {
@@ -138,28 +137,61 @@ const renderControlBar = (props: {
 
 const ControlBar = styled(renderControlBar)<{ widgetStyle: {} }>``;
 
-const ClockDisplayContainer = (props: { builder: ConfigBuilder }) => {
-    // const clock = useClock(props.config.get("display.source")?.get() || "");
-    const clock = useClock(props.builder.raw("display.source") || "");
-    const [config, setConfig] = useState<LooseObject>(clock?.settings);
+const ClockDisplayContainer = (props: {
+    builder: ConfigBuilder;
+    forceUpdate: () => void;
+}) => {
+    const clock = useClock(props.builder.get("display.source")?.get() || "");
+    const [config, setConfig] = useState({
+        settings: clock?.settings
+    } as any);
+    props.builder.addStorageWatcher(
+        "clock",
+        new StateStorageWatcher(config, setConfig, props.forceUpdate)
+    );
+    const [initialLoad, setInitialLoad] = useState(true);
+
+    const fetchChannels = (): any => {
+        try {
+            fetch(`${serverurl}/command`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    command: "amp.channel",
+                    data: {}
+                })
+            })
+                .then((res) => res.json())
+                .then((v) =>
+                    props.builder.setFetched({ channels: v.message }, "clock")
+                );
+            return setTimeout(fetchChannels, 10000);
+        } catch (err) {
+            console.log("error", err);
+        }
+    };
+
     useEffect(() => {
-        if (config === undefined) {
-            setConfig(clock?.settings);
+        const timer = fetchChannels();
+        return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        if (initialLoad) {
+            setInitialLoad(false);
             return;
         }
-        props.builder.setStorage(config, "clock");
         if (config !== clock?.settings) {
             const delayChange = setTimeout(() => {
-                console.log("Synced");
+                console.log("Clock Synced");
             }, 500);
             return () => clearTimeout(delayChange);
         }
         return () => {};
-    }, [props.builder, config, clock?.settings]);
-    props.builder.addStorageWatcher(
-        "clock",
-        new StateStorageWatcher(config, setConfig)
-    );
+    }, [config, clock]);
     return (
         <Container>
             {props.builder.get("display.clockName")?.get() ? (
@@ -185,11 +217,21 @@ const ClockDisplayContainer = (props: { builder: ConfigBuilder }) => {
 };
 
 const WidgetClockCompactRenderer: IWidgetRenderer = {
-    render: (props: { config: ConfigBuilder }): ReactNode => {
+    render: (props: {
+        config: ConfigBuilder;
+        forceUpdate: () => void;
+    }): ReactNode => {
         // Wrap because of hook constrains
-        return <ClockDisplayContainer builder={props.config} />;
+        return (
+            <ClockDisplayContainer
+                builder={props.config}
+                forceUpdate={props.forceUpdate}
+            />
+        );
     }
 };
+
+const serverurl = process.env.SERVER_URL || "http://localhost:3001";
 
 const WidgetClock: IWidget = {
     renderMode: {
@@ -263,6 +305,7 @@ const WidgetClock: IWidget = {
             displayName: "Behaviour",
             group: "settings",
             key: "behaviour",
+            storage: "clock",
             Enabled: (builder: ConfigBuilder) => {
                 return builder.get("settings.behaviour")?.get() !== undefined;
             },
@@ -271,10 +314,27 @@ const WidgetClock: IWidget = {
                     { id: "stop", label: "Stop" },
                     { id: "overrun", label: "Overrun" }
                 ];
+            }
+        },
+        {
+            type: ConfigurableType.Options,
+            category: "clock",
+            displayName: "Channel",
+            group: "settings",
+            key: "channel",
+            storage: "clock",
+            Options: (
+                builder: ConfigBuilder
+            ): { label: string; id: string }[] => {
+                const channels = builder.fetched("channels", "clock") || [];
+                const options: { label: string; id: string }[] = [];
+                (channels as string[]).forEach((v) => {
+                    options.push({ label: v, id: v });
+                });
+                return options;
             },
-            Storage: (builder: ConfigBuilder) => {
-                console.log(builder.getStorageWatcher("clock"));
-                return builder.getStorageWatcher("clock");
+            Enabled: (builder: ConfigBuilder) => {
+                return builder.get("settings.channel")?.get() !== undefined;
             }
         },
         {
@@ -283,6 +343,7 @@ const WidgetClock: IWidget = {
             displayName: "Direction",
             group: "settings",
             key: "direction",
+            storage: "clock",
             Enabled: (builder: ConfigBuilder) => {
                 return builder.get("settings.direction")?.get() !== undefined;
             },
@@ -291,9 +352,6 @@ const WidgetClock: IWidget = {
                     { id: "countup", label: "Count Up" },
                     { id: "countdown", label: "Count Down" }
                 ];
-            },
-            Storage: (builder: ConfigBuilder) => {
-                return builder.getStorageWatcher("clock");
             }
         },
         {
@@ -302,11 +360,20 @@ const WidgetClock: IWidget = {
             displayName: "Time",
             group: "settings",
             key: "time",
+            storage: "clock",
             Enabled: (config: ConfigBuilder) => {
                 return config.get("settings.time")?.get() !== undefined;
-            },
-            Storage: (builder: ConfigBuilder) => {
-                return builder.getStorageWatcher("clock");
+            }
+        },
+        {
+            type: ConfigurableType.Text,
+            category: "clock",
+            displayName: "Clock Name",
+            group: "settings",
+            key: "displayName",
+            storage: "clock",
+            Enabled: (config: ConfigBuilder) => {
+                return config.get("settings.displayName")?.get() !== undefined;
             }
         }
         // {

@@ -10,6 +10,8 @@ ReactDOM.render(
     </StrictMode>,
     document.getElementById("root")
 );
+// (window as any).NL_PORT = 3000;
+(window as any).Neutralino.init();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

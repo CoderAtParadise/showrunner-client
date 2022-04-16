@@ -146,24 +146,26 @@ export const AutoComplete = (props: {
     };
 
     const SuggestionList = () => {
-        return filteredSuggestions.length ? (
+        return (
             <Suggestions>
-                {filteredSuggestions.map((suggestion, index) => (
-                    <Suggested
-                        active={highlightedSuggested === index}
-                        key={suggestion.id}
-                        onMouseDown={onClick}
-                        onMouseEnter={() => highlighHouseOver(index)}
-                        onMouseMove={() => highlighHouseOver(index)}
-                    >
-                        {suggestion.label}
+                {filteredSuggestions.length ? (
+                    filteredSuggestions.map((suggestion, index) => (
+                        <Suggested
+                            active={highlightedSuggested === index}
+                            key={suggestion.id}
+                            onMouseDown={onClick}
+                            onMouseEnter={() => highlighHouseOver(index)}
+                            onMouseMove={() => highlighHouseOver(index)}
+                        >
+                            {suggestion.label}
+                        </Suggested>
+                    ))
+                ) : (
+                    <Suggested active={false}>
+                        <em>No suggestions available.</em>
                     </Suggested>
-                ))}
+                )}
             </Suggestions>
-        ) : (
-            <div>
-                <em>No suggestions available.</em>
-            </div>
         );
     };
 

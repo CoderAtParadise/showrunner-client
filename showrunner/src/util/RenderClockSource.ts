@@ -1,6 +1,6 @@
 import {
-    ClockSource,
     ClockState,
+    MutableClockSource,
     SMPTE
 } from "@coderatparadise/showrunner-common";
 
@@ -20,7 +20,7 @@ export interface RenderIdentifier {
     automation: boolean;
 }
 
-export class RenderClockSource implements ClockSource<any> {
+export class RenderClockSource implements MutableClockSource<any> {
     constructor(identifier: RenderIdentifier) {
         this.owner = identifier.owner;
         this.framerate = identifier.framerate;
@@ -80,6 +80,10 @@ export class RenderClockSource implements ClockSource<any> {
 
     update(): void {
         // NOOP
+    }
+
+    setData(data: any): void {
+        if (data.current) this.mCurrent = data.current;
     }
 
     owner: string;

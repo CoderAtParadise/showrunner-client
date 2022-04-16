@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { IWidgetLayout, RenderMode, WidgetConfigurable } from "./IWidgetLayout";
 import { LooseObject } from "../../util/LooseObject";
 import { WidgetCompact } from "./WidgetCompact";
@@ -11,16 +11,29 @@ export const Widget = (props: {
     layout: IWidgetLayout<any>;
     edit?: boolean;
 }) => {
+    const [renderMode, setRenderMode] = useState<any | null>(null);
     const [config, setConfig] = useState(props.layout.config);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_, markDirty] = useState({ dummy: false });
+    const [initialLoad, setInitialLoad] = useState(true);
+
+    const forceupdate = () => {
+        markDirty((prevState) => ({ dummy: !prevState.dummy }));
+    };
+
     const builder = useMemo(() => {
         return new ConfigBuilder(
             "system",
-            new StateStorageWatcher(config, setConfig),
+            new StateStorageWatcher(config, setConfig, () => {}),
             props.edit
         );
     }, [props.edit]);
+
     useEffect(() => {
-        builder.setStorage(config);
+        if (initialLoad) {
+            setInitialLoad(false);
+            return;
+        }
         if (config !== props.layout.config) {
             const delayChange = setTimeout(() => {
                 console.log("Synced");
@@ -28,8 +41,8 @@ export const Widget = (props: {
             return () => clearTimeout(delayChange);
         }
         return () => {};
-    }, [builder, config, props.layout.config]);
-    const [content, setContent] = useState<ReactNode | ReactNode[]>(null);
+    }, [config, props.layout.config]);
+
     const fetchWidget = useCallback(async () => {
         const Widget = await import(`../../widgets/${props.layout.widget}`);
         builder.buildConfig(
@@ -40,15 +53,41 @@ export const Widget = (props: {
         const looseRenderList = Widget.default.renderMode as LooseObject;
         let renderMode = looseRenderList[props.layout.renderMode as string];
         if (renderMode === undefined) renderMode = looseRenderList.default;
-        setContent(renderMode.render({ config: builder }));
+        setRenderMode(renderMode);
     }, [builder, props.layout]);
+
     useEffect(() => {
         fetchWidget();
     }, [fetchWidget]);
+    // prettier-ignore
     switch (props.layout.config.renderMode) {
         case RenderMode.COMPACT:
-            return <WidgetCompact config={builder} content={content} />;
+            return (
+                <WidgetCompact
+                    config={builder}
+                    content={
+                        renderMode
+                            ? renderMode.render({
+                                config: builder,
+                                forceUpdate: forceupdate
+                            })
+                            : null
+                    }
+                />
+            );
         default:
-            return <WidgetCompact config={builder} content={content} />;
+            return (
+                <WidgetCompact
+                    config={builder}
+                    content={
+                        renderMode
+                            ? renderMode.render({
+                                config: builder,
+                                forceUpdate: forceupdate
+                            })
+                            : null
+                    }
+                />
+            );
     }
 };

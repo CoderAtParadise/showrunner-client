@@ -24,9 +24,11 @@ export class ConfigValueDropdown implements ConfigValue<string> {
     }
 
     get(): string {
-        return this.storage(this.builder).get(
-            `${this.configurable.group}.${this.configurable.key}`
-        ) || this.configurable?.defaultValue;
+        return (
+            this.storage(this.builder).get(
+                `${this.configurable.group}.${this.configurable.key}`
+            ) || this.configurable?.defaultValue
+        );
     }
 
     set(value: string): void {

@@ -33,15 +33,7 @@ const DropdownArrow = styled(ArrowDropDown)`
     opacity: ${(props: { hovering: boolean }) => (props.hovering ? 1 : 0)};
 `;
 
-const DropUpArrow = styled(ArrowDropUp)`
-    width: 10px;
-    height: 100%;
-    right: 5px;
-    top: 0;
-    position: absolute;
-    bottom: 0px;
-    opacity: ${(props: { hovering: boolean }) => (props.hovering ? 1 : 0)};
-`;
+const DropUpArrow = DropdownArrow.withComponent(ArrowDropUp);
 
 const SuggestionsContainer = styled.div`
     max-height: 143px;

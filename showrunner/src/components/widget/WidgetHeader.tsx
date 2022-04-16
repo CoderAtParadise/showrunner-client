@@ -1,6 +1,7 @@
 import { WidgetConfig } from "./WidgetConfig";
 import styled from "@emotion/styled";
 import { ConfigBuilder } from "../config/ConfigBuilder";
+import { ErrorBoundary } from "../ErrorBoundary";
 
 const Header = styled.div`
     position: relative;
@@ -26,14 +27,17 @@ export const WidgetHeader = (props: {
     className?: string;
     config: ConfigBuilder;
 }) => {
-    if (!props.config.get("widget.header")?.get() && !props.config.edit) return null;
+    if (!props.config.get("widget.header")?.get() && !props.config.edit)
+        return null;
     return (
         <>
             <Header className={props.className}>
-                <WidgetConfig
-                    config={props.config}
-                />
-                <Title>{props.config.get("widget.displayName")?.get() as string || ""}</Title>
+                <WidgetConfig config={props.config} />
+                <Title>
+                    {(props.config
+                        .get("widget.displayName")
+                        ?.get() as string) || ""}
+                </Title>
             </Header>
             <HR />
         </>

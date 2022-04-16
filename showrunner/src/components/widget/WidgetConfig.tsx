@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Tooltip } from "@mui/material";
 import { Settings, CloseRounded } from "@mui/icons-material";
 import styled from "@emotion/styled";
@@ -114,17 +114,6 @@ export const WidgetConfig = (props: {
 }) => {
     const [isOpen, setOpen] = useState(false);
     const [filter, setFilter] = useState("");
-
-    /* eslint-disable react-hooks/exhaustive-deps */
-    useEffect(() => {
-        props.config.filter("").forEach((v: ConfigValue<any>) => {
-            props.config.prefetched = {
-                ...props.config.prefetched,
-                ...v.configurable.preload?.(props.config)
-            };
-        });
-    }, []);
-
     return (
         <>
             <div className={props.className}>

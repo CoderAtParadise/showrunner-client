@@ -11,10 +11,12 @@ import { ConfigurableType, IConfigurable } from "./IConfigurable";
 export class ConfigBuilder {
     constructor(
         show: string,
+        session: string,
         defaultStorageWatcher: ConfigStorageWatcher,
         edit: boolean = false
     ) {
         this.show = show;
+        this.session = session;
         this.storageWatchers.set("default", defaultStorageWatcher);
         this.edit = edit;
     }
@@ -156,6 +158,7 @@ export class ConfigBuilder {
     }
 
     show: string;
+    session: string;
     edit: boolean;
     filters: {
         display: string;

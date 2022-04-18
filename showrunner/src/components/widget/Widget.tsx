@@ -24,9 +24,11 @@ export const Widget = (props: {
     const builder = useMemo(() => {
         return new ConfigBuilder(
             "system",
+            "system",
             new StateStorageWatcher(config, setConfig, () => {}),
             props.edit
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.edit]);
 
     useEffect(() => {
@@ -41,6 +43,7 @@ export const Widget = (props: {
             return () => clearTimeout(delayChange);
         }
         return () => {};
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [config, props.layout.config]);
 
     const fetchWidget = useCallback(async () => {

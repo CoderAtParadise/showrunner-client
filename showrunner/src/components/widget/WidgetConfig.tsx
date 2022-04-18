@@ -108,6 +108,10 @@ const FilterGroup = styled(FilterCategory)`
     margin-left: 20px;
 `;
 
+const Br = styled.p`
+    font-size: 50%;
+`;
+
 export const WidgetConfig = (props: {
     className?: string;
     config: ConfigBuilder;
@@ -202,14 +206,14 @@ export const WidgetConfig = (props: {
                                                 ) ? (
                                                     <>
                                                         {value.render()}
-                                                        <br />
+                                                        <Br />
                                                     </>
                                                 ) : null;
                                             } else {
                                                 return (
                                                     <>
                                                         {value.render()}
-                                                        <br />
+                                                        <Br />
                                                     </>
                                                 );
                                             }

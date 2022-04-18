@@ -12,7 +12,6 @@ export interface RenderIdentifier {
     owner: string;
     displayName: string;
     settings: { displayName: string } & any;
-    session: string;
     type: string;
     data: object;
     state: string;
@@ -24,7 +23,6 @@ export class RenderClockSource implements MutableClockSource<any> {
     constructor(identifier: RenderIdentifier) {
         this.owner = identifier.owner;
         this.framerate = identifier.framerate;
-        this.session = identifier.session;
         this.id = identifier.id;
         this.type = identifier.type;
         this.mData = identifier.data;
@@ -87,7 +85,6 @@ export class RenderClockSource implements MutableClockSource<any> {
     }
 
     owner: string;
-    session: string;
     id: string;
     type: string;
     settings: { displayName: string } & any;

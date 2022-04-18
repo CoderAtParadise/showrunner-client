@@ -19,19 +19,6 @@ export const WidgetConfigurable: IConfigurable[] = [
         displayName: "Show Header",
         group: "widget",
         key: "header"
-    },
-    {
-        type: ConfigurableType.Dropdown,
-        category: "widget",
-        displayName: "Dropdown Test",
-        group: "widget",
-        key: "dropdown",
-        Options: () => {
-            return [
-                { id: "test1", label: "Test1" },
-                { id: "test2", label: "Test2" }
-            ];
-        }
     }
 ];
 

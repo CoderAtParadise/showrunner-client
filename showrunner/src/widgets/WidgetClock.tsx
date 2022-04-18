@@ -71,6 +71,7 @@ const ControlBarButton = styled(IconButton)`
 const renderControlBar = (props: {
     className?: string;
     show: string;
+    session: string;
     clock: ClockSource<any> | null;
 }) => {
     return (
@@ -79,11 +80,7 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Start(
-                            props.show,
-                            props.clock?.session || "",
-                            props.clock?.id || ""
-                        );
+                        Start(props.show, "", props.clock?.id || "");
                     }}
                 >
                     <PlayArrow />
@@ -93,11 +90,7 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Pause(
-                            props.show,
-                            props.clock?.session || "",
-                            props.clock?.id || ""
-                        );
+                        Pause(props.show, "", props.clock?.id || "");
                     }}
                 >
                     <PauseIcon />
@@ -107,11 +100,7 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Stop(
-                            props.show,
-                            props.clock?.session || "",
-                            props.clock?.id || ""
-                        );
+                        Stop(props.show, "", props.clock?.id || "");
                     }}
                 >
                     <StopIcon />
@@ -121,11 +110,7 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Reset(
-                            props.show,
-                            props.clock?.session || "",
-                            props.clock?.id || ""
-                        );
+                        Reset(props.show, "", props.clock?.id || "");
                     }}
                 >
                     <RestartAlt />
@@ -184,14 +169,14 @@ const ClockDisplayContainer = (props: {
             setInitialLoad(false);
             return;
         }
-        if (config !== clock?.settings) {
+        if (config.settings !== clock?.settings) {
             const delayChange = setTimeout(() => {
                 console.log("Clock Synced");
             }, 500);
             return () => clearTimeout(delayChange);
         }
         return () => {};
-    }, [config, clock]);
+    }, [config, clock?.settings]);
     return (
         <Container>
             {props.builder.get("display.clockName")?.get() ? (
@@ -209,6 +194,7 @@ const ClockDisplayContainer = (props: {
                 <ControlBar
                     widgetStyle={props.builder.raw("controlBar")}
                     show={props.builder.show}
+                    session={props.builder.session}
                     clock={clock || null}
                 />
             ) : null}
@@ -246,12 +232,17 @@ const WidgetClock: IWidget = {
             group: "display",
             key: "source",
             Options: (builder: ConfigBuilder) => {
-                const clocks = getRecoil(clocksState(builder.show));
+                const clocks = getRecoil(
+                    clocksState({
+                        show: builder.show,
+                        session: builder.session
+                    })
+                );
                 const ret: { label: string; id: string }[] = [];
                 Array.from(clocks.values()).forEach((clock) =>
                     ret.push({
                         label: clock.displayName!(),
-                        id: `${clock.session}:${clock.id}`
+                        id: `${builder.show}:${builder.session}:${clock.id}`
                     })
                 );
                 return ret;

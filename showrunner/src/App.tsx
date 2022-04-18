@@ -35,7 +35,7 @@ function App(props: { className?: string }) {
                 <Background className={props.className}>
                     <RecoilRoot>
                         <RecoilNexus />
-                        <ClockSyncState show="system">
+                        <ClockSyncState show="system" session="system">
                             <Widget
                                 edit
                                 layout={{
@@ -64,7 +64,7 @@ function App(props: { className?: string }) {
                                             header: true
                                         },
                                         display: {
-                                            source: "system:fallback",
+                                            source: "system:system:fallback",
                                             overrunColor: "#cf352e",
                                             color: "#FFC354",
                                             fontSize: "36px"
@@ -85,7 +85,7 @@ function App(props: { className?: string }) {
                                             header: true
                                         },
                                         display: {
-                                            source: "system:PVS",
+                                            source: "system:system:PVS",
                                             overrunColor: "#cf352e",
                                             color: "#FFC354",
                                             fontSize: "36px"

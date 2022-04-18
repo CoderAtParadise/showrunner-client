@@ -1,7 +1,6 @@
 import { WidgetConfig } from "./WidgetConfig";
 import styled from "@emotion/styled";
 import { ConfigBuilder } from "../config/ConfigBuilder";
-import { ErrorBoundary } from "../ErrorBoundary";
 
 const Header = styled.div`
     position: relative;

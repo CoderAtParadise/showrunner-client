@@ -62,6 +62,10 @@ export class StateStorageWatcher implements ConfigStorageWatcher {
         return tmp;
     }
 
+    rawFetched(): LooseObject {
+        return this.mfetched;
+    }
+
     private storage: LooseObject;
     private mfetched: LooseObject = {};
     private dispatcher: Dispatch<LooseObject>;

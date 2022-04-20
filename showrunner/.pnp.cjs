@@ -56,6 +56,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/dotenv-webpack", "npm:7.0.3"],
             ["@types/eslint", "npm:8.4.1"],
             ["@types/loadable__component", "npm:5.13.4"],
+            ["@types/lodash", "npm:4.14.181"],
             ["@types/lodash-es", "npm:4.17.6"],
             ["@types/node", "npm:17.0.18"],
             ["@types/prettier", "npm:2.4.4"],
@@ -85,6 +86,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-webpack-plugin", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:3.1.1"],
             ["file-loader", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:6.2.0"],
             ["html-webpack-plugin", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.5.0"],
+            ["lodash", "npm:4.17.21"],
             ["lodash-es", "npm:4.17.21"],
             ["prettier", "npm:2.5.1"],
             ["react", "npm:17.0.2"],
@@ -3997,6 +3999,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.180-37662c62d4-fc42ae3473.zip/node_modules/@types/lodash/",
           "packageDependencies": [
             ["@types/lodash", "npm:4.14.180"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:4.14.181", {
+          "packageLocation": "./.yarn/cache/@types-lodash-npm-4.14.181-a4e20bcfaf-0d1863d838.zip/node_modules/@types/lodash/",
+          "packageDependencies": [
+            ["@types/lodash", "npm:4.14.181"]
           ],
           "linkType": "HARD",
         }]
@@ -11157,6 +11166,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/dotenv-webpack", "npm:7.0.3"],
             ["@types/eslint", "npm:8.4.1"],
             ["@types/loadable__component", "npm:5.13.4"],
+            ["@types/lodash", "npm:4.14.181"],
             ["@types/lodash-es", "npm:4.17.6"],
             ["@types/node", "npm:17.0.18"],
             ["@types/prettier", "npm:2.4.4"],
@@ -11186,6 +11196,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-webpack-plugin", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:3.1.1"],
             ["file-loader", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:6.2.0"],
             ["html-webpack-plugin", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.5.0"],
+            ["lodash", "npm:4.17.21"],
             ["lodash-es", "npm:4.17.21"],
             ["prettier", "npm:2.5.1"],
             ["react", "npm:17.0.2"],

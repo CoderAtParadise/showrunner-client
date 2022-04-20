@@ -3,11 +3,7 @@ import {
     RenderClockSource,
     RenderIdentifier
 } from "../../util/RenderClockSource";
-import {
-    atomFamily,
-    selectorFamily,
-    useSetRecoilState
-} from "recoil";
+import { atomFamily, selectorFamily, useSetRecoilState } from "recoil";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 
 const serverurl = process.env.SERVER_URL || "http://localhost:3001";
@@ -29,9 +25,9 @@ const updateCurrent = selectorFamily({
     set: (key:{show:string, session:string}) => ({ set }, newValue) => {
         set(clocksState(key), (prevState) => {
             const state = new Map(prevState);
-            const data = newValue as {id:string, current:string}[];
-            data.forEach((value: { id: string; current: string }) => {
-                state.get(value.id)?.setData({ current: value.current });
+            const data = newValue as {id:string, current:string, state:string, overrun:boolean}[];
+            data.forEach((value: { id: string; current: string, state:string, overrun:boolean }) => {
+                state.get(value.id)?.setData({ current: value.current, state: value.state, overrun: value.overrun });
             });
             return state;
         });
@@ -74,6 +70,8 @@ const GetEventSource = (props: { show: string; session: string }) => {
                             const data = JSON.parse(event.data) as {
                                 id: string;
                                 current: string;
+                                state: string;
+                                overrun: boolean;
                             }[];
                             currentUpdater(data);
                         } else if (event.event === "clocks-update") {

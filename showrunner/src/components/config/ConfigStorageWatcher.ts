@@ -6,4 +6,5 @@ export interface ConfigStorageWatcher {
     updateStorage: (storage: LooseObject) => void;
     updateFetched: (storage: LooseObject) => void;
     fetched: (key: string) => any | undefined;
+    readonly rawFetched: () => LooseObject;
 }

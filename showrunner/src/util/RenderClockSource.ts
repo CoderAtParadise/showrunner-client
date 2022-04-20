@@ -82,6 +82,12 @@ export class RenderClockSource implements MutableClockSource<any> {
 
     setData(data: any): void {
         if (data.current) this.mCurrent = data.current;
+        if (data.state) this.state = data.state;
+        if (data.overrun) this.overrun = data.overrun;
+        if (data.settings) this.settings = data.settings;
+        if (data.data) this.mData = data.data;
+        if (data.duration) this.mDuration = data.duration;
+        if (data.displayName) this.mDisplayName = data.displayName;
     }
 
     owner: string;

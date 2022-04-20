@@ -142,6 +142,8 @@ export class ConfigBuilder {
     }
 
     addStorageWatcher(key: string, watcher: ConfigStorageWatcher): void {
+        const fetched = { ...this.storageWatchers.get(key)?.rawFetched() };
+        watcher.updateFetched(fetched);
         this.storageWatchers.set(key, watcher);
     }
 

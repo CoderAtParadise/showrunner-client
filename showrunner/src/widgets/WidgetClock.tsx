@@ -18,6 +18,8 @@ import { ConfigurableType } from "../components/config/IConfigurable";
 import { ConfigBuilder } from "../components/config/ConfigBuilder";
 import { getRecoil } from "recoil-nexus";
 import { StateStorageWatcher } from "../components/config/StateConfigStorageWatcher";
+import { isEqual } from "lodash";
+import { sendCommand } from "../commands/SendCommand";
 
 const blink = keyframes`
     50% {
@@ -80,7 +82,10 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Start(props.show, "", props.clock?.id || "");
+                        Start(
+                            { show: props.show, session: props.session },
+                            props.clock?.id || ""
+                        );
                     }}
                 >
                     <PlayArrow />
@@ -90,7 +95,10 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Pause(props.show, "", props.clock?.id || "");
+                        Pause(
+                            { show: props.show, session: props.session },
+                            props.clock?.id || ""
+                        );
                     }}
                 >
                     <PauseIcon />
@@ -100,7 +108,10 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Stop(props.show, "", props.clock?.id || "");
+                        Stop(
+                            { show: props.show, session: props.session },
+                            props.clock?.id || ""
+                        );
                     }}
                 >
                     <StopIcon />
@@ -110,7 +121,10 @@ const renderControlBar = (props: {
                 <ControlBarButton
                     disableRipple
                     onClick={() => {
-                        Reset(props.show, "", props.clock?.id || "");
+                        Reset(
+                            { show: props.show, session: props.session },
+                            props.clock?.id || ""
+                        );
                     }}
                 >
                     <RestartAlt />
@@ -136,23 +150,35 @@ const ClockDisplayContainer = (props: {
     );
     const [initialLoad, setInitialLoad] = useState(true);
 
-    const fetchChannels = (): any => {
+    const fetchChannels = async (): Promise<any> => {
         try {
-            fetch(`${serverurl}/command`, {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
+            let fetched: any = {};
+            await sendCommand(
+                {
+                    show: props.builder.show,
+                    session: props.builder.session
                 },
-                body: JSON.stringify({
-                    command: "amp.channel",
-                    data: {}
-                })
-            })
+                "amp.channel",
+                {}
+            )
                 .then((res) => res.json())
-                .then((v) =>
-                    props.builder.setFetched({ channels: v.message }, "clock")
-                );
+                .then((v) => (fetched = { ...fetched, channels: v.message }));
+            if (props.builder.get("settings.source")?.get() !== undefined) {
+                await sendCommand(
+                    {
+                        show: props.builder.show,
+                        session: props.builder.session
+                    },
+                    "amp.list",
+                    {
+                        channel: props.builder.get("settings.source")?.get()
+                    }
+                )
+                    .then((res) => res.json())
+                    .then((v) => (fetched = { ...fetched, videos: v.message }));
+            }
+            props.builder.setFetched(fetched, "clock");
+            props.forceUpdate();
             return setTimeout(fetchChannels, 10000);
         } catch (err) {
             console.log("error", err);
@@ -160,8 +186,11 @@ const ClockDisplayContainer = (props: {
     };
 
     useEffect(() => {
-        const timer = fetchChannels();
-        return () => clearTimeout(timer);
+        const run = async () => {
+            const timer = await fetchChannels();
+            return () => clearTimeout(timer);
+        };
+        run();
     }, []);
 
     useEffect(() => {
@@ -169,7 +198,8 @@ const ClockDisplayContainer = (props: {
             setInitialLoad(false);
             return;
         }
-        if (config.settings !== clock?.settings) {
+        console.log("Hello");
+        if (!isEqual(config.settings, clock?.settings)) {
             const delayChange = setTimeout(() => {
                 console.log("Clock Synced");
             }, 500);
@@ -207,7 +237,7 @@ const WidgetClockCompactRenderer: IWidgetRenderer = {
         config: ConfigBuilder;
         forceUpdate: () => void;
     }): ReactNode => {
-        // Wrap because of hook constrains
+        // Wrap because of hook constraints
         return (
             <ClockDisplayContainer
                 builder={props.config}
@@ -216,8 +246,6 @@ const WidgetClockCompactRenderer: IWidgetRenderer = {
         );
     }
 };
-
-const serverurl = process.env.SERVER_URL || "http://localhost:3001";
 
 const WidgetClock: IWidget = {
     renderMode: {
@@ -329,6 +357,74 @@ const WidgetClock: IWidget = {
             }
         },
         {
+            type: ConfigurableType.Options,
+            category: "clock",
+            displayName: "Authority",
+            group: "settings",
+            key: "authority",
+            storage: "clock",
+            Options: (builder: ConfigBuilder) => {
+                const clocks = getRecoil(
+                    clocksState({
+                        show: builder.show,
+                        session: builder.session
+                    })
+                );
+                const ret: { label: string; id: string }[] = [];
+                Array.from(clocks.values())
+                    .filter(
+                        (clock) =>
+                            clock.type !== "offset" &&
+                            clock.type !== "tod:offset" &&
+                            clock.type !== "sync"
+                    )
+                    .forEach((clock) =>
+                        ret.push({
+                            label: clock.displayName!(),
+                            id: `${builder.show}:${builder.session}:${clock.id}`
+                        })
+                    );
+                return ret;
+            },
+            Enabled: (builder: ConfigBuilder) => {
+                return builder.get("settings.authority")?.get() !== undefined;
+            }
+        },
+        {
+            type: ConfigurableType.Options,
+            category: "clock",
+            displayName: "Authority",
+            group: "settings",
+            key: "source",
+            storage: "clock",
+            Options: (builder: ConfigBuilder) => {
+                const clocks = getRecoil(
+                    clocksState({
+                        show: builder.show,
+                        session: builder.session
+                    })
+                );
+                const ret: { label: string; id: string }[] = [];
+                Array.from(clocks.values())
+                    .filter(
+                        (clock) =>
+                            clock.type !== "offset" &&
+                            clock.type !== "tod:offset" &&
+                            clock.type !== "sync"
+                    )
+                    .forEach((clock) =>
+                        ret.push({
+                            label: clock.displayName!(),
+                            id: `${builder.show}:${builder.session}:${clock.id}`
+                        })
+                    );
+                return ret;
+            },
+            Enabled: (builder: ConfigBuilder) => {
+                return builder.get("settings.source")?.get() !== undefined;
+            }
+        },
+        {
             type: ConfigurableType.Dropdown,
             category: "clock",
             displayName: "Direction",
@@ -367,37 +463,6 @@ const WidgetClock: IWidget = {
                 return config.get("settings.displayName")?.get() !== undefined;
             }
         }
-        // {
-        //     type: ConfigurableType.Options,
-        //     category: "clock",
-        //     displayName: "Authority",
-        //     group: "settings",
-        //     key: "authority",
-        //     Enabled: (builder: ConfigBuilder) => {
-        //         return builder.get("settings.authority")?.get() !== undefined;
-        //     },
-        //     Options: (builder: ConfigBuilder) => {
-        //         const clocks = useRecoilValue(clocksState(builder.show));
-        //         const ret: { label: string; id: string }[] = [];
-        //         Array.from(clocks.values())
-        //             .filter(
-        //                 (clock) =>
-        //                     clock.type !== "offset" &&
-        //                     clock.type !== "tod:offset" &&
-        //                     clock.type !== "sync"
-        //             )
-        //             .forEach((clock) =>
-        //                 ret.push({
-        //                     label: clock.settings.displayName,
-        //                     id: `${clock.session}:${clock.id}`
-        //                 })
-        //             );
-        //         return ret;
-        //     },
-        //     Storage: (builder: ConfigBuilder) => {
-        //         return builder.getStorageWatcher("clock");
-        //     }
-        // }
     ]
 };
 

@@ -1,8 +1,10 @@
 import { ConfigBuilder } from "./ConfigBuilder";
+import { MouseEvent } from "react";
 
 export enum ConfigurableType {
     Text,
-    number,
+    Number,
+    Button,
     Swatch,
     Boolean,
     Options,
@@ -18,6 +20,10 @@ export interface IConfigurable {
     readonly key: string;
     readonly defaultValue?: any;
     readonly storage?: string;
+    onClick?: (
+        builder: ConfigBuilder,
+        event: MouseEvent<HTMLButtonElement>
+    ) => void;
     Enabled?: (builder: ConfigBuilder) => boolean;
     Options?: (builder: ConfigBuilder) => { label: string; id: string }[];
 }

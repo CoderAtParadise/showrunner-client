@@ -2,11 +2,14 @@ import { LooseObject } from "../../util/LooseObject";
 import { ConfigStorageWatcher } from "./ConfigStorageWatcher";
 import { ConfigValue } from "./ConfigValue";
 import { ConfigValueBoolean } from "./ConfigValueBoolean";
+import { ConfigValueButton } from "./ConfigValueButton";
 import { ConfigValueSwatch } from "./ConfigValueSwatch";
 import { ConfigValueText } from "./ConfigValueText";
 import { ConfigValueOptions } from "./ConfigValueOptions";
 import { ConfigValueDropdown } from "./ConfigValueDropdown";
 import { ConfigurableType, IConfigurable } from "./IConfigurable";
+import { ConfigValueTime } from "./ConfigValueTime";
+import { ConfigValueNumber } from "./ConfigValueNumber";
 
 export class ConfigBuilder {
     constructor(
@@ -62,6 +65,16 @@ export class ConfigBuilder {
                         new ConfigValueBoolean(this, value, storage)
                     );
                     break;
+                case ConfigurableType.Number:
+                    this.configs.push(
+                        new ConfigValueNumber(this, value, storage)
+                    );
+                    break;
+                case ConfigurableType.Button:
+                    this.configs.push(
+                        new ConfigValueButton(this, value, storage)
+                    );
+                    break;
                 case ConfigurableType.Swatch:
                     this.configs.push(
                         new ConfigValueSwatch(this, value, storage)
@@ -80,6 +93,11 @@ export class ConfigBuilder {
                 case ConfigurableType.Dropdown:
                     this.configs.push(
                         new ConfigValueDropdown(this, value, storage)
+                    );
+                    break;
+                case ConfigurableType.Time:
+                    this.configs.push(
+                        new ConfigValueTime(this, value, storage)
                     );
                     break;
             }

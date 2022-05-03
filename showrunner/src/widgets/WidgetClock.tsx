@@ -20,6 +20,7 @@ import { getRecoil } from "recoil-nexus";
 import { StateStorageWatcher } from "../components/config/StateConfigStorageWatcher";
 import { isEqual } from "lodash";
 import { sendCommand } from "../commands/SendCommand";
+import { diffObject } from "../util/Diffobject";
 
 const blink = keyframes`
     50% {
@@ -84,7 +85,7 @@ const renderControlBar = (props: {
                     onClick={() => {
                         Start(
                             { show: props.show, session: props.session },
-                            props.clock?.id || ""
+                            props.clock?.identifier.id || ""
                         );
                     }}
                 >
@@ -97,7 +98,7 @@ const renderControlBar = (props: {
                     onClick={() => {
                         Pause(
                             { show: props.show, session: props.session },
-                            props.clock?.id || ""
+                            props.clock?.identifier.id || ""
                         );
                     }}
                 >
@@ -110,7 +111,7 @@ const renderControlBar = (props: {
                     onClick={() => {
                         Stop(
                             { show: props.show, session: props.session },
-                            props.clock?.id || ""
+                            props.clock?.identifier.id || ""
                         );
                     }}
                 >
@@ -123,7 +124,7 @@ const renderControlBar = (props: {
                     onClick={() => {
                         Reset(
                             { show: props.show, session: props.session },
-                            props.clock?.id || ""
+                            props.clock?.identifier.id || ""
                         );
                     }}
                 >
@@ -149,20 +150,28 @@ const ClockDisplayContainer = (props: {
         new StateStorageWatcher(config, setConfig, props.forceUpdate)
     );
     const [initialLoad, setInitialLoad] = useState(true);
-
+    const [originalSettings, setOriginalSettings] = useState(clock?.settings);
+    if (!isEqual(originalSettings, clock?.settings)) {
+        setConfig({ settings: clock?.settings });
+        setOriginalSettings(clock?.settings);
+    }
     const fetchChannels = async (): Promise<any> => {
         try {
             let fetched: any = {};
-            await sendCommand(
-                {
-                    show: props.builder.show,
-                    session: props.builder.session
-                },
-                "amp.channel",
-                {}
-            )
-                .then((res) => res.json())
-                .then((v) => (fetched = { ...fetched, channels: v.message }));
+            if (props.builder.get("settings.channel")?.get() !== undefined) {
+                await sendCommand(
+                    {
+                        show: props.builder.show,
+                        session: props.builder.session
+                    },
+                    "amp.channel",
+                    {}
+                )
+                    .then((res) => res.json())
+                    .then(
+                        (v) => (fetched = { ...fetched, channels: v.message })
+                    );
+            }
             if (props.builder.get("settings.source")?.get() !== undefined) {
                 await sendCommand(
                     {
@@ -191,6 +200,7 @@ const ClockDisplayContainer = (props: {
             return () => clearTimeout(timer);
         };
         run();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -198,15 +208,24 @@ const ClockDisplayContainer = (props: {
             setInitialLoad(false);
             return;
         }
-        console.log("Hello");
         if (!isEqual(config.settings, clock?.settings)) {
             const delayChange = setTimeout(() => {
                 console.log("Clock Synced");
+                const diff = diffObject(clock?.settings, config.settings);
+                sendCommand(
+                    {
+                        show: props.builder.show,
+                        session: props.builder.session
+                    },
+                    "clock.edit",
+                    { id: clock?.identifier.id, data: diff }
+                ).then();
             }, 500);
             return () => clearTimeout(delayChange);
         }
         return () => {};
-    }, [config, clock?.settings]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [config]);
     return (
         <Container>
             {props.builder.get("display.clockName")?.get() ? (
@@ -270,7 +289,7 @@ const WidgetClock: IWidget = {
                 Array.from(clocks.values()).forEach((clock) =>
                     ret.push({
                         label: clock.displayName!(),
-                        id: `${builder.show}:${builder.session}:${clock.id}`
+                        id: `${builder.show}:${builder.session}:${clock.identifier.id}`
                     })
                 );
                 return ret;
@@ -381,7 +400,7 @@ const WidgetClock: IWidget = {
                     .forEach((clock) =>
                         ret.push({
                             label: clock.displayName!(),
-                            id: `${builder.show}:${builder.session}:${clock.id}`
+                            id: `${builder.show}:${builder.session}:${clock.identifier.id}`
                         })
                     );
                 return ret;
@@ -393,32 +412,17 @@ const WidgetClock: IWidget = {
         {
             type: ConfigurableType.Options,
             category: "clock",
-            displayName: "Authority",
+            displayName: "Video Source",
             group: "settings",
             key: "source",
             storage: "clock",
             Options: (builder: ConfigBuilder) => {
-                const clocks = getRecoil(
-                    clocksState({
-                        show: builder.show,
-                        session: builder.session
-                    })
-                );
-                const ret: { label: string; id: string }[] = [];
-                Array.from(clocks.values())
-                    .filter(
-                        (clock) =>
-                            clock.type !== "offset" &&
-                            clock.type !== "tod:offset" &&
-                            clock.type !== "sync"
-                    )
-                    .forEach((clock) =>
-                        ret.push({
-                            label: clock.displayName!(),
-                            id: `${builder.show}:${builder.session}:${clock.id}`
-                        })
-                    );
-                return ret;
+                const channels = builder.fetched("v", "clock") || [];
+                const options: { label: string; id: string }[] = [];
+                (channels as string[]).forEach((v) => {
+                    options.push({ label: v, id: v });
+                });
+                return options;
             },
             Enabled: (builder: ConfigBuilder) => {
                 return builder.get("settings.source")?.get() !== undefined;

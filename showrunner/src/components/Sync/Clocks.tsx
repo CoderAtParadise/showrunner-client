@@ -1,10 +1,12 @@
 import { ReactNode, useEffect } from "react";
 import {
-    RenderClockSource,
-    RenderIdentifier
+    CurrentClockState,
+    RenderClockSource
 } from "../../util/RenderClockSource";
 import { atomFamily, selectorFamily, useSetRecoilState } from "recoil";
 import { fetchEventSource } from "@microsoft/fetch-event-source";
+import { RenderClockCodec } from "./codec/RenderClockCodec";
+import { ClockIdentifier } from "@coderatparadise/showrunner-common";
 
 const serverurl = process.env.SERVER_URL || "http://localhost:3001";
 
@@ -18,6 +20,24 @@ export const clocksState = atomFamily<
 
 // prettier-ignore
 const updateCurrent = selectorFamily({
+    key: "clocks/current",
+    get: (key:{show:string, session:string}) => ({ get }) => {
+        return get(clocksState(key)) as Map<string, RenderClockSource>;
+    },
+    set: (key:{show:string, session:string}) => ({ set }, newValue) => {
+        set(clocksState(key), (prevState) => {
+            const state = new Map(prevState);
+            const data = newValue as {identifier:ClockIdentifier, currentState: CurrentClockState }[];
+            data.forEach((value: { identifier: ClockIdentifier; currentState: CurrentClockState }) => {
+                state.get(value.identifier.id)?.setData({ currentState: value.currentState });
+            });
+            return state;
+        });
+    }
+});
+
+// prettier-ignore
+const updateSettings = selectorFamily({
     key: "clocks/updater",
     get: (key:{show:string, session:string}) => ({ get }) => {
         return get(clocksState(key)) as Map<string, RenderClockSource>;
@@ -25,10 +45,8 @@ const updateCurrent = selectorFamily({
     set: (key:{show:string, session:string}) => ({ set }, newValue) => {
         set(clocksState(key), (prevState) => {
             const state = new Map(prevState);
-            const data = newValue as {id:string, current:string, state:string, overrun:boolean}[];
-            data.forEach((value: { id: string; current: string, state:string, overrun:boolean }) => {
-                state.get(value.id)?.setData({ current: value.current, state: value.state, overrun: value.overrun });
-            });
+            const data = newValue as {id:string, data:any};
+            state.get(data.id)?.setData({ ...data.data });
             return state;
         });
     }
@@ -41,6 +59,10 @@ const GetEventSource = (props: { show: string; session: string }) => {
     const currentUpdater = useSetRecoilState(
         updateCurrent({ show: props.show, session: props.session })
     );
+
+    const settingsUpdater = useSetRecoilState(
+        updateSettings({ show: props.show, session: props.session })
+    );
     useEffect(() => {
         const fetchData = async () => {
             await fetchEventSource(
@@ -52,30 +74,29 @@ const GetEventSource = (props: { show: string; session: string }) => {
                     },
                     onmessage(event) {
                         if (event.event === "clocks-initial") {
-                            const data = JSON.parse(
-                                event.data
-                            ) as RenderIdentifier[];
+                            const data = JSON.parse(event.data) as object[];
                             const updateClocks = new Map<
                                 string,
                                 RenderClockSource
                             >();
-                            data.forEach((source: RenderIdentifier) => {
-                                updateClocks.set(
-                                    source.id,
-                                    new RenderClockSource(source)
-                                );
+                            data.forEach((source: object) => {
+                                const clock =
+                                    RenderClockCodec.deserialize(source);
+                                updateClocks.set(clock.identifier.id, clock);
                             });
                             setClocks(updateClocks);
                         } else if (event.event === "clocks-sync") {
                             const data = JSON.parse(event.data) as {
-                                id: string;
-                                current: string;
-                                state: string;
-                                overrun: boolean;
+                                identifier: ClockIdentifier;
+                                currentState: CurrentClockState;
                             }[];
                             currentUpdater(data);
                         } else if (event.event === "clocks-update") {
-                            // console.log(event.data);
+                            const data = JSON.parse(event.data) as {
+                                id: string;
+                                data: any;
+                            };
+                            settingsUpdater(data);
                         }
                     },
                     onclose() {
@@ -88,7 +109,7 @@ const GetEventSource = (props: { show: string; session: string }) => {
             );
         };
         fetchData();
-    }, [props.session, props.show, setClocks, currentUpdater]);
+    }, [props.session, props.show, setClocks, currentUpdater, settingsUpdater]);
     return null;
 };
 

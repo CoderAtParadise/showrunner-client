@@ -19,6 +19,36 @@ export const WidgetConfigurable: IConfigurable[] = [
         displayName: "Show Header",
         group: "widget",
         key: "header"
+    },
+    {
+        type: ConfigurableType.Button,
+        category: "widget",
+        displayName: "Test Button",
+        group: "widget",
+        key: "testbutton",
+        onClick: () => {
+            console.log("Button Click");
+        }
+    },
+    {
+        type: ConfigurableType.Time,
+        category: "widget",
+        displayName: "Test Time",
+        group: "widget",
+        key: "time"
+    },
+    {
+        type: ConfigurableType.Number,
+        category: "widget",
+        displayName: "Test Number",
+        group: "widget",
+        key: "testNumber",
+        Options: () => {
+            return [
+                { id: "min", label: "2" },
+                { id: "max", label: "10" }
+            ];
+        }
     }
 ];
 

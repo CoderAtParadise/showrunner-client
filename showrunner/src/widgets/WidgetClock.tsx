@@ -2,7 +2,6 @@ import { IWidget, IWidgetRenderer } from "../components/widget/IWidget";
 import styled from "@emotion/styled";
 import { css, keyframes } from "@emotion/react";
 import { ReactNode, useEffect, useState } from "react";
-import { IconButton, Tooltip } from "@mui/material";
 import {
     PlayArrow,
     Pause as PauseIcon,
@@ -21,6 +20,7 @@ import { StateStorageWatcher } from "../components/config/StateConfigStorageWatc
 import { isEqual } from "lodash";
 import { sendCommand } from "../commands/SendCommand";
 import { diffObject } from "../util/Diffobject";
+import { Tooltip, TooltipTitle, TooltipContent } from "../components/Tooltip";
 
 const blink = keyframes`
     50% {
@@ -62,7 +62,7 @@ const DisplayTime = styled(ClockSourceComponent)<{
         `};
 `;
 
-const ControlBarButton = styled(IconButton)`
+const PlayButton = styled(PlayArrow)`
     padding: 1em;
     width: 1em;
     height: 1em;
@@ -70,6 +70,10 @@ const ControlBarButton = styled(IconButton)`
         color: rgb(200, 200, 200);
     }
 `;
+
+const PauseButton = PlayButton.withComponent(PauseIcon);
+const StopButton = PlayButton.withComponent(StopIcon);
+const ResetButton = PlayButton.withComponent(RestartAlt);
 
 const renderControlBar = (props: {
     className?: string;
@@ -79,63 +83,56 @@ const renderControlBar = (props: {
 }) => {
     return (
         <div className={props.className}>
-            <Tooltip title="Play">
-                <ControlBarButton
-                    disableRipple
-                    onClick={() => {
-                        Start(
-                            { show: props.show, session: props.session },
-                            props.clock?.identifier.id || ""
-                        );
-                    }}
-                >
-                    <PlayArrow />
-                </ControlBarButton>
-            </Tooltip>
-            <Tooltip title="Pause">
-                <ControlBarButton
-                    disableRipple
-                    onClick={() => {
-                        Pause(
-                            { show: props.show, session: props.session },
-                            props.clock?.identifier.id || ""
-                        );
-                    }}
-                >
-                    <PauseIcon />
-                </ControlBarButton>
-            </Tooltip>
-            <Tooltip title="Stop">
-                <ControlBarButton
-                    disableRipple
+            {/* {props.clock?.state === ClockState.PAUSED ? (
+                <Tooltip>
+                    <PauseButton
+                        onClick={() => {
+                            Pause(
+                                { show: props.show, session: props.session },
+                                props.clock?.identifier.id || ""
+                            );
+                        }}
+                    />
+                </Tooltip>
+            ) : (
+                <Tooltip >
+                    <PlayButton
+                        onClick={() => {
+                            Start(
+                                { show: props.show, session: props.session },
+                                props.clock?.identifier.id || ""
+                            );
+                        }}
+                    />
+                </Tooltip>
+            )}
+            <Tooltip>
+                <StopButton
                     onClick={() => {
                         Stop(
                             { show: props.show, session: props.session },
                             props.clock?.identifier.id || ""
                         );
                     }}
-                >
-                    <StopIcon />
-                </ControlBarButton>
+                />
             </Tooltip>
-            <Tooltip title="Reset">
-                <ControlBarButton
-                    disableRipple
+            <Tooltip>
+                <ResetButton
                     onClick={() => {
                         Reset(
                             { show: props.show, session: props.session },
                             props.clock?.identifier.id || ""
                         );
                     }}
-                >
-                    <RestartAlt />
-                </ControlBarButton>
-            </Tooltip>
+                />
+            </Tooltip> */}
         </div>
     );
 };
 
-const ControlBar = styled(renderControlBar)<{ widgetStyle: {} }>``;
+const ControlBar = styled(renderControlBar)`
+    display: inline-block;
+`;
 
 const ClockDisplayContainer = (props: {
     builder: ConfigBuilder;
@@ -239,9 +236,8 @@ const ClockDisplayContainer = (props: {
                 widgetStyle={props.builder.raw("display")}
                 clock={clock || null}
             />
-            {props.builder.get("controlBar.display")?.get() ? (
+            {props.builder.get("display.controlBar")?.get() ? (
                 <ControlBar
-                    widgetStyle={props.builder.raw("controlBar")}
                     show={props.builder.show}
                     session={props.builder.session}
                     clock={clock || null}
@@ -334,8 +330,8 @@ const WidgetClock: IWidget = {
             type: ConfigurableType.Boolean,
             category: "clock",
             displayName: "Show Control Bar",
-            group: "controlBar",
-            key: "display"
+            group: "display",
+            key: "controlBar"
         },
         {
             type: ConfigurableType.Options,

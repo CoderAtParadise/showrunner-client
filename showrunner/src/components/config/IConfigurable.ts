@@ -20,10 +20,10 @@ export interface IConfigurable {
     readonly key: string;
     readonly defaultValue?: any;
     readonly storage?: string;
-    onClick?: (
+    readonly onClick?: (
         builder: ConfigBuilder,
         event: MouseEvent<HTMLButtonElement>
     ) => void;
-    Enabled?: (builder: ConfigBuilder) => boolean;
-    Options?: (builder: ConfigBuilder) => { label: string; id: string }[];
+    readonly Enabled?: (builder: ConfigBuilder) => boolean;
+    readonly Options?: (builder: ConfigBuilder) => { label: string; id: string }[];
 }

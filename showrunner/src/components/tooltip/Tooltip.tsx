@@ -13,7 +13,6 @@ export const Tooltip = (props: {
     let hasTooltipHoverable = false;
     Children.forEach(props.children, (child: ReactNode) => {
         if (isValidElement(child)) {
-            console.log(child);
             let hasEmotionBaseContent = false;
             let hasEmotionBaseTitle = false;
             if ("__emotion_base" in (child as any).type) {

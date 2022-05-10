@@ -5,7 +5,7 @@ const Dotenv = require("dotenv-webpack");
 
 module.exports = {
     resolve: {
-        extensions: [".tsx", ".ts", ".js"]
+        extensions: [".tsx", ".ts", "jsx", ".js"]
     },
     plugins: [
         new ESLintPlugin(),
@@ -28,14 +28,9 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: [/\.js(x?)$/, /\.ts(x?)$/],
                 exclude: /node_modules/,
                 use: [{ loader: "babel-loader" }]
-            },
-            {
-                test: /\.ts(x?)$/,
-                exclude: /node_modules/,
-                use: [{ loader: "ts-loader" }]
             },
             {
                 test: /\.css$/,

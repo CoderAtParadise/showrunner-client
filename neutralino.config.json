@@ -7,7 +7,7 @@
   "url": "/",
   "enableServer": true,
   "enableNativeAPI": true,
-  "nativeAllowList": ["app.*", "os.*"],
+  "nativeAllowList": ["app.*", "os.*", "storage."],
   "modes": {
     "window": {
       "title": "Showrunner",

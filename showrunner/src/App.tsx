@@ -10,6 +10,7 @@ import RecoilNexus from "recoil-nexus";
 import { Widget } from "./components/widget/Widget";
 import { RenderMode } from "./components/widget/IWidgetLayout";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import "neutralinojs-types";
 
 const theme = createTheme({
     palette: {
@@ -29,6 +30,7 @@ const Background = styled(Box)`
 `;
 
 function App(props: { className?: string }) {
+    console.log(window.Neutralino);
     return (
         <ErrorBoundary>
             <ThemeProvider theme={theme}>
@@ -45,7 +47,8 @@ function App(props: { className?: string }) {
                                     position: { x: 0, y: 0, z: 0 },
                                     config: {
                                         widget: {
-                                            displayName: "Testing",
+                                            displayName:
+                                                "A really long name that is supper long",
                                             header: true
                                         }
                                     }
@@ -88,15 +91,12 @@ function App(props: { className?: string }) {
                                             source: "system:system:PVS",
                                             overrunColor: "#cf352e",
                                             color: "#FFC354",
-                                            fontSize: "36px"
-                                        },
-                                        controlBar: {
-                                            display: true
+                                            fontSize: "36px",
+                                            controlBar: true
                                         }
                                     }
                                 }}
                             />
-                            {/* <ClockList show="system" /> */}
                         </ClockSyncState>
                     </RecoilRoot>
                 </Background>

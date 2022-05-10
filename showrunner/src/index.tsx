@@ -1,17 +1,19 @@
 import { StrictMode } from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+import "neutralinojs-types";
 
-ReactDOM.render(
+render(
     <StrictMode>
         <App />
     </StrictMode>,
     document.getElementById("root")
 );
-// (window as any).NL_PORT = 3000;
-(window as any).Neutralino.init();
+window.Neutralino.init();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

@@ -48,6 +48,7 @@ const DisplayTime = styled(ClockSourceComponent)<{
     font-size: ${(props: { widgetStyle: { fontSize: string } }) =>
         props.widgetStyle.fontSize};
     font-variant-numeric: tabular-nums;
+    user-select: none;
     color: ${(props: {
         overrun: boolean;
         widgetStyle: { overrunColor: string; color: string };
@@ -67,9 +68,8 @@ const DisplayTime = styled(ClockSourceComponent)<{
 `;
 
 const PlayButton = styled(PlayArrow)`
-    padding: 1em;
-    width: 1em;
-    height: 1em;
+    width: 1.2em;
+    height: 1.2em;
     &:hover {
         color: rgb(200, 200, 200);
     }
@@ -79,6 +79,17 @@ const PauseButton = PlayButton.withComponent(PauseIcon);
 const StopButton = PlayButton.withComponent(StopIcon);
 const ResetButton = PlayButton.withComponent(RestartAlt);
 
+const ControlBarButton = styled(Tooltip)`
+    width: 1.2em;
+    height: 1.2em;
+    padding-right: 1.5em;
+`;
+
+const ControlBarButtonTooltip = styled(TooltipContent)`
+    top: -125%;
+    left: 50%;
+`;
+
 const renderControlBar = (props: {
     className?: string;
     show: string;
@@ -87,55 +98,76 @@ const renderControlBar = (props: {
 }) => {
     return (
         <div className={props.className}>
-            {/* {props.clock?.state === ClockState.PAUSED ? (
-                <Tooltip>
-                    <PauseButton
-                        onClick={() => {
-                            Pause(
-                                { show: props.show, session: props.session },
-                                props.clock?.identifier.id || ""
-                            );
-                        }}
-                    />
-                </Tooltip>
+            {props.clock?.state === ClockState.RUNNING ? (
+                <ControlBarButton>
+                    <TooltipHoverable>
+                        <PauseButton
+                            onClick={() => {
+                                Pause(
+                                    {
+                                        show: props.show,
+                                        session: props.session
+                                    },
+                                    props.clock?.identifier.id || ""
+                                );
+                            }}
+                        />
+                    </TooltipHoverable>
+                    <ControlBarButtonTooltip>Pause</ControlBarButtonTooltip>
+                </ControlBarButton>
             ) : (
-                <Tooltip >
-                    <PlayButton
+                <ControlBarButton>
+                    <TooltipHoverable>
+                        <PlayButton
+                            onClick={() => {
+                                Start(
+                                    {
+                                        show: props.show,
+                                        session: props.session
+                                    },
+                                    props.clock?.identifier.id || ""
+                                );
+                            }}
+                        />
+                    </TooltipHoverable>
+                    <ControlBarButtonTooltip>Play</ControlBarButtonTooltip>
+                </ControlBarButton>
+            )}
+            <ControlBarButton>
+                <TooltipHoverable>
+                    <StopButton
                         onClick={() => {
-                            Start(
+                            Stop(
                                 { show: props.show, session: props.session },
                                 props.clock?.identifier.id || ""
                             );
                         }}
                     />
-                </Tooltip>
-            )}
-            <Tooltip>
-                <StopButton
-                    onClick={() => {
-                        Stop(
-                            { show: props.show, session: props.session },
-                            props.clock?.identifier.id || ""
-                        );
-                    }}
-                />
-            </Tooltip>
-            <Tooltip>
-                <ResetButton
-                    onClick={() => {
-                        Reset(
-                            { show: props.show, session: props.session },
-                            props.clock?.identifier.id || ""
-                        );
-                    }}
-                />
-            </Tooltip> */}
+                </TooltipHoverable>
+                <ControlBarButtonTooltip>Stop</ControlBarButtonTooltip>
+            </ControlBarButton>
+            <ControlBarButton>
+                <TooltipHoverable>
+                    <ResetButton
+                        onClick={() => {
+                            Reset(
+                                { show: props.show, session: props.session },
+                                props.clock?.identifier.id || ""
+                            );
+                        }}
+                    />
+                </TooltipHoverable>
+                <ControlBarButtonTooltip>Reset</ControlBarButtonTooltip>
+            </ControlBarButton>
         </div>
     );
 };
 
 const ControlBar = styled(renderControlBar)`
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5em;
+    justify-content: center;
 `;
 
 const ClockDisplayContainer = (props: {

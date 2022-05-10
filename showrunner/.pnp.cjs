@@ -53,6 +53,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@mui/material", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.4.1"],
             ["@popperjs/core", "npm:2.11.2"],
             ["@svgr/cli", "npm:6.2.1"],
+            ["@tauri-apps/api", "npm:1.0.0-rc.5"],
+            ["@tauri-apps/cli", "npm:1.0.0-rc.10"],
             ["@types/babel__core", "npm:7.1.18"],
             ["@types/babel__plugin-transform-runtime", "npm:7.9.2"],
             ["@types/babel__preset-env", "npm:7.9.2"],
@@ -91,7 +93,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["html-webpack-plugin", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.5.0"],
             ["lodash", "npm:4.17.21"],
             ["lodash-es", "npm:4.17.21"],
-            ["neutralinojs-types", "npm:1.1.1"],
             ["prettier", "npm:2.5.1"],
             ["react", "npm:17.0.2"],
             ["react-color", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:2.19.3"],
@@ -3776,6 +3777,115 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@szmarczak/http-timer", "npm:4.0.6"],
             ["defer-to-connect", "npm:2.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tauri-apps/api", [
+        ["npm:1.0.0-rc.5", {
+          "packageLocation": "./.yarn/cache/@tauri-apps-api-npm-1.0.0-rc.5-7a090cd02e-fa224d0b09.zip/node_modules/@tauri-apps/api/",
+          "packageDependencies": [
+            ["@tauri-apps/api", "npm:1.0.0-rc.5"],
+            ["type-fest", "npm:2.12.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tauri-apps/cli", [
+        ["npm:1.0.0-rc.10", {
+          "packageLocation": "./.yarn/cache/@tauri-apps-cli-npm-1.0.0-rc.10-5e1bc046ce-15a10528f8.zip/node_modules/@tauri-apps/cli/",
+          "packageDependencies": [
+            ["@tauri-apps/cli", "npm:1.0.0-rc.10"],
+            ["@tauri-apps/cli-darwin-arm64", "npm:1.0.0-rc.10"],
+            ["@tauri-apps/cli-darwin-x64", "npm:1.0.0-rc.10"],
+            ["@tauri-apps/cli-linux-arm-gnueabihf", "npm:1.0.0-rc.10"],
+            ["@tauri-apps/cli-linux-arm64-gnu", "npm:1.0.0-rc.10"],
+            ["@tauri-apps/cli-linux-arm64-musl", "npm:1.0.0-rc.10"],
+            ["@tauri-apps/cli-linux-x64-gnu", "npm:1.0.0-rc.10"],
+            ["@tauri-apps/cli-linux-x64-musl", "npm:1.0.0-rc.10"],
+            ["@tauri-apps/cli-win32-ia32-msvc", "npm:1.0.0-rc.10"],
+            ["@tauri-apps/cli-win32-x64-msvc", "npm:1.0.0-rc.10"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tauri-apps/cli-darwin-arm64", [
+        ["npm:1.0.0-rc.10", {
+          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-darwin-arm64-npm-1.0.0-rc.10-554624f828/node_modules/@tauri-apps/cli-darwin-arm64/",
+          "packageDependencies": [
+            ["@tauri-apps/cli-darwin-arm64", "npm:1.0.0-rc.10"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tauri-apps/cli-darwin-x64", [
+        ["npm:1.0.0-rc.10", {
+          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-darwin-x64-npm-1.0.0-rc.10-24895f8f9b/node_modules/@tauri-apps/cli-darwin-x64/",
+          "packageDependencies": [
+            ["@tauri-apps/cli-darwin-x64", "npm:1.0.0-rc.10"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tauri-apps/cli-linux-arm-gnueabihf", [
+        ["npm:1.0.0-rc.10", {
+          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-linux-arm-gnueabihf-npm-1.0.0-rc.10-4ac3463bfe/node_modules/@tauri-apps/cli-linux-arm-gnueabihf/",
+          "packageDependencies": [
+            ["@tauri-apps/cli-linux-arm-gnueabihf", "npm:1.0.0-rc.10"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tauri-apps/cli-linux-arm64-gnu", [
+        ["npm:1.0.0-rc.10", {
+          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-linux-arm64-gnu-npm-1.0.0-rc.10-b9fd1acd61/node_modules/@tauri-apps/cli-linux-arm64-gnu/",
+          "packageDependencies": [
+            ["@tauri-apps/cli-linux-arm64-gnu", "npm:1.0.0-rc.10"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tauri-apps/cli-linux-arm64-musl", [
+        ["npm:1.0.0-rc.10", {
+          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-linux-arm64-musl-npm-1.0.0-rc.10-6f0c5a4313/node_modules/@tauri-apps/cli-linux-arm64-musl/",
+          "packageDependencies": [
+            ["@tauri-apps/cli-linux-arm64-musl", "npm:1.0.0-rc.10"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tauri-apps/cli-linux-x64-gnu", [
+        ["npm:1.0.0-rc.10", {
+          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-linux-x64-gnu-npm-1.0.0-rc.10-3a614326af/node_modules/@tauri-apps/cli-linux-x64-gnu/",
+          "packageDependencies": [
+            ["@tauri-apps/cli-linux-x64-gnu", "npm:1.0.0-rc.10"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tauri-apps/cli-linux-x64-musl", [
+        ["npm:1.0.0-rc.10", {
+          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-linux-x64-musl-npm-1.0.0-rc.10-1e93ccb600/node_modules/@tauri-apps/cli-linux-x64-musl/",
+          "packageDependencies": [
+            ["@tauri-apps/cli-linux-x64-musl", "npm:1.0.0-rc.10"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tauri-apps/cli-win32-ia32-msvc", [
+        ["npm:1.0.0-rc.10", {
+          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-win32-ia32-msvc-npm-1.0.0-rc.10-b6ccb30b43/node_modules/@tauri-apps/cli-win32-ia32-msvc/",
+          "packageDependencies": [
+            ["@tauri-apps/cli-win32-ia32-msvc", "npm:1.0.0-rc.10"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tauri-apps/cli-win32-x64-msvc", [
+        ["npm:1.0.0-rc.10", {
+          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-win32-x64-msvc-npm-1.0.0-rc.10-a5db3b0b89/node_modules/@tauri-apps/cli-win32-x64-msvc/",
+          "packageDependencies": [
+            ["@tauri-apps/cli-win32-x64-msvc", "npm:1.0.0-rc.10"]
           ],
           "linkType": "HARD",
         }]
@@ -9430,15 +9540,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["neutralinojs-types", [
-        ["npm:1.1.1", {
-          "packageLocation": "./.yarn/cache/neutralinojs-types-npm-1.1.1-fbe3ab1513-f0b9ebf1e2.zip/node_modules/neutralinojs-types/",
-          "packageDependencies": [
-            ["neutralinojs-types", "npm:1.1.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["no-case", [
         ["npm:3.0.4", {
           "packageLocation": "./.yarn/cache/no-case-npm-3.0.4-12884c3d98-0b2ebc113d.zip/node_modules/no-case/",
@@ -11246,6 +11347,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@mui/material", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.4.1"],
             ["@popperjs/core", "npm:2.11.2"],
             ["@svgr/cli", "npm:6.2.1"],
+            ["@tauri-apps/api", "npm:1.0.0-rc.5"],
+            ["@tauri-apps/cli", "npm:1.0.0-rc.10"],
             ["@types/babel__core", "npm:7.1.18"],
             ["@types/babel__plugin-transform-runtime", "npm:7.9.2"],
             ["@types/babel__preset-env", "npm:7.9.2"],
@@ -11284,7 +11387,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["html-webpack-plugin", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:5.5.0"],
             ["lodash", "npm:4.17.21"],
             ["lodash-es", "npm:4.17.21"],
-            ["neutralinojs-types", "npm:1.1.1"],
             ["prettier", "npm:2.5.1"],
             ["react", "npm:17.0.2"],
             ["react-color", "virtual:f2a896632caf08e21138007e149deab403933aecd808599ebceeb0bf65968b30261292e2f53b7617883f7da940b3aadd6e50d487d8acba1f35050836e145a515#npm:2.19.3"],
@@ -12085,6 +12187,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/type-fest-npm-0.20.2-b36432617f-4fb3272df2.zip/node_modules/type-fest/",
           "packageDependencies": [
             ["type-fest", "npm:0.20.2"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:2.12.2", {
+          "packageLocation": "./.yarn/cache/type-fest-npm-2.12.2-5ce8e0a551-ee69676da1.zip/node_modules/type-fest/",
+          "packageDependencies": [
+            ["type-fest", "npm:2.12.2"]
           ],
           "linkType": "HARD",
         }]

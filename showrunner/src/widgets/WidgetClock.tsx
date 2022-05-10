@@ -20,7 +20,11 @@ import { StateStorageWatcher } from "../components/config/StateConfigStorageWatc
 import { isEqual } from "lodash";
 import { sendCommand } from "../commands/SendCommand";
 import { diffObject } from "../util/Diffobject";
-import { Tooltip, TooltipTitle, TooltipContent } from "../components/Tooltip";
+import {
+    Tooltip,
+    TooltipHoverable,
+    TooltipContent
+} from "../components/tooltip";
 
 const blink = keyframes`
     50% {

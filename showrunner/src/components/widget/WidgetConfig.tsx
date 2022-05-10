@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Settings } from "@mui/icons-material";
 import styled from "@emotion/styled";
 import { ConfigBuilder } from "../config/ConfigBuilder";
-import { Tooltip, TooltipContent, TooltipTitle } from "../Tooltip";
+import { Tooltip, TooltipContent, TooltipHoverable } from "../tooltip";
 import { ConfigMenu } from "../menu/ConfigMenu";
 
 const SettingsButton = styled(Settings)`
@@ -38,9 +38,9 @@ export const WidgetConfig = (props: {
     return (
         <>
             <SettingsTooltip>
-                <TooltipTitle>
+                <TooltipHoverable>
                     <SettingsButton onClick={() => setOpen(!isOpen)} />
-                </TooltipTitle>
+                </TooltipHoverable>
                 <ButtonTooltipContent>Configure</ButtonTooltipContent>
             </SettingsTooltip>
             <ConfigMenu

@@ -5,7 +5,6 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-import "neutralinojs-types";
 
 render(
     <StrictMode>
@@ -13,7 +12,6 @@ render(
     </StrictMode>,
     document.getElementById("root")
 );
-window.Neutralino.init();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

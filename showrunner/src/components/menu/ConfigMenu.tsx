@@ -5,7 +5,7 @@ import { capitalizeFirstLetter } from "../../util/StringUtil";
 import { ConfigBuilder } from "../config/ConfigBuilder";
 import { ConfigValue } from "../config/ConfigValue";
 import { Scrollable } from "../Scrollable";
-import { TooltipContent, TooltipTitle, Tooltip } from "../Tooltip";
+import { TooltipContent, TooltipHoverable, Tooltip } from "../tooltip";
 
 const Background = styled.div`
     width: 100vw;
@@ -124,9 +124,9 @@ export const ConfigMenu = (props: {
             <Menu onClick={(e) => e.stopPropagation()}>
                 <Header>
                     <SettingsTooltip>
-                        <TooltipTitle>
+                        <TooltipHoverable>
                             <CloseButton onClick={() => props.setOpen(false)} />
-                        </TooltipTitle>
+                        </TooltipHoverable>
                         <CloseButtonTooltipContent>
                             Close
                         </CloseButtonTooltipContent>

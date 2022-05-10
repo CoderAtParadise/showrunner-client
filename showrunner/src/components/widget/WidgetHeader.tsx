@@ -1,7 +1,7 @@
 import { WidgetConfig } from "./WidgetConfig";
 import styled from "@emotion/styled";
 import { ConfigBuilder } from "../config/ConfigBuilder";
-import { Tooltip, TooltipContent, TooltipTitle } from "../Tooltip";
+import { Tooltip, TooltipContent, TooltipHoverable } from "../tooltip";
 
 const Header = styled.div`
     position: relative;
@@ -21,7 +21,7 @@ const HR = styled.hr`
 const Title = styled(Tooltip)`
     width: 75%;
 `;
-const TitleText = styled(TooltipTitle)`
+const TitleText = styled(TooltipHoverable)`
     margin-top: 0.5em;
     font-weight: bold;
     width: 100%;

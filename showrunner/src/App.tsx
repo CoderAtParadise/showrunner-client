@@ -10,7 +10,7 @@ import RecoilNexus from "recoil-nexus";
 import { Widget } from "./components/widget/Widget";
 import { RenderMode } from "./components/widget/IWidgetLayout";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import "neutralinojs-types";
+import { createDir, BaseDirectory } from "@tauri-apps/api/fs";
 
 const theme = createTheme({
     palette: {
@@ -30,7 +30,10 @@ const Background = styled(Box)`
 `;
 
 function App(props: { className?: string }) {
-    console.log(window.Neutralino);
+    createDir("showrunner", {
+        dir: BaseDirectory.LocalData,
+        recursive: true
+    });
     return (
         <ErrorBoundary>
             <ThemeProvider theme={theme}>

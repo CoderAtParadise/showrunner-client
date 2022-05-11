@@ -370,7 +370,7 @@ const WidgetClock: IWidget = {
             key: "controlBar"
         },
         {
-            type: ConfigurableType.Options,
+            type: ConfigurableType.Dropdown,
             category: "clock",
             displayName: "Behaviour",
             group: "settings",
@@ -387,7 +387,7 @@ const WidgetClock: IWidget = {
             }
         },
         {
-            type: ConfigurableType.Options,
+            type: ConfigurableType.Dropdown,
             category: "clock",
             displayName: "Channel",
             group: "settings",

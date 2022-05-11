@@ -31,9 +31,11 @@ export class ConfigValueText implements ConfigValue<string> {
     }
 
     get(): string {
-        return this.storage(this.builder).get(
+        const ret = this.storage(this.builder).get(
             `${this.configurable.group}.${this.configurable.key}`
-        ) || this.configurable?.defaultValue;
+        );
+        if (ret === undefined) return this.configurable?.defaultValue;
+        else return ret;
     }
 
     set(value: string): void {

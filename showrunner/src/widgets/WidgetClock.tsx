@@ -16,7 +16,7 @@ import { clocksState } from "../components/Sync/Clocks";
 import { ConfigurableType } from "../components/config/IConfigurable";
 import { ConfigBuilder } from "../components/config/ConfigBuilder";
 import { getRecoil } from "recoil-nexus";
-import { StateStorageWatcher } from "../components/config/StateConfigStorageWatcher";
+import { StateStorageWatcher } from "../components/config/StateStorageWatcher";
 import { isEqual } from "lodash";
 import { sendCommand } from "../commands/SendCommand";
 import { diffObject } from "../util/Diffobject";

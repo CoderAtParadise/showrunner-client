@@ -43,9 +43,9 @@ export class ConfigValueButton implements ConfigValue<void> {
         this.configurable.onClick!(this.builder, event);
     }
 
-    render(): ReactNode {
+    render(key: string): ReactNode {
         return (
-            <Content>
+            <Content key={key}>
                 <Input
                     onClick={(e) => {
                         this.onClick(e);

@@ -31,16 +31,25 @@ export class ConfigValueOptions implements ConfigValue<string> {
 
     set(value: string): void {
         this.storage(this.builder).set(
+            this.builder,
             `${this.configurable.group}.${this.configurable.key}`,
             value
         );
     }
 
-    render(): ReactNode {
+    render(key: string): ReactNode {
         const options: { label: string; id: string }[] =
             this.configurable.Options?.(this.builder) || [];
+        if (
+            this.storage(this.builder).get(
+                `${this.configurable.group}.${this.configurable.key}`
+            ) === undefined &&
+            this.configurable.defaultValue
+        )
+            this.set(this.configurable?.defaultValue);
+        console.log(key);
         return (
-            <Content>
+            <Content key={key}>
                 <div>{this.configurable.displayName}:</div>
                 <AutoComplete
                     options={options}
@@ -50,9 +59,9 @@ export class ConfigValueOptions implements ConfigValue<string> {
                                 value.id === this.get()
                         ) || { label: "", id: "" }
                     }
-                    onChange={(
-                        value: { label: string; id: string }
-                    ) => this.set(value.id)}
+                    onChange={(value: { label: string; id: string }) =>
+                        this.set(value.id)
+                    }
                 />
             </Content>
         );

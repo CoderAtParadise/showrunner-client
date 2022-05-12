@@ -11,6 +11,7 @@ import { Widget } from "./components/widget/Widget";
 import { RenderMode } from "./components/widget/IWidgetLayout";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { createDir, BaseDirectory } from "@tauri-apps/api/fs";
+import { CreateClockMenu } from "./components/menu/CreateMenu";
 
 const theme = createTheme({
     palette: {
@@ -41,6 +42,7 @@ function App(props: { className?: string }) {
                     <RecoilRoot>
                         <RecoilNexus />
                         <ClockSyncState show="system" session="system">
+                            <CreateClockMenu show="system" session="system" />
                             <Widget
                                 edit
                                 layout={{

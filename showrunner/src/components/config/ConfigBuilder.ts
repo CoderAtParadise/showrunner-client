@@ -10,6 +10,7 @@ import { ConfigValueDropdown } from "./ConfigValueDropdown";
 import { ConfigurableType, IConfigurable } from "./IConfigurable";
 import { ConfigValueTime } from "./ConfigValueTime";
 import { ConfigValueNumber } from "./ConfigValueNumber";
+import { isArray } from "lodash";
 
 export class ConfigBuilder {
     constructor(
@@ -104,11 +105,53 @@ export class ConfigBuilder {
         });
     }
 
+    listen(
+        key: string | string[],
+        cb: (prevState?: any, newState?: any) => void
+    ) {
+        if (!isArray(key)) this._listen(key, cb);
+        else {
+            (key as string[]).forEach((value: string) =>
+                this._listen(value, cb)
+            );
+        }
+    }
+
+    private _listen(
+        key: string,
+        cb: (prevState?: any, newState?: any) => void
+    ) {
+        if (this.listeners.get(key) !== undefined)
+            this.listeners.get(key)?.push(cb);
+        else this.listeners.set(key, [cb]);
+    }
+
+    runListeners(key: string, oldValue: any, newValue: any) {
+        if (this.listeners.get(key)) {
+            this.listeners
+                .get(key)
+                ?.forEach((cb: (prevState: any, newState: any) => void) => {
+                    cb(oldValue, newValue);
+                });
+        }
+    }
+
     setStorage(storage: LooseObject, watcher: string = "default") {
         this.storageWatchers.get(watcher)?.updateStorage(storage);
     }
 
-    filter(key: string): ConfigValue<any>[] {
+    filter(key: string | string[]): ConfigValue<any>[] {
+        if (!isArray(key)) return this._filter(key);
+        else {
+            let filtered: ConfigValue<any>[] = [];
+            (key as string[]).forEach((value: string) => {
+                filtered = filtered.concat(this._filter(value));
+            });
+            return filtered;
+        }
+    }
+
+    private _filter(key: string): ConfigValue<any>[] {
         if (key === "") return this.configs;
         const keysplit = key.split(":");
         const filtered: ConfigValue<any>[] = [];
@@ -186,6 +229,9 @@ export class ConfigBuilder {
         groups: { display: string; filter: string }[];
     }[] = [];
 
+    // prettier-ignore
+    // eslint-disable-next-line
+    private listeners: Map<string, ((prevState?: any, newState?: any) => void)[]> = new Map<string, ((prevState?: any, newState?: any) => void)[]>();
     private configs: ConfigValue<any>[] = [];
     private storageWatchers: Map<string, ConfigStorageWatcher> = new Map<
         string,

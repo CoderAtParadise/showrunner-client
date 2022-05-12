@@ -43,15 +43,23 @@ export class ConfigValueTime implements ConfigValue<string> {
 
     set(value: string): void {
         this.storage(this.builder).set(
+            this.builder,
             `${this.configurable.group}.${this.configurable.key}`,
             value
         );
     }
 
-    render(): ReactNode {
+    render(key: string): ReactNode {
         const clock = new SMPTE(this.get() || "00:00:00:00");
+        if (
+            this.storage(this.builder).get(
+                `${this.configurable.group}.${this.configurable.key}`
+            ) === undefined &&
+            this.configurable.defaultValue
+        )
+            this.set(this.configurable?.defaultValue);
         return (
-            <Content>
+            <Content key={key}>
                 <div>{this.configurable.displayName}: </div>
                 <Input
                     type="number"

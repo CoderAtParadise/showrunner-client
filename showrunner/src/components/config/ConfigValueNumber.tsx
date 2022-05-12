@@ -40,12 +40,13 @@ export class ConfigValueNumber implements ConfigValue<number | string> {
 
     set(value: number | string): void {
         this.storage(this.builder).set(
+            this.builder,
             `${this.configurable.group}.${this.configurable.key}`,
             value
         );
     }
 
-    render(): ReactNode {
+    render(key: string): ReactNode {
         const options: { label: string; id: string }[] =
             this.configurable.Options?.(this.builder) || [];
         const min: number = parseFloat(
@@ -58,8 +59,15 @@ export class ConfigValueNumber implements ConfigValue<number | string> {
                 (value: { label: string; id: string }) => value.id === "max"
             )?.label || `${Number.MAX_VALUE}`
         );
+        if (
+            this.storage(this.builder).get(
+                `${this.configurable.group}.${this.configurable.key}`
+            ) === undefined &&
+            this.configurable.defaultValue
+        )
+            this.set(this.configurable?.defaultValue);
         return (
-            <Content>
+            <Content key={key}>
                 <div>{this.configurable.displayName}: </div>
                 <Input
                     type="number"

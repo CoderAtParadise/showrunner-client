@@ -2,6 +2,7 @@ import { Dispatch } from "react";
 import { LooseObject } from "../../util/LooseObject";
 import { ConfigStorageWatcher } from "./ConfigStorageWatcher";
 import structuredClone from "@ungap/structured-clone";
+import { ConfigBuilder } from "./ConfigBuilder";
 
 export class StateStorageWatcher implements ConfigStorageWatcher {
     constructor(
@@ -14,7 +15,7 @@ export class StateStorageWatcher implements ConfigStorageWatcher {
         this.forceUpdate = forceUpdate;
     }
 
-    set(key: string, value: any): any {
+    set(builder: ConfigBuilder, key: string, value: any): any {
         const nested = key.split(".");
         let ret = null;
         this.dispatcher((prevState: LooseObject) => {
@@ -23,7 +24,11 @@ export class StateStorageWatcher implements ConfigStorageWatcher {
             nested.forEach((v: string, index: number) => {
                 if (tmp[v] === undefined) tmp[v] = {};
                 if (index < nested.length - 1) tmp = tmp[v];
-                else tmp[v] = value;
+                else {
+                    const oldValue = structuredClone(tmp[v]);
+                    tmp[v] = value;
+                    builder.runListeners(key, oldValue, value);
+                }
             });
             this.updateStorage(ret);
             this.forceUpdate();
@@ -64,6 +69,10 @@ export class StateStorageWatcher implements ConfigStorageWatcher {
 
     rawFetched(): LooseObject {
         return this.mfetched;
+    }
+
+    raw(): LooseObject {
+        return this.storage;
     }
 
     private storage: LooseObject;

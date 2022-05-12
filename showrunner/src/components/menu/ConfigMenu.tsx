@@ -194,14 +194,14 @@ export const ConfigMenu = (props: {
                                             props.config
                                         ) ? (
                                             <>
-                                                {value.render()}
+                                                {value.render(`${value.configurable.group}.${value.configurable.key}`)}
                                                 <Br />
                                             </>
                                         ) : null;
                                     } else {
                                         return (
                                             <>
-                                                {value.render()}
+                                                {value.render(`${value.configurable.group}.${value.configurable.key}`)}
                                                 <Br />
                                             </>
                                         );

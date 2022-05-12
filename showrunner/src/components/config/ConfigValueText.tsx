@@ -40,14 +40,23 @@ export class ConfigValueText implements ConfigValue<string> {
 
     set(value: string): void {
         this.storage(this.builder).set(
+            this.builder,
             `${this.configurable.group}.${this.configurable.key}`,
             value
         );
     }
 
-    render(): ReactNode {
+    render(key: string): ReactNode {
+        if (
+            this.storage(this.builder).get(
+                `${this.configurable.group}.${this.configurable.key}`
+            ) === undefined &&
+            this.configurable.defaultValue
+        )
+            this.set(this.configurable?.defaultValue);
+
         return (
-            <Content>
+            <Content key={key}>
                 <div>{this.configurable.displayName}: </div>
                 <Input
                     type="text"

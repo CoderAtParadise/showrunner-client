@@ -3,7 +3,7 @@ import { IWidgetLayout, RenderMode, WidgetConfigurable } from "./IWidgetLayout";
 import { LooseObject } from "../../util/LooseObject";
 import { WidgetCompact } from "./WidgetCompact";
 import { ConfigBuilder } from "../config/ConfigBuilder";
-import { StateStorageWatcher } from "../config/StateConfigStorageWatcher";
+import { StateStorageWatcher } from "../config/StateStorageWatcher";
 import { IConfigurable } from "../config/IConfigurable";
 
 export const Widget = (props: {

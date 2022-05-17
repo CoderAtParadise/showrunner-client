@@ -36,10 +36,15 @@ const DropdownArrow = styled(ArrowDropDown)`
 const DropUpArrow = DropdownArrow.withComponent(ArrowDropUp);
 
 const SuggestionsContainer = styled.div`
-    max-height: 143px;
     position: absolute;
     top: 1.8em;
     z-index: 1;
+`;
+
+const DropdownContent = styled(Scrollable)`
+    height: fit-content;
+    max-height: 14em;
+    overflow: auto;
 `;
 
 const Suggestions = styled.ul`
@@ -148,13 +153,13 @@ export const Dropdown = (props: {
                 )}
             </CollapsedSelected>
             <SuggestionsContainer>
-                <Scrollable>
+                <DropdownContent>
                     {showSuggestions ? (
                         <Suggestions>
                             {props.options.map((value, index) => (
                                 <Suggested
                                     active={highlightedSuggested === index}
-                                    key={value.id}
+                                    key={`${value.id}_${index}`}
                                     onMouseDown={onClick}
                                     onMouseEnter={() =>
                                         highlighHouseOver(index)
@@ -166,7 +171,7 @@ export const Dropdown = (props: {
                             ))}
                         </Suggestions>
                     ) : null}
-                </Scrollable>
+                </DropdownContent>
             </SuggestionsContainer>
         </Content>
     );

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Settings } from "@mui/icons-material";
 import styled from "@emotion/styled";
 import { ConfigBuilder } from "../config/ConfigBuilder";
 import { Tooltip, TooltipContent, TooltipHoverable } from "../tooltip";
 import { ConfigMenu } from "../menu/ConfigMenu";
+import { useRecoilValue } from "recoil";
+import { fetched } from "../fetcher/Fetcher";
 
 const SettingsButton = styled(Settings)`
     width: 0.8em;
@@ -35,6 +37,23 @@ export const WidgetConfig = (props: {
     config: ConfigBuilder;
 }) => {
     const [isOpen, setOpen] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_, markDirty] = useState({ dummy: false });
+    const _fetched = useRecoilValue(
+        fetched({ show: props.config.show, session: props.config.session })
+    );
+
+    useEffect(() => {
+        markDirty((prevState) => ({ dummy: !prevState.dummy }));
+    }, [_fetched]);
+
+    useEffect(() => {
+        props.config.listen("*", () => {
+            console.log("Hello");
+            markDirty((prevState) => ({ dummy: !prevState.dummy }));
+        });
+        return () => {};
+    }, []);
     return (
         <>
             <SettingsTooltip>

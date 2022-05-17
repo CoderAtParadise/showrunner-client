@@ -5,6 +5,8 @@ import { WidgetCompact } from "./WidgetCompact";
 import { ConfigBuilder } from "../config/ConfigBuilder";
 import { StateStorageWatcher } from "../config/StateStorageWatcher";
 import { IConfigurable } from "../config/IConfigurable";
+import { useRecoilValue } from "recoil";
+import { fetched } from "../fetcher/Fetcher";
 
 export const Widget = (props: {
     className?: string;

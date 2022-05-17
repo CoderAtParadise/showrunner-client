@@ -30,15 +30,7 @@ export const Reset = (
 
 export const Create = (
     commandInfo: { show: string; session: string },
-    data: {
-        owner: string;
-        type: string;
-        displayName: string;
-        authority: string;
-        time: string;
-        behaviour: string;
-        direction: string;
-    }
+    data: any
 ) => {
     return sendCommand(commandInfo, "clock.create", { data: data });
 };

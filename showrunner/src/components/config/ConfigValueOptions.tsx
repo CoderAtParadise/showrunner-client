@@ -47,7 +47,6 @@ export class ConfigValueOptions implements ConfigValue<string> {
             this.configurable.defaultValue
         )
             this.set(this.configurable?.defaultValue);
-        console.log(key);
         return (
             <Content key={key}>
                 <div>{this.configurable.displayName}:</div>

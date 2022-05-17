@@ -25,6 +25,9 @@ import {
     TooltipHoverable,
     TooltipContent
 } from "../components/tooltip";
+import { fetched, useFetcher } from "../components/fetcher/Fetcher";
+import { AmpChannelsFetcher } from "../components/fetcher/fetchers/AmpChannelsFetcher";
+import { AmpChannelVideoFetcher } from "../components/fetcher/fetchers/AmpChannelVideoFetcher";
 
 const blink = keyframes`
     50% {
@@ -184,66 +187,29 @@ const ClockDisplayContainer = (props: {
     );
     const [initialLoad, setInitialLoad] = useState(true);
     const [originalSettings, setOriginalSettings] = useState(clock?.settings);
+    const [dummy, setDummy] = useState(false);
+    useFetcher(props.builder.show, props.builder.session, AmpChannelsFetcher);
+    useFetcher(
+        props.builder.show,
+        props.builder.session,
+        AmpChannelVideoFetcher
+    );
     if (!isEqual(originalSettings, clock?.settings)) {
         setConfig({ settings: clock?.settings });
         setOriginalSettings(clock?.settings);
     }
-    const fetchChannels = async (): Promise<any> => {
-        try {
-            let fetched: any = {};
-            if (props.builder.get("settings.channel")?.get() !== undefined) {
-                await sendCommand(
-                    {
-                        show: props.builder.show,
-                        session: props.builder.session
-                    },
-                    "amp.channel",
-                    {}
-                )
-                    .then((res) => res.json())
-                    .then(
-                        (v) => (fetched = { ...fetched, channels: v.message })
-                    );
-            }
-            if (props.builder.get("settings.source")?.get() !== undefined) {
-                await sendCommand(
-                    {
-                        show: props.builder.show,
-                        session: props.builder.session
-                    },
-                    "amp.list",
-                    {
-                        channel: props.builder.get("settings.source")?.get()
-                    }
-                )
-                    .then((res) => res.json())
-                    .then((v) => (fetched = { ...fetched, videos: v.message }));
-            }
-            props.builder.setFetched(fetched, "clock");
-            props.forceUpdate();
-            return setTimeout(fetchChannels, 10000);
-        } catch (err) {
-            console.log("error", err);
-        }
-    };
-
-    useEffect(() => {
-        const run = async () => {
-            const timer = await fetchChannels();
-            return () => clearTimeout(timer);
-        };
-        run();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     useEffect(() => {
         if (initialLoad) {
             setInitialLoad(false);
+            props.builder.listen("settings.clock", () => {
+                setDummy((prevState) => !prevState);
+                return () => {};
+            });
             return;
         }
         if (!isEqual(config.settings, clock?.settings)) {
             const delayChange = setTimeout(() => {
-                console.log("Clock Synced");
                 const diff = diffObject(clock?.settings, config.settings);
                 sendCommand(
                     {
@@ -396,7 +362,9 @@ const WidgetClock: IWidget = {
             Options: (
                 builder: ConfigBuilder
             ): { label: string; id: string }[] => {
-                const channels = builder.fetched("channels", "clock") || [];
+                const channels = getRecoil(
+                    fetched({ show: builder.show, session: builder.session })
+                ).get("amp.channels");
                 const options: { label: string; id: string }[] = [];
                 (channels as string[]).forEach((v) => {
                     options.push({ label: v, id: v });
@@ -427,7 +395,8 @@ const WidgetClock: IWidget = {
                         (clock) =>
                             clock.type !== "offset" &&
                             clock.type !== "tod:offset" &&
-                            clock.type !== "sync"
+                            clock.type !== "sync" &&
+                            clock.type === "ampctrl"
                     )
                     .forEach((clock) =>
                         ret.push({
@@ -449,11 +418,18 @@ const WidgetClock: IWidget = {
             key: "source",
             storage: "clock",
             Options: (builder: ConfigBuilder) => {
-                const channels = builder.fetched("v", "clock") || [];
+                const channel: string =
+                    builder.get("settings.channel")?.get() || "";
+                const videos = getRecoil(
+                    fetched({ show: builder.show, session: builder.session })
+                ).get("amp.videos");
                 const options: { label: string; id: string }[] = [];
-                (channels as string[]).forEach((v) => {
-                    options.push({ label: v, id: v });
-                });
+                (videos as Map<string, string[]>)
+                    .get(channel)
+                    ?.forEach((value: string) => {
+                        options.push({ label: value, id: value });
+                    });
+
                 return options;
             },
             Enabled: (builder: ConfigBuilder) => {

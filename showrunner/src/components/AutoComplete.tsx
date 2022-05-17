@@ -51,6 +51,12 @@ const Input = styled.input`
     border-radius: 3px;
 `;
 
+const DropdownContent = styled(Scrollable)`
+    height: fit-content;
+    max-height: 12em;
+    overflow: auto;
+`;
+
 export const AutoComplete = (props: {
     className?: string;
     options: { label: string; id: string }[];
@@ -180,9 +186,9 @@ export const AutoComplete = (props: {
                 onBlur={onFocusLost}
             />
             <SuggestionsContainer>
-                <Scrollable>
+                <DropdownContent>
                     {showSuggestions && search && <SuggestionList />}
-                </Scrollable>
+                </DropdownContent>
             </SuggestionsContainer>
         </Content>
     );

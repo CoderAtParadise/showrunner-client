@@ -17,6 +17,7 @@ const CompactContainer = styled.div`
     border-radius: 1em;
     border-width: 0.2em;
     padding: 0.4em;
+    position: relative;
 `;
 
 const Content = styled(Scrollable)`
@@ -28,14 +29,12 @@ const Content = styled(Scrollable)`
 
 export const WidgetCompact = (props: {
     className?: string;
-    config: ConfigBuilder,
+    config: ConfigBuilder;
     content: ReactNode;
 }) => {
     return (
         <CompactContainer>
-            <WidgetHeader
-                config={props.config}
-            />
+            <WidgetHeader config={props.config} />
             <Content>{props.content || "Loading..."}</Content>
         </CompactContainer>
     );

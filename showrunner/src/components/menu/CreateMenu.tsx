@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { CloseRounded } from "@mui/icons-material";
+import { Add, CloseRounded } from "@mui/icons-material";
 import { useMemo, useState } from "react";
 import { ConfigBuilder } from "../config/ConfigBuilder";
 import { Tooltip, TooltipContent, TooltipHoverable } from "../tooltip";
@@ -8,6 +8,12 @@ import { ConfigValue } from "../config/ConfigValue";
 import { Scrollable } from "../Scrollable";
 import { ConfigurableType, IConfigurable } from "../config/IConfigurable";
 import { Offset } from "@coderatparadise/showrunner-common";
+import { Create } from "../../commands/Clock";
+import { fetched, useFetcher } from "../fetcher/Fetcher";
+import { AmpChannelsFetcher } from "../fetcher/fetchers/AmpChannelsFetcher";
+import { getRecoil } from "recoil-nexus";
+import { AmpChannelVideoFetcher } from "../fetcher/fetchers/AmpChannelVideoFetcher";
+import { clocksState } from "../Sync/Clocks";
 
 const Background = styled.div`
     width: 100vw;
@@ -58,14 +64,23 @@ const Menu = styled.div`
 
 const Title = styled.div`
     margin-top: 0.5em;
+    margin-left: 5px;
     font-weight: bold;
     width: 50%;
+    text-align: left;
 `;
 
 const SettingsTooltip = styled(Tooltip)`
     width: 10%;
     position: absolute;
     right: 0.5px;
+`;
+
+const CreateTooltip = styled(Tooltip)`
+    width: 10%;
+    position: absolute;
+    right: 0.5em;
+    top: 0.5em;
 `;
 
 const CloseButton = styled(CloseRounded)`
@@ -89,6 +104,11 @@ const CloseButtonTooltipContent = styled(TooltipContent)`
 
 const Br = styled.p`
     font-size: 50%;
+`;
+
+const Error = styled.p`
+    color: red;
+    font-style: italic;
 `;
 
 const TimerClockFilter = [
@@ -115,14 +135,18 @@ const TODClockFilter = [
 ];
 const VideoClockFilter = [
     "group:create_clock_base",
-    "group:create_clock_chanel",
+    "group:create_clock_channel",
     "group:create_clock_source",
     "group:create_clock_direction",
     "group:create_clock_button"
 ];
 
 function validateBase(obj: any) {
-    return obj.type !== undefined && obj.displayName !== undefined;
+    return (
+        obj.type !== undefined &&
+        obj.displayName !== undefined &&
+        obj.displayName !== ""
+    );
 }
 
 function validateBehaviour(obj: any) {
@@ -133,8 +157,10 @@ function validateDirection(obj: any) {
     return obj.direction !== undefined;
 }
 
-function validateTime(obj: any) {
-    return obj.time !== undefined;
+function validateTime(obj: any, isTod?: boolean) {
+    return (
+        obj.time !== undefined && (isTod ? true : obj.time !== "00:00:00:00")
+    );
 }
 
 function validateAuthority(obj: any) {
@@ -143,7 +169,27 @@ function validateAuthority(obj: any) {
 
 function validateTimerSettings(obj: any) {
     return (
-        validateBase(obj) && validateBehaviour(obj) && validateDirection(obj)
+        validateBase(obj) &&
+        validateBehaviour(obj) &&
+        validateDirection(obj) &&
+        validateTime(obj)
+    );
+}
+
+function validateChannel(obj: any) {
+    return obj.channel !== undefined;
+}
+
+function validateSource(obj: any) {
+    return obj.source !== undefined;
+}
+
+function validateVideoSettings(obj: any) {
+    return (
+        validateBase(obj) &&
+        validateDirection(obj) &&
+        validateChannel(obj) &&
+        validateSource(obj)
     );
 }
 
@@ -154,6 +200,15 @@ function validateOffsetSettings(obj: any) {
         validateBehaviour(obj) &&
         validateDirection(obj) &&
         validateTime(obj)
+    );
+}
+
+function validateTODSettings(obj: any) {
+    return (
+        validateBase(obj) &&
+        validateBehaviour(obj) &&
+        validateDirection(obj) &&
+        validateTime(obj, true)
     );
 }
 
@@ -186,7 +241,31 @@ const creator: IConfigurable[] = [
         category: "create:clock",
         displayName: "Authority",
         group: "create_clock_authority",
-        key: "authority"
+        key: "authority",
+        Options: (builder: ConfigBuilder) => {
+            const clocks = getRecoil(
+                clocksState({
+                    show: builder.show,
+                    session: builder.session
+                })
+            );
+            const ret: { label: string; id: string }[] = [];
+            Array.from(clocks.values())
+                .filter(
+                    (clock) =>
+                        clock.type !== "offset" &&
+                        clock.type !== "tod:offset" &&
+                        clock.type !== "sync" &&
+                        clock.type === "ampctrl"
+                )
+                .forEach((clock) =>
+                    ret.push({
+                        label: clock.displayName!(),
+                        id: `${builder.show}:${builder.session}:${clock.identifier.id}`
+                    })
+                );
+            return ret;
+        }
     },
     {
         type: ConfigurableType.Dropdown,
@@ -239,16 +318,41 @@ const creator: IConfigurable[] = [
     {
         type: ConfigurableType.Dropdown,
         category: "create:clock",
-        displayName: "Chanel",
-        group: "create_clock_chanel",
-        key: "chanel"
+        displayName: "Channel",
+        group: "create_clock_channel",
+        key: "channel",
+        Options: (builder: ConfigBuilder) => {
+            const channels = getRecoil(
+                fetched({ show: builder.show, session: builder.session })
+            ).get("amp.channels");
+            const options: { label: string; id: string }[] = [];
+            (channels as string[]).forEach((v) => {
+                options.push({ label: v, id: v });
+            });
+            return options;
+        }
     },
     {
         type: ConfigurableType.Options,
         category: "create:clock",
         displayName: "Source",
         group: "create_clock_source",
-        key: "source"
+        key: "source",
+        Options: (builder: ConfigBuilder) => {
+            const channel: string =
+                builder.get("create_clock_channel.channel")?.get() || "";
+            const videos = getRecoil(
+                fetched({ show: builder.show, session: builder.session })
+            ).get("amp.videos");
+            const options: { label: string; id: string }[] = [];
+            (videos as Map<string, string[]>)
+                .get(channel)
+                ?.forEach((value: string) => {
+                    options.push({ label: value, id: value });
+                });
+
+            return options;
+        }
     },
     {
         type: ConfigurableType.Button,
@@ -276,11 +380,29 @@ const creator: IConfigurable[] = [
                         builder.get("error.error")!.set(true);
                     }
                     break;
+                case "tod":
+                    if (!validateTODSettings(out)) {
+                        error = true;
+                        builder.get("error.error")!.set(true);
+                    }
+                    break;
+                case "video":
+                    if (!validateVideoSettings(out)) {
+                        error = true;
+                        builder.get("error.error")!.set(true);
+                    }
+                    break;
             }
 
             if (!error) {
-                // NOOP
+                Create(
+                    { show: builder.show, session: builder.session },
+                    { owner: "", ...out }
+                );
+                builder.get("error.error")!.set(false);
+                return true;
             }
+            return false;
         }
     },
     {
@@ -292,6 +414,26 @@ const creator: IConfigurable[] = [
     }
 ];
 
+const AddButton = styled(Add)`
+    width: 1.2em;
+    height: 1.2em;
+    float: right;
+    position: absolute;
+    top: 0.2em;
+    right: 0.2em;
+    color: rgb(255, 255, 255);
+    &:hover {
+        color: rgb(200, 200, 200);
+        cursor: pointer;
+    }
+`;
+
+const ButtonTooltipContent = styled(TooltipContent)`
+    right: 150%;
+    left: 75%;
+    bottom: 150%;
+`;
+
 export const CreateClockMenu = (props: {
     className?: string;
     show: string;
@@ -300,6 +442,13 @@ export const CreateClockMenu = (props: {
     const [isOpen, setOpen] = useState(false);
     const [clockFilter, setClockFilter] = useState<string[]>(TimerClockFilter);
     const [config, setConfig] = useState({});
+    useFetcher(props.show, props.session, AmpChannelsFetcher);
+    useFetcher(props.show, props.session, AmpChannelVideoFetcher);
+    const reset = () => {
+        setOpen(false);
+        setConfig({ create_clock_base: { type: "timer" } });
+        setClockFilter(TimerClockFilter);
+    };
     const builder = useMemo(() => {
         const b = new ConfigBuilder(
             props.show,
@@ -334,74 +483,75 @@ export const CreateClockMenu = (props: {
                 }
             }
         );
+        b.listen("create_clock_button.create", (_, newState: boolean) => {
+            if (newState) reset();
+        });
         return b;
     }, [config, props.session, props.show]);
-
-    return isOpen ? (
-        <Background
-            className={props.className}
-            onClick={() => {
-                setOpen(false);
-                setConfig({
-                    create_clock_base: { type: "timer" }
-                });
-                setClockFilter(TimerClockFilter);
-            }}
-        >
-            <Menu onClick={(e) => e.stopPropagation()}>
-                <Header>
-                    <SettingsTooltip>
-                        <TooltipHoverable>
-                            <CloseButton
-                                onClick={() => {
-                                    setOpen(false);
-                                    setConfig({
-                                        create_clock_base: { type: "timer" }
-                                    });
-                                    setClockFilter(TimerClockFilter);
-                                }}
-                            />
-                        </TooltipHoverable>
-                        <CloseButtonTooltipContent>
-                            Close
-                        </CloseButtonTooltipContent>
-                    </SettingsTooltip>
-                    <Title>Create</Title>
-                </Header>
-                <ConfigContent>
-                    <Configure>
-                        <Scrollable>
-                            {builder
-                                .filter(clockFilter)
-                                /* eslint-disable indent */
-                                .map((value: ConfigValue<any>) => {
-                                    if (value.configurable.Enabled) {
-                                        return value.configurable.Enabled(
-                                            builder
-                                        ) ? (
-                                            <>
-                                                {value.render(
-                                                    `${value.configurable.group}.${value.configurable.key}`
-                                                )}
-                                                <Br />
-                                            </>
-                                        ) : null;
-                                    } else {
-                                        return (
-                                            <>
-                                                {value.render(
-                                                    `${value.configurable.group}.${value.configurable.key}`
-                                                )}
-                                                <Br />
-                                            </>
-                                        );
-                                    }
-                                })}
-                            {/* eslint-enable indent */}
-                        </Scrollable>
-                    </Configure>
-                </ConfigContent>
-            </Menu>
-        </Background>
-    ) : null;
+    return (
+        <>
+            <CreateTooltip>
+                <TooltipHoverable>
+                    <AddButton onClick={() => setOpen(!isOpen)} />
+                </TooltipHoverable>
+                <ButtonTooltipContent>Create Clock</ButtonTooltipContent>
+            </CreateTooltip>
+            {isOpen ? (
+                <Background className={props.className} onClick={() => reset()}>
+                    <Menu onClick={(e) => e.stopPropagation()}>
+                        <Header>
+                            <SettingsTooltip>
+                                <TooltipHoverable>
+                                    <CloseButton onClick={() => reset()} />
+                                </TooltipHoverable>
+                                <CloseButtonTooltipContent>
+                                    Close
+                                </CloseButtonTooltipContent>
+                            </SettingsTooltip>
+                            <Title>Create</Title>
+                        </Header>
+                        <ConfigContent>
+                            <Configure>
+                                <Scrollable>
+                                    {builder
+                                        .filter(clockFilter)
+                                        /* eslint-disable indent */
+                                        .map((value: ConfigValue<any>) => {
+                                            if (value.configurable.Enabled) {
+                                                return value.configurable.Enabled(
+                                                    builder
+                                                ) ? (
+                                                    <>
+                                                        {value.render(
+                                                            `${value.configurable.group}.${value.configurable.key}`
+                                                        )}
+                                                        <Br />
+                                                    </>
+                                                ) : null;
+                                            } else {
+                                                return (
+                                                    <>
+                                                        {value.render(
+                                                            `${value.configurable.group}.${value.configurable.key}`
+                                                        )}
+                                                        <Br />
+                                                    </>
+                                                );
+                                            }
+                                        })}
+                                    {/* eslint-enable indent */}
+                                    {builder.get("error.error")!.get() ? (
+                                        <Error>
+                                            *Missing required information to
+                                            create clock*
+                                        </Error>
+                                    ) : null}
+                                </Scrollable>
+                            </Configure>
+                        </ConfigContent>
+                    </Menu>
+                </Background>
+            ) : null}
+        </>
+    );
 };

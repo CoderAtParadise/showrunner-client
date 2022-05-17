@@ -68,7 +68,7 @@ const GetEventSource = (props: { show: string; session: string }) => {
             await fetchEventSource(
                 `${serverurl}/production/${props.show}/${props.session}/clocks`,
                 {
-                    method: "POST",
+                    method: "GET",
                     headers: {
                         Accept: "text/event-stream"
                     },

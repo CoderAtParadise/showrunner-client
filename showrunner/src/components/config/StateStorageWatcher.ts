@@ -27,7 +27,7 @@ export class StateStorageWatcher implements ConfigStorageWatcher {
                 else {
                     const oldValue = structuredClone(tmp[v]);
                     tmp[v] = value;
-                    builder.runListeners(key, oldValue, value);
+                    builder.invokeListeners(key, oldValue, value);
                 }
             });
             this.updateStorage(ret);

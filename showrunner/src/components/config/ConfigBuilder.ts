@@ -105,6 +105,13 @@ export class ConfigBuilder {
         });
     }
 
+    // removeListener(
+    //     key: string | string[],
+    //     cb: (prevState?: any, newState?: any) => void
+    // ) {
+
+    // }
+
     listen(
         key: string | string[],
         cb: (prevState?: any, newState?: any) => void
@@ -126,7 +133,7 @@ export class ConfigBuilder {
         else this.listeners.set(key, [cb]);
     }
 
-    runListeners(key: string, oldValue: any, newValue: any) {
+    invokeListeners(key: string, oldValue: any, newValue: any) {
         if (this.listeners.get(key)) {
             this.listeners
                 .get(key)
@@ -134,6 +141,11 @@ export class ConfigBuilder {
                     cb(oldValue, newValue);
                 });
         }
+        this.listeners
+            .get("*")
+            ?.forEach((cb: (prevState: any, newState: any) => void) => {
+                cb(oldValue, newValue);
+            });
     }
 
     setStorage(storage: LooseObject, watcher: string = "default") {

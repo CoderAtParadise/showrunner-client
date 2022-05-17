@@ -24,7 +24,7 @@ const Input = styled.button`
     }
 `;
 
-export class ConfigValueButton implements ConfigValue<void> {
+export class ConfigValueButton implements ConfigValue<boolean> {
     constructor(
         builder: ConfigBuilder,
         configurable: IConfigurable,
@@ -35,12 +35,20 @@ export class ConfigValueButton implements ConfigValue<void> {
         this.storage = storage;
     }
 
-    get(): void {}
+    get(): boolean {
+        return false;
+    }
 
-    set(): void {}
+    set(value: boolean): void {
+        this.builder.invokeListeners(
+            `${this.configurable.group}.${this.configurable.key}`,
+            false,
+            value
+        );
+    }
 
-    onClick(event: MouseEvent<HTMLButtonElement>): void {
-        this.configurable.onClick!(this.builder, event);
+    onClick(event: MouseEvent<HTMLButtonElement>): boolean {
+        return this.configurable.onClick!(this.builder, event);
     }
 
     render(key: string): ReactNode {
@@ -48,7 +56,7 @@ export class ConfigValueButton implements ConfigValue<void> {
             <Content key={key}>
                 <Input
                     onClick={(e) => {
-                        this.onClick(e);
+                        this.set(this.onClick(e));
                     }}
                 >
                     {this.configurable.displayName}

@@ -366,9 +366,11 @@ const WidgetClock: IWidget = {
                     fetched({ show: builder.show, session: builder.session })
                 ).get("amp.channels");
                 const options: { label: string; id: string }[] = [];
-                (channels as string[]).forEach((v) => {
-                    options.push({ label: v, id: v });
-                });
+                if (channels !== undefined) {
+                    (channels as string[]).forEach((v) => {
+                        options.push({ label: v, id: v });
+                    });
+                }
                 return options;
             },
             Enabled: (builder: ConfigBuilder) => {

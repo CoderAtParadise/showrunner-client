@@ -4,14 +4,14 @@
     "**/.pnp.*": true
   },
   "eslint.workingDirectories": [
-    "./showrunner/src/**/*"
+    "./src/**/*"
   ],
   "eslint.packageManager": "yarn",
   "npm.packageManager": "yarn",
-  "eslint.nodePath": "./showrunner/.yarn/sdks",
-  "typescript.tsdk": "./showrunner/.yarn/sdks/typescript/lib",
+  "eslint.nodePath": "./.yarn/sdks",
+  "typescript.tsdk": "./.yarn/sdks/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
-  "prettier.prettierPath": "./showrunner/.yarn/sdks/prettier/index.js",
+  "prettier.prettierPath": "./.yarn/sdks/prettier/index.js",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false
 }

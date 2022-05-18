@@ -26,83 +26,91 @@ export class ConfigBuilder {
     }
 
     buildConfig(config: IConfigurable[]) {
-        config.forEach((value: IConfigurable) => {
-            if (
-                !this.filters.find(
+        if (!this.isBuilt) {
+            this.isBuilt = true;
+            config.forEach((value: IConfigurable) => {
+                if (
+                    !this.filters.find(
+                        (v: {
+                            display: string;
+                            filter: string;
+                            category?: string;
+                        }) => v.filter === `category:${value.category}`
+                    )
+                ) {
+                    this.filters.push({
+                        display: value.category,
+                        filter: `category:${value.category}`,
+                        groups: []
+                    });
+                }
+                const category = this.filters.find(
                     (v: {
                         display: string;
                         filter: string;
                         category?: string;
                     }) => v.filter === `category:${value.category}`
-                )
-            ) {
-                this.filters.push({
-                    display: value.category,
-                    filter: `category:${value.category}`,
-                    groups: []
-                });
-            }
-            const category = this.filters.find(
-                (v: { display: string; filter: string; category?: string }) =>
-                    v.filter === `category:${value.category}`
-            );
-            if (
-                !category!.groups.find(
-                    (v: { display: string; filter: string }) =>
-                        v.filter === `group:${value.group}`
-                )
-            ) {
-                category!.groups.push({
-                    display: value.group,
-                    filter: `group:${value.group}`
-                });
-            }
-            const storagekey = value.storage || "default";
-            const storage = (builder: ConfigBuilder) =>
-                builder.storageWatchers.get(storagekey) as ConfigStorageWatcher;
-            switch (value.type) {
-                case ConfigurableType.Boolean:
-                    this.configs.push(
-                        new ConfigValueBoolean(this, value, storage)
-                    );
-                    break;
-                case ConfigurableType.Number:
-                    this.configs.push(
-                        new ConfigValueNumber(this, value, storage)
-                    );
-                    break;
-                case ConfigurableType.Button:
-                    this.configs.push(
-                        new ConfigValueButton(this, value, storage)
-                    );
-                    break;
-                case ConfigurableType.Swatch:
-                    this.configs.push(
-                        new ConfigValueSwatch(this, value, storage)
-                    );
-                    break;
-                case ConfigurableType.Text:
-                    this.configs.push(
-                        new ConfigValueText(this, value, storage)
-                    );
-                    break;
-                case ConfigurableType.Options:
-                    this.configs.push(
-                        new ConfigValueOptions(this, value, storage)
-                    );
-                    break;
-                case ConfigurableType.Dropdown:
-                    this.configs.push(
-                        new ConfigValueDropdown(this, value, storage)
-                    );
-                    break;
-                case ConfigurableType.Time:
-                    this.configs.push(
-                        new ConfigValueTime(this, value, storage)
-                    );
-                    break;
-            }
-        });
+                );
+                if (
+                    !category!.groups.find(
+                        (v: { display: string; filter: string }) =>
+                            v.filter === `group:${value.group}`
+                    )
+                ) {
+                    category!.groups.push({
+                        display: value.group,
+                        filter: `group:${value.group}`
+                    });
+                }
+                const storagekey = value.storage || "default";
+                const storage = (builder: ConfigBuilder) =>
+                    builder.storageWatchers.get(
+                        storagekey
+                    ) as ConfigStorageWatcher;
+                switch (value.type) {
+                    case ConfigurableType.Boolean:
+                        this.configs.push(
+                            new ConfigValueBoolean(this, value, storage)
+                        );
+                        break;
+                    case ConfigurableType.Number:
+                        this.configs.push(
+                            new ConfigValueNumber(this, value, storage)
+                        );
+                        break;
+                    case ConfigurableType.Button:
+                        this.configs.push(
+                            new ConfigValueButton(this, value, storage)
+                        );
+                        break;
+                    case ConfigurableType.Swatch:
+                        this.configs.push(
+                            new ConfigValueSwatch(this, value, storage)
+                        );
+                        break;
+                    case ConfigurableType.Text:
+                        this.configs.push(
+                            new ConfigValueText(this, value, storage)
+                        );
+                        break;
+                    case ConfigurableType.Options:
+                        this.configs.push(
+                            new ConfigValueOptions(this, value, storage)
+                        );
+                        break;
+                    case ConfigurableType.Dropdown:
+                        this.configs.push(
+                            new ConfigValueDropdown(this, value, storage)
+                        );
+                        break;
+                    case ConfigurableType.Time:
+                        this.configs.push(
+                            new ConfigValueTime(this, value, storage)
+                        );
+                        break;
+                }
+            });
+        }
     }
 
     // removeListener(
@@ -241,6 +249,7 @@ export class ConfigBuilder {
         groups: { display: string; filter: string }[];
     }[] = [];
 
+    private isBuilt = false;
     // prettier-ignore
     // eslint-disable-next-line
     private listeners: Map<string, ((prevState?: any, newState?: any) => void)[]> = new Map<string, ((prevState?: any, newState?: any) => void)[]>();

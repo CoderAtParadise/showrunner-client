@@ -49,7 +49,6 @@ export const WidgetConfig = (props: {
 
     useEffect(() => {
         props.config.listen("*", () => {
-            console.log("Hello");
             markDirty((prevState) => ({ dummy: !prevState.dummy }));
         });
         return () => {};

@@ -120,7 +120,10 @@ export const ConfigMenu = (props: {
 }) => {
     const [filter, setFilter] = useState("");
     return props.isOpen ? (
-        <Background className={props.className} onClick={() => props.setOpen(false)}>
+        <Background
+            className={props.className}
+            onClick={() => props.setOpen(false)}
+        >
             <Menu onClick={(e) => e.stopPropagation()}>
                 <Header>
                     <SettingsTooltip>
@@ -194,14 +197,18 @@ export const ConfigMenu = (props: {
                                             props.config
                                         ) ? (
                                             <>
-                                                {value.render(`${value.configurable.group}.${value.configurable.key}`)}
+                                                {value.render(
+                                                    `${value.configurable.group}.${value.configurable.key}`
+                                                )}
                                                 <Br />
                                             </>
                                         ) : null;
                                     } else {
                                         return (
                                             <>
-                                                {value.render(`${value.configurable.group}.${value.configurable.key}`)}
+                                                {value.render(
+                                                    `${value.configurable.group}.${value.configurable.key}`
+                                                )}
                                                 <Br />
                                             </>
                                         );

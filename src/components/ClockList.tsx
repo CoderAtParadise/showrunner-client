@@ -8,16 +8,13 @@ import { CreateClockMenu } from "./menu/CreateMenu";
 
 const Container = styled.div`
     display: flex;
+    gap: 0.5em;
     width: 100vw;
     height: fit-content;
     flex-direction: row;
     align-items: flex-start;
     align-content: flex-start;
     flex-wrap: wrap;
-`;
-
-const Br = styled.hr`
-    width: 100%;
 `;
 
 export const ClockList = (props: {

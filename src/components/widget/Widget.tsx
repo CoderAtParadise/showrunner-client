@@ -5,6 +5,7 @@ import { WidgetCompact } from "./WidgetCompact";
 import { ConfigBuilder } from "../config/ConfigBuilder";
 import { StateStorageWatcher } from "../config/StateStorageWatcher";
 import { IConfigurable } from "../config/IConfigurable";
+import { isEqual } from "lodash";
 
 export const Widget = (props: {
     className?: string;
@@ -36,7 +37,7 @@ export const Widget = (props: {
             setInitialLoad(false);
             return;
         }
-        if (config !== props.layout.config) {
+        if (!isEqual(config, props.layout.config)) {
             const delayChange = setTimeout(() => {
                 console.log("Synced");
             }, 500);
@@ -53,7 +54,6 @@ export const Widget = (props: {
                 Array.from(WidgetConfigurable) as IConfigurable[]
             ) as IConfigurable[]
         );
-        console.log(builder);
         const looseRenderList = Widget.default.renderMode as LooseObject;
         let renderMode = looseRenderList[props.layout.renderMode as string];
         if (renderMode === undefined) renderMode = looseRenderList.default;

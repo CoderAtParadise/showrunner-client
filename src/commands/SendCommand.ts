@@ -1,4 +1,4 @@
-const serverurl = process.env.SERVER_URL || "http://localhost:3001";
+const serverurl = process.env.SHOWRUNNER_SERVER_URL || "localhost:3001";
 
 export const sendCommand = async (
     commandInfo: { show: string; session: string },

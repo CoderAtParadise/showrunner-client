@@ -7,7 +7,7 @@ export const sendCommand = async (
 ) => {
     if (!data) data = {};
     return await fetch(
-        `${serverurl}/production/${commandInfo.show}/${commandInfo.session}/command`,
+        `http://${serverurl}/production/${commandInfo.show}/${commandInfo.session}/command`,
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },

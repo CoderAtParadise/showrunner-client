@@ -8,7 +8,7 @@ import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { RenderClockCodec } from "./codec/RenderClockCodec";
 import { ClockIdentifier } from "@coderatparadise/showrunner-common";
 
-const serverurl = process.env.SERVER_URL || "http://localhost:3001";
+const serverurl = process.env.SERVER_URL || "localhost:3001";
 
 export const clocksState = atomFamily<
     Map<string, RenderClockSource>,
@@ -66,7 +66,7 @@ const GetEventSource = (props: { show: string; session: string }) => {
     useEffect(() => {
         const fetchData = async () => {
             await fetchEventSource(
-                `${serverurl}/production/${props.show}/${props.session}/clocks`,
+                `http://${serverurl}/production/${props.show}/${props.session}/clocks`,
                 {
                     method: "GET",
                     headers: {

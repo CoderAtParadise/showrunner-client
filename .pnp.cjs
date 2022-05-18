@@ -2701,7 +2701,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["@coderatparadise/showrunner-common", [
         ["portal:/D:/Dev/showrunner-common::locator=showrunner-client%40workspace%3A.", {
-          "packageLocation": "../../showrunner-common/",
+          "packageLocation": "../showrunner-common/",
           "packageDependencies": [
             ["@coderatparadise/showrunner-common", "portal:/D:/Dev/showrunner-common::locator=showrunner-client%40workspace%3A."]
           ],

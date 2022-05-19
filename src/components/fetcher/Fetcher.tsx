@@ -3,10 +3,8 @@ import {
     atomFamily,
     selectorFamily,
     useRecoilState,
-    useRecoilValue,
     useSetRecoilState
 } from "recoil";
-import { getRecoil } from "recoil-nexus";
 import { IFetcher } from "./IFetcher";
 
 export const fetched = atomFamily<
@@ -24,6 +22,7 @@ const setFetched = selectorFamily({
         return get(fetched(key)) as Map<string, any>;
     },
     set: (key:{show:string, session:string}) => ({ set }, newValue) => {
+        // @ts-ignore: It's just the parser being stupid this compiles fine
         set(fetched(key), (prevState: any) => {
             const state = new Map(prevState);
             const data = newValue as {id:string, data:any};
@@ -52,7 +51,7 @@ export function useFetcher(
 
 const fetchers: Map<string, IFetcher<any>> = new Map<string, IFetcher<any>>();
 const GetEventSource = (props: { show: string; session: string }) => {
-    const [_fetched, updateFetched] = useRecoilState(
+    const updateFetched = useSetRecoilState(
         setFetched({ show: props.show, session: props.session })
     );
 

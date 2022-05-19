@@ -187,6 +187,8 @@ const ClockDisplayContainer = (props: {
     );
     const [initialLoad, setInitialLoad] = useState(true);
     const [originalSettings, setOriginalSettings] = useState(clock?.settings);
+    // this is used to force an update we don't actually read it anywhere
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [dummy, setDummy] = useState(false);
     useFetcher(props.builder.show, props.builder.session, AmpChannelsFetcher);
     useFetcher(

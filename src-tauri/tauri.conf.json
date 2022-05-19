@@ -1,11 +1,9 @@
 {
   "build": {
-    "beforeBuildCommand": "",
-    "beforeDevCommand": "",
+    "beforeBuildCommand": "yarn build",
+    "beforeDevCommand": "yarn start",
     "devPath": "http://localhost:3000",
-    "distDir": "../build",
-    "beforeDevCommand": "cd src && yarn start",
-    "beforeBuildCommand": "cd src && yarn build"
+    "distDir": "../build"
   },
   "package": {
     "productName": "Showrunner",
@@ -13,6 +11,7 @@
   },
   "tauri": {
     "allowlist": {
+      "all": true,
       "fs": {
         "all": true,
         "scope": ["$APP","$LOCALDATA/showrunner/*"]

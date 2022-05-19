@@ -12,7 +12,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.join(__dirname, "public", "index.html")
         }),
-        new Dotenv({ path: "./env", safe: true })
+        new Dotenv()
     ],
     devServer: {
         static: path.join(__dirname, "public"),

@@ -75,8 +75,10 @@ export const FetchedState = (props: {
 }) => {
     return (
         <div>
+            <>
             {GetEventSource(props)}
             {props.children}
+            </>
         </div>
     );
 };

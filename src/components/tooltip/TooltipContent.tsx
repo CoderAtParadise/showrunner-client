@@ -26,5 +26,5 @@ export const TooltipContent = (props: {
     className?: string;
     children?: ReactNode;
 }) => {
-    return <StyledTooltipContent className={props.className}>{props.children}</StyledTooltipContent>;
+    return <StyledTooltipContent className={props.className + " tooltipcontent"}>{props.children}</StyledTooltipContent>;
 };

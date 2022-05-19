@@ -31,6 +31,6 @@ export class ErrorBoundary extends Component {
             );
         }
         // Normally, just render children
-        return this.props.children;
+        return (this.props as any).children;
     }
 }

@@ -4,7 +4,7 @@ import { StyledTooltipContent } from "./TooltipContent";
 
 const Text = styled.div`
     display: inline-block;
-    &:hover + ${StyledTooltipContent} {
+    &:hover + .tooltipcontent {
         visibility: visible;
         opacity: 1;
     }

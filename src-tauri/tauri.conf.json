@@ -1,4 +1,5 @@
 {
+  "$schema": "..\\node_modules/@tauri-apps/cli\\schema.json",
   "build": {
     "beforeBuildCommand": "yarn build",
     "beforeDevCommand": "yarn start",
@@ -11,11 +12,7 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true,
-      "fs": {
-        "all": true,
-        "scope": ["$APP","$LOCALDATA/showrunner/*"]
-      }
+      "all": true
     },
     "bundle": {
       "active": true,

@@ -8,65 +8,63 @@ import { useRecoilValue } from "recoil";
 import { fetched } from "../fetcher/Fetcher";
 
 const SettingsButton = styled(Settings)`
-    width: 0.8em;
-    height: 0.8em;
-    float: right;
-    position: absolute;
-    top: 0.2em;
-    right: 0.2em;
-    color: rgb(255, 255, 255);
-    &:hover {
-        color: rgb(200, 200, 200);
-        cursor: pointer;
-    }
+  width: 0.8em;
+  height: 0.8em;
+  color: rgb(255, 255, 255);
+  &:hover {
+    color: rgb(200, 200, 200);
+  }
 `;
 
 const SettingsTooltip = styled(Tooltip)`
-    width: 10%;
-    position: absolute;
-    right: 0.5px;
+  width: 1.6em;
+  height: 1.6em;
+  float: right;
+  position: absolute;
+  right: 0.2em;
+  top: 0.2em;
 `;
 
 const ButtonTooltipContent = styled(TooltipContent)`
-    left: 100%;
-    top: -100%;
+  left: 100%;
+  top: -100%;
 `;
 
 export const WidgetConfig = (props: {
-    className?: string;
-    config: ConfigBuilder;
+  className?: string;
+  config: ConfigBuilder;
 }) => {
-    const [isOpen, setOpen] = useState(false);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, markDirty] = useState({ dummy: false });
-    const _fetched = useRecoilValue(
-        fetched({ show: props.config.show, session: props.config.session })
-    );
+  const [isOpen, setOpen] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, markDirty] = useState({ dummy: false });
+  const _fetched = useRecoilValue(
+    fetched({ show: props.config.show, session: props.config.session })
+  );
 
-    useEffect(() => {
-        markDirty((prevState) => ({ dummy: !prevState.dummy }));
-    }, [_fetched]);
+  useEffect(() => {
+    markDirty((prevState) => ({ dummy: !prevState.dummy }));
+  }, [_fetched]);
 
-    useEffect(() => {
-        props.config.listen("*", () => {
-            markDirty((prevState) => ({ dummy: !prevState.dummy }));
-        });
-        return () => {};
-    }, []);
-    return (
-        <>
-            <SettingsTooltip>
-                <TooltipHoverable>
-                    <SettingsButton onClick={() => setOpen(!isOpen)} />
-                </TooltipHoverable>
-                <ButtonTooltipContent>Configure</ButtonTooltipContent>
-            </SettingsTooltip>
-            <ConfigMenu
-                isOpen={isOpen}
-                setOpen={setOpen}
-                config={props.config}
-                menuTitle={props.config.get("widget.displayName")?.get() || ""}
-            />
-        </>
-    );
+  useEffect(() => {
+    props.config.listen("*", () => {
+      markDirty((prevState) => ({ dummy: !prevState.dummy }));
+    });
+    return () => {};
+  }, []);
+  return (
+    <>
+      <SettingsTooltip>
+        <TooltipHoverable onClick={() => setOpen(!isOpen)}>
+          <SettingsButton />
+        </TooltipHoverable>
+        <ButtonTooltipContent>Configure</ButtonTooltipContent>
+      </SettingsTooltip>
+      <ConfigMenu
+        isOpen={isOpen}
+        setOpen={setOpen}
+        config={props.config}
+        menuTitle={props.config.get("widget.displayName")?.get() || ""}
+      />
+    </>
+  );
 };

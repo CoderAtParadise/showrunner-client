@@ -43,7 +43,7 @@ export const StatusHeader = (props: { className?: string }) => {
         <Header className={props.className}>
             <SettingsTooltip>
                 <TooltipHoverable>
-                    <SettingsButton onClick={() => {}} />
+                    <SettingsButton/>
                 </TooltipHoverable>
                 <CloseButtonTooltipContent>Settings</CloseButtonTooltipContent>
             </SettingsTooltip>

@@ -11,6 +11,7 @@ import { ConfigurableType, IConfigurable } from "./IConfigurable";
 import { ConfigValueTime } from "./ConfigValueTime";
 import { ConfigValueNumber } from "./ConfigValueNumber";
 import { isArray } from "lodash";
+import { ConfigValueList } from "./ConfigValueList";
 
 export class ConfigBuilder {
     constructor(
@@ -108,6 +109,11 @@ export class ConfigBuilder {
                             new ConfigValueTime(this, value, storage)
                         );
                         break;
+                    case ConfigurableType.List:
+                        this.configs.push(
+                            new ConfigValueList(this,value,storage)
+                        );
+                        break;
                 }
             });
         }
@@ -130,6 +136,10 @@ export class ConfigBuilder {
                 this._listen(value, cb)
             );
         }
+    }
+
+    error(error:string) {
+        this.errors.push(error);
     }
 
     private _listen(
@@ -223,21 +233,11 @@ export class ConfigBuilder {
     }
 
     addStorageWatcher(key: string, watcher: ConfigStorageWatcher): void {
-        const fetched = { ...this.storageWatchers.get(key)?.rawFetched() };
-        watcher.updateFetched(fetched);
         this.storageWatchers.set(key, watcher);
     }
 
     raw(key: string, watcher: string = "default"): any {
         return this.storageWatchers.get(watcher)?.get(key);
-    }
-
-    fetched(key: string, watcher: string = "default"): any | [] {
-        return this.storageWatchers.get(watcher)?.fetched(key);
-    }
-
-    setFetched(storage: LooseObject, watcher: string = "default"): void {
-        this.storageWatchers.get(watcher)?.updateFetched(storage);
     }
 
     show: string;
@@ -248,6 +248,7 @@ export class ConfigBuilder {
         filter: string;
         groups: { display: string; filter: string }[];
     }[] = [];
+    errors: string[] = [];
 
     private isBuilt = false;
     // prettier-ignore

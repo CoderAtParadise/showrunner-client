@@ -52,31 +52,11 @@ export class StateStorageWatcher implements ConfigStorageWatcher {
         this.storage = storage;
     }
 
-    updateFetched(storage: LooseObject): void {
-        this.mfetched = storage;
-    }
-
-    fetched(key: string): any {
-        const nested = key.split(".");
-        let tmp: any = this.mfetched;
-        for (let i = 0; i < nested.length; i++) {
-            const v = nested[i];
-            if (tmp[v] === undefined) return undefined;
-            else tmp = tmp[v];
-        }
-        return tmp;
-    }
-
-    rawFetched(): LooseObject {
-        return this.mfetched;
-    }
-
     raw(): LooseObject {
         return this.storage;
     }
 
     private storage: LooseObject;
-    private mfetched: LooseObject = {};
     private dispatcher: Dispatch<LooseObject>;
     private forceUpdate: () => void;
 }

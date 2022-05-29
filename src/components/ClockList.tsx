@@ -15,6 +15,7 @@ const Container = styled.div`
     align-items: flex-start;
     align-content: flex-start;
     flex-wrap: wrap;
+    padding: 20px;
 `;
 
 export const ClockList = (props: {

@@ -118,12 +118,22 @@ export const ConfigMenu = (props: {
 }) => {
   const [filter, setFilter] = useState("");
   return props.isOpen ? (
-    <Background onClick={() => props.setOpen(false)}>
+    <Background
+      onClick={() => {
+        props.setOpen(false);
+        setFilter("");
+      }}
+    >
       <Menu onClick={(e) => e.stopPropagation()}>
         <Header>
           <SettingsTooltip>
             <TooltipHoverable>
-              <CloseButton onClick={() => props.setOpen(false)} />
+              <CloseButton
+                onClick={() => {
+                  props.setOpen(false);
+                  setFilter("");
+                }}
+              />
             </TooltipHoverable>
             <CloseButtonTooltipContent>Close</CloseButtonTooltipContent>
           </SettingsTooltip>

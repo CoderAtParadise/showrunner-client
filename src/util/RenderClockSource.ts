@@ -5,6 +5,7 @@ import {
   MutableClockSource,
   SMPTE,
 } from "@coderatparadise/showrunner-common";
+import { sendCommand } from "../commands/SendCommand";
 
 export interface CurrentClockState {
   current: string;
@@ -64,19 +65,43 @@ export class RenderClockSource implements MutableClockSource<any> {
   }
 
   start(): void {
-    // NOOP
+    sendCommand(
+      { show: this.identifier.show, session: this.identifier.session },
+      "clock.play",
+      { id: this.identifier.id }
+    );
+  }
+
+  setTime(time: SMPTE): void {
+    sendCommand(
+      { show: this.identifier.show, session: this.identifier.session },
+      "clock.set",
+      { id: this.identifier.id, time: time.toString() }
+    );
   }
 
   pause(): void {
-    // NOOP
+    sendCommand(
+      { show: this.identifier.show, session: this.identifier.session },
+      "clock.pause",
+      { id: this.identifier.id }
+    );
   }
 
   stop(): void {
-    // NOOP
+    sendCommand(
+      { show: this.identifier.show, session: this.identifier.session },
+      "clock.stop",
+      { id: this.identifier.id }
+    );
   }
 
   reset(): void {
-    // NOOP
+    sendCommand(
+      { show: this.identifier.show, session: this.identifier.id },
+      "clock.reset",
+      { id: this.identifier.id }
+    );
   }
 
   update(): void {

@@ -32,7 +32,7 @@ export const Create = (
     commandInfo: { show: string; session: string },
     data: any
 ) => {
-    return sendCommand(commandInfo, "clock.create", { data: data });
+    return sendCommand(commandInfo, "clock.create", { ...data });
 };
 
 export const Delete = (

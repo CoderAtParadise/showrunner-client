@@ -126,7 +126,6 @@ const OffsetClockFilter = [
 const TODClockFilter = [
   "group:create_clock_base",
   "group:create_clock_behaviour",
-  "group:create_clock_direction",
   "group:create_clock_time",
   "group:create_clock_button",
 ];
@@ -242,7 +241,8 @@ const creator: IConfigurable[] = [
           (clock) =>
             clock.type !== "offset" &&
             clock.type !== "tod:offset" &&
-            clock.type !== "sync" && clock.type !== "ampctrl"
+            clock.type !== "sync" &&
+            clock.type !== "ampctrl"
         )
         .forEach((clock) =>
           ret.push({

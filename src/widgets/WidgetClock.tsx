@@ -9,7 +9,6 @@ import {
   RestartAlt,
   PriorityHighRounded,
 } from "@mui/icons-material";
-import { Start, Stop, Pause, Reset } from "../commands/Clock";
 import { ClockState, ClockSource } from "@coderatparadise/showrunner-common";
 import { useClock } from "../hooks/useClock";
 import { ClockSourceComponent } from "../components/ClockSourceComponent";
@@ -129,15 +128,7 @@ const renderControlBar = (props: {
       {props.clock?.state === ClockState.RUNNING ? (
         <ControlBarButton>
           <TooltipHoverable
-            onClick={() => {
-              Pause(
-                {
-                  show: props.show,
-                  session: props.session,
-                },
-                props.clock?.identifier.id || ""
-              );
-            }}
+            onClick={() => props.clock?.pause(false)}
           >
             <PauseButton />
           </TooltipHoverable>
@@ -146,15 +137,7 @@ const renderControlBar = (props: {
       ) : (
         <ControlBarButton>
           <TooltipHoverable
-            onClick={() => {
-              Start(
-                {
-                  show: props.show,
-                  session: props.session,
-                },
-                props.clock?.identifier.id || ""
-              );
-            }}
+            onClick={() => props.clock?.start()}
           >
             <PlayButton />
           </TooltipHoverable>
@@ -163,12 +146,7 @@ const renderControlBar = (props: {
       )}
       <ControlBarButton>
         <TooltipHoverable
-          onClick={() => {
-            Stop(
-              { show: props.show, session: props.session },
-              props.clock?.identifier.id || ""
-            );
-          }}
+          onClick={() => props.clock?.stop(false)}
         >
           <StopButton />
         </TooltipHoverable>
@@ -176,12 +154,7 @@ const renderControlBar = (props: {
       </ControlBarButton>
       <ControlBarButton>
         <TooltipHoverable
-          onClick={() => {
-            Reset(
-              { show: props.show, session: props.session },
-              props.clock?.identifier.id || ""
-            );
-          }}
+          onClick={ () => props.clock?.reset(false) }
         >
           <ResetButton />
         </TooltipHoverable>

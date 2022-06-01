@@ -43,7 +43,7 @@ export class ConfigValueBoolean implements ConfigValue<boolean> {
         );
     }
 
-    render(key:string): ReactNode {
+    render(): ReactNode {
         if (
             this.storage(this.builder).get(
                 `${this.configurable.group}.${this.configurable.key}`
@@ -52,7 +52,7 @@ export class ConfigValueBoolean implements ConfigValue<boolean> {
         )
             this.set(this.configurable?.defaultValue);
         return (
-            <Content key={key}>
+            <Content>
                 <Input
                     type="checkbox"
                     checked={this.get() || false}

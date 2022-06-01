@@ -46,7 +46,7 @@ export class ConfigValueText implements ConfigValue<string> {
         );
     }
 
-    render(key: string): ReactNode {
+    render(): ReactNode {
         if (
             this.storage(this.builder).get(
                 `${this.configurable.group}.${this.configurable.key}`
@@ -56,7 +56,7 @@ export class ConfigValueText implements ConfigValue<string> {
             this.set(this.configurable?.defaultValue);
 
         return (
-            <Content key={key}>
+            <Content>
                 <div>{this.configurable.displayName}: </div>
                 <Input
                     type="text"

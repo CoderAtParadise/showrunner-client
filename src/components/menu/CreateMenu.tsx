@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Add, CloseRounded } from "@mui/icons-material";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { ConfigBuilder } from "../config/ConfigBuilder";
 import { Tooltip, TooltipContent, TooltipHoverable } from "../tooltip";
 import { StateStorageWatcher } from "../config/StateStorageWatcher";
@@ -120,7 +120,7 @@ const OffsetClockFilter = [
   "group:create_clock_authority",
   "group:create_clock_behaviour",
   "group:create_clock_direction",
-  "group:create_clock_time",
+  "group:create_clock_time_offset",
   "group:create_clock_button",
 ];
 const TODClockFilter = [
@@ -191,11 +191,7 @@ function validateOffsetSettings(obj: any) {
 }
 
 function validateTODSettings(obj: any) {
-  return (
-    validateBase(obj) &&
-    validateBehaviour(obj) &&
-    validateTime(obj, true)
-  );
+  return validateBase(obj) && validateBehaviour(obj) && validateTime(obj, true);
 }
 
 const creator: IConfigurable[] = [
@@ -270,6 +266,14 @@ const creator: IConfigurable[] = [
     category: "create:clock",
     displayName: "Time",
     group: "create_clock_time",
+    key: "time",
+  },
+  {
+    type: ConfigurableType.Time,
+    category: "create:clock",
+    displayName: "Time",
+    group: "create_clock_time_offset",
+    Options: () => [{ label: "", id: "offset" }],
     key: "time",
   },
   {
@@ -484,21 +488,19 @@ export const CreateClockMenu = (props: {
                     .map((value: ConfigValue<any>) => {
                       if (value.configurable.Enabled) {
                         return value.configurable.Enabled(builder) ? (
-                          <>
+                          <Fragment key={`${value.configurable.group}:${value.configurable.key}`}>
                             {value.render(
-                              `${value.configurable.group}.${value.configurable.key}`
                             )}
                             <Br />
-                          </>
+                          </Fragment>
                         ) : null;
                       } else {
                         return (
-                          <>
+                          <Fragment key={`${value.configurable.group}:${value.configurable.key}`}>
                             {value.render(
-                              `${value.configurable.group}.${value.configurable.key}`
                             )}
                             <Br />
-                          </>
+                          </Fragment>
                         );
                       }
                     })}

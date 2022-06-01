@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 const Container = styled.div`
   display: flex;
-  gap: 0.5em;
+  gap: 1em;
   width: 100vw;
   height: fit-content;
   max-height: 100vh;

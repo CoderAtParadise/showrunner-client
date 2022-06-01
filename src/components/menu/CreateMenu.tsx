@@ -194,7 +194,6 @@ function validateTODSettings(obj: any) {
   return (
     validateBase(obj) &&
     validateBehaviour(obj) &&
-    validateDirection(obj) &&
     validateTime(obj, true)
   );
 }

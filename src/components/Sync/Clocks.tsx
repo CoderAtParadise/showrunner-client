@@ -72,6 +72,25 @@ const clockAdder = selectorFamily({
     },
 });
 
+const clockDeleter = selectorFamily({
+  key: "clocks/add",
+  get:
+    (key: { show: string; session: string }) =>
+    ({ get }) => {
+      return get(clocksState(key)) as Map<string, RenderClockSource>;
+    },
+  set:
+    (key: { show: string; session: string }) =>
+    ({ set }, newValue) => {
+      set(clocksState(key), (prevState) => {
+        const state = new Map(prevState);
+        const clock = newValue as string;
+        state.delete(clock);
+        return state;
+      });
+    },
+});
+
 const GetEventSource = (props: { show: string; session: string }) => {
   const setClocks = useSetRecoilState(
     clocksState({ show: props.show, session: props.session })
@@ -86,6 +105,10 @@ const GetEventSource = (props: { show: string; session: string }) => {
 
   const addClock = useSetRecoilState(
     clockAdder({ show: props.show, session: props.session })
+  );
+
+  const deleteClock = useSetRecoilState(
+    clockDeleter({ show: props.show, session: props.session })
   );
 
   useEffect(() => {
@@ -122,6 +145,9 @@ const GetEventSource = (props: { show: string; session: string }) => {
               const data = JSON.parse(event.data);
               const clock = RenderClockCodec.deserialize(data);
               addClock(clock);
+            } else if ((event.event = "clocks-delete")) {
+              const data = event.data;
+              deleteClock(data);
             }
           },
           onclose() {

@@ -36,7 +36,11 @@ export class RenderClockSource implements MutableClockSource<any> {
     this.state = currentState.state as ClockState;
     this.overrun = currentState.overrun;
     this.mCurrent = currentState.current;
-    this.incorrectFramerate = currentState.incorrectFramerate;
+    this.mincorrectFramerate = currentState.incorrectFramerate;
+  }
+
+  incorrectFramerate(): boolean {
+    return this.mincorrectFramerate;
   }
 
   duration(): SMPTE {
@@ -124,7 +128,7 @@ export class RenderClockSource implements MutableClockSource<any> {
   settings: BaseClockSettings & any;
   state: ClockState;
   overrun: boolean;
-  incorrectFramerate: boolean;
+  private mincorrectFramerate: boolean;
   private mCurrent: string;
   private additional: {
     data: object;

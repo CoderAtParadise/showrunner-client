@@ -26,7 +26,10 @@ import {
   TooltipContent,
 } from "../components/tooltip";
 import { fetched, useFetcher } from "../components/fetcher/Fetcher";
-import { AmpChannelsFetcher } from "../components/fetcher/fetchers/AmpChannelsFetcher";
+import {
+  AmpChannelInfo,
+  AmpChannelsFetcher,
+} from "../components/fetcher/fetchers/AmpChannelsFetcher";
 import { AmpChannelVideoFetcher } from "../components/fetcher/fetchers/AmpChannelVideoFetcher";
 
 const blink = keyframes`
@@ -127,35 +130,27 @@ const renderControlBar = (props: {
     <div className={props.className}>
       {props.clock?.state === ClockState.RUNNING ? (
         <ControlBarButton>
-          <TooltipHoverable
-            onClick={() => props.clock?.pause(false)}
-          >
+          <TooltipHoverable onClick={() => props.clock?.pause(false)}>
             <PauseButton />
           </TooltipHoverable>
           <ControlBarButtonTooltip>Pause</ControlBarButtonTooltip>
         </ControlBarButton>
       ) : (
         <ControlBarButton>
-          <TooltipHoverable
-            onClick={() => props.clock?.start()}
-          >
+          <TooltipHoverable onClick={() => props.clock?.start()}>
             <PlayButton />
           </TooltipHoverable>
           <ControlBarButtonTooltip>Play</ControlBarButtonTooltip>
         </ControlBarButton>
       )}
       <ControlBarButton>
-        <TooltipHoverable
-          onClick={() => props.clock?.stop(false)}
-        >
+        <TooltipHoverable onClick={() => props.clock?.stop(false)}>
           <StopButton />
         </TooltipHoverable>
         <ControlBarButtonTooltip>Stop</ControlBarButtonTooltip>
       </ControlBarButton>
       <ControlBarButton>
-        <TooltipHoverable
-          onClick={ () => props.clock?.reset(false) }
-        >
+        <TooltipHoverable onClick={() => props.clock?.reset(false)}>
           <ResetButton />
         </TooltipHoverable>
         <ControlBarButtonTooltip>Reset</ControlBarButtonTooltip>
@@ -224,7 +219,7 @@ const ClockDisplayContainer = (props: {
   }, [config]);
   return (
     <Container>
-      {clock?.incorrectFramerate ? (
+      {clock?.incorrectFramerate() ? (
         <IncorrectFramerateTooltip>
           <IncorrectFramerateHoverable>
             <IncorrectFramerateIcon />
@@ -374,8 +369,8 @@ const WidgetClock: IWidget = {
         ).get("amp.channels");
         const options: { label: string; id: string }[] = [];
         if (channels !== undefined) {
-          (channels as string[]).forEach((v) => {
-            options.push({ label: v, id: v });
+          (channels as AmpChannelInfo[]).forEach((v) => {
+            options.push({ label: v.displayName, id: v.id });
           });
         }
         return options;

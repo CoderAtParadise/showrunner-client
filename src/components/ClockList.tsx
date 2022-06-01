@@ -12,6 +12,7 @@ const Container = styled.div`
   gap: 0.5em;
   width: 100vw;
   height: fit-content;
+  max-height: 100vh;
   flex-direction: row;
   align-items: flex-start;
   align-content: flex-start;
@@ -27,12 +28,6 @@ export const ClockList = (props: {
   const clocks = useRecoilValue(
     clocksState({ show: props.show, session: props.session })
   );
-  const [_dummy, setDummy] = useState(false);
-
-  useEffect(() => {
-    console.log(clocks);
-    setDummy((p) => !p);
-  }, [clocks]);
   return (
     <>
       <CreateClockMenu show={props.show} session={props.session} />
@@ -53,7 +48,7 @@ export const ClockList = (props: {
                   },
                   display: {
                     source: `${props.show}:${props.session}:${clock.identifier.id}`,
-                    fontSize: "34px",
+                    fontSize: "32px",
                     overrunColor: "#cf352e",
                     color: "#FFC354",
                     controlBar: true,

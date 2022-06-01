@@ -1,7 +1,16 @@
 import { sendCommand } from "../../../commands/SendCommand";
 import { IFetcher } from "../IFetcher";
 
-export const AmpChannelsFetcher: IFetcher<string[]> = {
+export interface AmpChannelInfo {
+    id: string,
+    displayName:string,
+    address: string;
+    port: number,
+    framerate: number,
+    channel?: string;
+}
+
+export const AmpChannelsFetcher: IFetcher<AmpChannelInfo[]> = {
     id: "amp.channels",
     fetch: async (show: string, session: string) => {
         const res = await sendCommand(
@@ -14,7 +23,7 @@ export const AmpChannelsFetcher: IFetcher<string[]> = {
         );
         if (res.status === 200) {
             const json = await res.json() as any;
-            return await json.message as string[];
+            return await json.message as AmpChannelInfo[];
         } else console.log(res);
         return [];
     }

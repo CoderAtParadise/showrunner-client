@@ -8,6 +8,7 @@ import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { RenderClockCodec } from "./codec/RenderClockCodec";
 import { ClockIdentifier } from "@coderatparadise/showrunner-common";
 import { StateStorageWatcher } from "../config/StateStorageWatcher";
+import { setRecoil } from "recoil-nexus";
 
 const serverurl = process.env.SHOWRUNNER_SERVER_URL || "localhost:3001";
 
@@ -53,6 +54,22 @@ const updateSettings = selectorFamily({
     }
 });
 
+const clocksClear = selectorFamily({
+  key: "clocks/clear",
+  get:
+    (key: { show: string; session: string }) =>
+    ({ get }) => {
+      return get(clocksState(key)) as Map<string, RenderClockSource>;
+    },
+  set:
+    (key: { show: string; session: string }) =>
+    ({ set }, newValue) => {
+      set(clocksState(key), () => {
+        return new Map<string, RenderClockSource>();
+      });
+    },
+});
+
 const clockAdder = selectorFamily({
   key: "clocks/add",
   get:
@@ -95,6 +112,11 @@ const GetEventSource = (props: { show: string; session: string }) => {
   const setClocks = useSetRecoilState(
     clocksState({ show: props.show, session: props.session })
   );
+
+  const clearClocks = useSetRecoilState(
+    clocksClear({ show: props.show, session: props.session })
+  );
+
   const currentUpdater = useSetRecoilState(
     updateCurrent({ show: props.show, session: props.session })
   );
@@ -151,10 +173,10 @@ const GetEventSource = (props: { show: string; session: string }) => {
             }
           },
           onclose() {
-            console.log("Connection closed by the server");
+           clearClocks(null);
           },
           onerror(err) {
-            console.log("There was an error from server", err);
+            clearClocks(null);
           },
         }
       );

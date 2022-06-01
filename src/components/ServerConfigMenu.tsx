@@ -66,6 +66,7 @@ const configValues = [
         return true;
       } else return false;
     },
+    Enabled: () => false,
     Options: () => {
       return [
         { id: "name", label: "Name" },

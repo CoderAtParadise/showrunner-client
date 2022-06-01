@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { CloseRounded } from "@mui/icons-material";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { capitalizeFirstLetter } from "../../util/StringUtil";
 import { ConfigBuilder } from "../config/ConfigBuilder";
 import { ConfigValue } from "../config/ConfigValue";
@@ -161,13 +161,14 @@ export const ConfigMenu = (props: {
                       </FilterCategory>
                       {value.groups.map(
                         (v: { display: string; filter: string }) => (
-                          <FilterGroup
-                            active={filter === v.filter}
-                            key={v.filter}
-                            onClick={() => setFilter(v.filter)}
-                          >
-                            {capitalizeFirstLetter(v.display)}
-                          </FilterGroup>
+                          <Fragment key={v.filter}>
+                            <FilterGroup
+                              active={filter === v.filter}
+                              onClick={() => setFilter(v.filter)}
+                            >
+                              {capitalizeFirstLetter(v.display)}
+                            </FilterGroup>
+                          </Fragment>
                         )
                       )}
                     </div>
@@ -185,21 +186,17 @@ export const ConfigMenu = (props: {
                 .map((value: ConfigValue<any>) => {
                   if (value.configurable.Enabled) {
                     return value.configurable.Enabled(props.config) ? (
-                      <>
-                        {value.render(
-                          `${value.configurable.group}.${value.configurable.key}`
-                        )}
+                      <Fragment key={`${value.configurable.group}:${value.configurable.key}`}>
+                        {value.render()}
                         <Br />
-                      </>
+                      </Fragment>
                     ) : null;
                   } else {
                     return (
-                      <>
-                        {value.render(
-                          `${value.configurable.group}.${value.configurable.key}`
-                        )}
+                      <Fragment key={`${value.configurable.group}:${value.configurable.key}`}>
+                        {value.render()}
                         <Br />
-                      </>
+                      </Fragment>
                     );
                   }
                 })}

@@ -9,7 +9,12 @@ import {
   RestartAlt,
   PriorityHighRounded,
 } from "@mui/icons-material";
-import { ClockState, ClockSource } from "@coderatparadise/showrunner-common";
+import {
+  ClockState,
+  ClockSource,
+  SMPTE,
+  Offset,
+} from "@coderatparadise/showrunner-common";
 import { useClock } from "../hooks/useClock";
 import { ClockSourceComponent } from "../components/ClockSourceComponent";
 import { clocksState } from "../components/Sync/Clocks";
@@ -400,12 +405,12 @@ const WidgetClock: IWidget = {
               clock.type !== "offset" &&
               clock.type !== "tod:offset" &&
               clock.type !== "sync" &&
-              clock.type === "ampctrl"
+              clock.type !== "ampctrl"
           )
           .forEach((clock) =>
             ret.push({
               label: clock.displayName!(),
-              id: `${builder.show}:${builder.session}:${clock.identifier.id}`,
+              id: `${clock.identifier.id}`,
             })
           );
         return ret;
@@ -464,7 +469,25 @@ const WidgetClock: IWidget = {
       key: "time",
       storage: "clock",
       Enabled: (config: ConfigBuilder) => {
-        return config.get("settings.time")?.get() !== undefined;
+        return (
+          config.get("settings.time")?.get() !== undefined &&
+          new SMPTE(config.get("settings.time")?.get()).offset() === Offset.NONE
+        );
+      },
+    },
+    {
+      type: ConfigurableType.Time,
+      category: "clock",
+      displayName: "Time",
+      group: "settings",
+      key: "time",
+      storage: "clock",
+      Options: () => [{ id: "offset", label: "" }],
+      Enabled: (config: ConfigBuilder) => {
+        return (
+          config.get("settings.time")?.get() !== undefined &&
+          new SMPTE(config.get("settings.time")?.get()).offset() !== Offset.NONE
+        );
       },
     },
     {

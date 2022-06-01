@@ -155,7 +155,7 @@ const TableComponent = (props: {
                   id: string;
                   selectiveShow?: boolean;
                 }) => {
-                  return !value.selectiveShow ? <TableHead>{value.label}</TableHead> : null;
+                  return !value.selectiveShow ? <TableHead key={value.id}>{value.label}</TableHead> : null;
                 }
               )}
             </tr>
@@ -179,7 +179,7 @@ const TableComponent = (props: {
                       selectiveShow?: boolean;
                     }) => {
                       return !value.selectiveShow ? (
-                        <td>{channel[value.id]}</td>
+                        <td key={value.id}>{channel[value.id]}</td>
                       ) : null;
                     }
                   )}
@@ -220,11 +220,11 @@ export class ConfigValueList implements ConfigValue<object[]> {
     );
   }
 
-  render(key: string): ReactNode {
+  render(): ReactNode {
     const columns: { label: string; id: string; selectiveShow?: boolean }[] =
       this.configurable.Options?.(this.builder) || [];
     return (
-      <Content key={key}>
+      <Content>
         <TableComponent
           builder={this.builder}
           configurable={this.configurable}

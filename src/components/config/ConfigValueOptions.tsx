@@ -37,7 +37,7 @@ export class ConfigValueOptions implements ConfigValue<string> {
         );
     }
 
-    render(key: string): ReactNode {
+    render(): ReactNode {
         const options: { label: string; id: string }[] =
             this.configurable.Options?.(this.builder) || [];
         if (
@@ -48,7 +48,7 @@ export class ConfigValueOptions implements ConfigValue<string> {
         )
             this.set(this.configurable?.defaultValue);
         return (
-            <Content key={key}>
+            <Content>
                 <div>{this.configurable.displayName}:</div>
                 <AutoComplete
                     options={options}

@@ -46,7 +46,7 @@ export class ConfigValueNumber implements ConfigValue<number | string> {
         );
     }
 
-    render(key: string): ReactNode {
+    render(): ReactNode {
         const options: { label: string; id: string }[] =
             this.configurable.Options?.(this.builder) || [];
         const min: number = parseFloat(
@@ -67,7 +67,7 @@ export class ConfigValueNumber implements ConfigValue<number | string> {
         )
             this.set(this.configurable?.defaultValue);
         return (
-            <Content key={key}>
+            <Content>
                 <div>{this.configurable.displayName}: </div>
                 <Input
                     type="number"

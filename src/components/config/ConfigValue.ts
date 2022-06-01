@@ -9,5 +9,5 @@ export interface ConfigValue<T> {
     get: (index?: number | string) => T;
     set: (value: T, index?: number | string) => void;
     onClick?: (props: MouseEvent<HTMLButtonElement>) => boolean;
-    render: (key:string) => ReactNode;
+    render: () => ReactNode;
 }

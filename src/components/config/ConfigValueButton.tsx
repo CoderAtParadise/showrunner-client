@@ -51,9 +51,9 @@ export class ConfigValueButton implements ConfigValue<boolean> {
         return this.configurable.onClick!(this.builder, event);
     }
 
-    render(key: string): ReactNode {
+    render(): ReactNode {
         return (
-            <Content key={key}>
+            <Content>
                 <Input
                     onClick={(e) => {
                         this.set(this.onClick(e));

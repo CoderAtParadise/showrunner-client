@@ -16,7 +16,7 @@ const CollapsedSelected = styled.div`
   margin-left: 5px;
   border-color: rgb(150, 150, 150);
   border-radius: 3px;
-  width: calc(160px + 1rem);
+  width: calc(20px + 1rem);
   text-align: center;
   &:hover {
     cursor: pointer;
@@ -54,7 +54,7 @@ const Suggestions = styled.ul`
   list-style: none;
   margin-top: 0;
   padding-left: 0;
-  width: calc(165px + 1rem);
+  width: calc(20px + 1rem);
 `;
 
 const Suggested = styled.li<{ active: boolean }>`
@@ -68,7 +68,7 @@ const Suggested = styled.li<{ active: boolean }>`
   }
 `;
 
-export const Dropdown = (props: {
+export const DropdownSmall = (props: {
   className?: string;
   options: { label: string; id: string }[];
   value: { label: string; id: string };

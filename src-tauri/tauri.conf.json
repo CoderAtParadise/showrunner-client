@@ -12,7 +12,10 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true
+      "all": true,
+      "fs": {
+        "scope": ["$LOCALDATA/showrunner","$LOCALDATA/showrunner/*"]
+      }
     },
     "bundle": {
       "active": true,

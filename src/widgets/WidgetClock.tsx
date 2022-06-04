@@ -401,16 +401,16 @@ const WidgetClock: IWidget = {
         const ret: { label: string; id: string }[] = [];
         Array.from(clocks.values())
           .filter(
-            (clock) =>
-              clock.type !== "offset" &&
-              clock.type !== "tod:offset" &&
-              clock.type !== "sync" &&
-              clock.type !== "ampctrl"
+            (clock) => {
+              return clock.type !== "offset" &&
+              clock.type !== "offset:tod" &&
+              clock.type !== "sync"
+            }
           )
           .forEach((clock) =>
             ret.push({
               label: clock.displayName!(),
-              id: `${clock.identifier.id}`,
+              id: `${clock.identifier.show}:${clock.identifier.session}:${clock.identifier.id}`,
             })
           );
         return ret;

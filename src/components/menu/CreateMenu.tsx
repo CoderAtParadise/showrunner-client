@@ -235,9 +235,8 @@ const creator: IConfigurable[] = [
         .filter(
           (clock) =>
             clock.type !== "offset" &&
-            clock.type !== "tod:offset" &&
-            clock.type !== "sync" &&
-            clock.type !== "ampctrl"
+            clock.type !== "offset:tod" &&
+            clock.type !== "sync"
         )
         .forEach((clock) =>
           ret.push({

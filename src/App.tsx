@@ -9,6 +9,7 @@ import styled from "@emotion/styled";
 import { FetchedState } from "./components/fetcher/Fetcher";
 import { ClockList } from "./components/ClockList";
 import { ServerConfigMenu } from "./components/ServerConfigMenu";
+import { ClientSettings } from "./components/ClientConfig";
 
 const theme = createTheme({
   palette: {
@@ -44,15 +45,17 @@ function App(props: { className?: string }) {
         <Background className={props.className}>
           <RecoilRoot>
             <RecoilNexus />
-            <Content>
-              <ClockSyncState show="system" session="system">
-                <FetchedState show="system" session="system">
-                  <ServerConfigMenu />
-                  <CreateClockMenu show="system" session="system" />
-                  <ClockList show="system" session="system" />
-                </FetchedState>
-              </ClockSyncState>
-            </Content>
+            <ClientSettings>
+              <Content>
+                <ClockSyncState show="system" session="system">
+                  <FetchedState show="system" session="system">
+                    <ServerConfigMenu />
+                    <CreateClockMenu show="system" session="system" />
+                    <ClockList show="system" session="system" />
+                  </FetchedState>
+                </ClockSyncState>
+              </Content>
+            </ClientSettings>
           </RecoilRoot>
         </Background>
       </ThemeProvider>

@@ -102,7 +102,7 @@ export class RenderClockSource implements MutableClockSource<any> {
 
   reset(): void {
     sendCommand(
-      { show: this.identifier.show, session: this.identifier.id },
+      { show: this.identifier.show, session: this.identifier.session },
       "clock.reset",
       { id: this.identifier.id }
     );

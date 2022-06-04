@@ -12,6 +12,8 @@ import { FetcherStorageWatcher } from "./config/FetcherStorageWatcher";
 import { ConfigurableType, UserMode } from "./config/IConfigurable";
 import { useRecoilValue } from "recoil";
 import { sendCommand } from "../commands/SendCommand";
+import { RecoilStorageWatcher } from "./config/RecoilStorageWatcher";
+import { clientSettingsState } from "./ClientConfig";
 
 const SettingsButton = styled(Settings)`
   width: 1.2em;
@@ -43,7 +45,7 @@ const configValues = [
     displayName: "Server Address",
     category: "settings",
     group: "client",
-    key: "serverurl",
+    key: "serverUrl",
   },
   {
     type: ConfigurableType.List,
@@ -104,14 +106,15 @@ export const ServerConfigMenu = (props: { className?: string }) => {
   const _fetched = useRecoilValue(
     fetched({ show: "system", session: "system" })
   );
+  const _clientSettings = useRecoilValue(clientSettingsState);
   useEffect(() => {
     markDirty((prevState) => ({ dummy: !prevState.dummy }));
-  }, [_fetched]);
+  }, [_fetched,_clientSettings]);
   const b = useMemo(() => {
     const b = new ConfigBuilder(
       "system",
       "system",
-      new StateStorageWatcher(clientConfig, setClientConfig, () => {})
+      new RecoilStorageWatcher(clientSettingsState, () => {})
     );
     return b;
   }, []);

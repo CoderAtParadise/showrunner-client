@@ -1,10 +1,21 @@
+
+html {
+    box-sizing: border-box;
+}
+
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
         "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
+        "Helvetica Neue", sans-serif; */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: rgb(54, 54, 54);
+    font-size: 0.8em;
+    color: white;
+    overflow: hidden;
+    margin:0px;
+    
 }
 
 code {

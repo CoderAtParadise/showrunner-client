@@ -1,74 +1,92 @@
 import {
   BaseClockSettings,
   ClockIdentifier,
-  ClockState,
-  MutableClockSource,
+  ClockSource,
+  ClockStatus,
+  ControlBar,
   SMPTE,
 } from "@coderatparadise/showrunner-common";
 import { sendCommand } from "../commands/SendCommand";
 
-export interface CurrentClockState {
+export interface CurrentClockStatus {
   current: string;
-  state: string;
+  status: string;
   overrun: boolean;
-  incorrectFramerate: boolean;
+  incorrectFrameRate: boolean;
 }
 
 export interface AdditionalData {
   data: object;
   duration: string;
-  framerate: number;
+  frameRate: number;
   displayName: string;
+  controlBar: ControlBar[];
 }
 
-export class RenderClockSource implements MutableClockSource<any> {
+export class RenderClockSource implements ClockSource<any> {
   constructor(
     type: string,
     identifier: ClockIdentifier,
-    currentState: CurrentClockState,
+    currentState: CurrentClockStatus,
     settings: BaseClockSettings & any,
     additional: AdditionalData
   ) {
     this.type = type;
     this.identifier = identifier;
-    this.settings = settings;
-    this.additional = additional;
-    this.state = currentState.state as ClockState;
-    this.overrun = currentState.overrun;
-    this.mCurrent = currentState.current;
-    this.mincorrectFramerate = currentState.incorrectFramerate;
+    this._settings = settings;
+    this._additional = additional;
+    this._status = currentState.status as ClockStatus;
+    this._overrun = currentState.overrun;
+    this._current = currentState.current;
+    this._incorrectFramerate = currentState.incorrectFrameRate;
+  }
+  controlBar(): ControlBar[] {
+    return this._additional.controlBar;
   }
 
-  incorrectFramerate(): boolean {
-    return this.mincorrectFramerate;
+  settings(): BaseClockSettings & any {
+    return this._settings;
+  }
+
+  status(): ClockStatus {
+    return this._status;
+  }
+
+  hasIncorrectFrameRate(): boolean {
+    return this._incorrectFramerate;
+  }
+
+  isOverrun(): boolean {
+    return this._overrun;
   }
 
   duration(): SMPTE {
     try {
-      return new SMPTE(this.additional.duration, this.additional.framerate);
+      return new SMPTE(this._additional.duration, this._additional.frameRate);
     } catch (e) {
       return new SMPTE();
     }
   }
 
   displayName(): string {
-    if (this.additional.displayName !== "") return this.additional.displayName;
-    return this.settings.displayName;
+    if (this._additional.displayName !== "")
+      return this._additional.displayName;
+    return this._settings.displayName;
   }
 
   current(): SMPTE {
     try {
-      return new SMPTE(this.mCurrent, this.additional.framerate);
+      return new SMPTE(this._current, this._additional.frameRate);
     } catch (e) {
       return new SMPTE();
     }
   }
 
   data(): object {
-    return this.additional.data;
+    return this._additional.data;
   }
 
-  start(): void {
+  play(): void {
     sendCommand(
       { show: this.identifier.show, session: this.identifier.session },
       "clock.play",
@@ -99,7 +117,6 @@ export class RenderClockSource implements MutableClockSource<any> {
       { id: this.identifier.id }
     );
   }
-
   reset(): void {
     sendCommand(
       { show: this.identifier.show, session: this.identifier.session },
@@ -112,28 +129,24 @@ export class RenderClockSource implements MutableClockSource<any> {
     // NOOP
   }
 
-  setData(data: any): void {
-    if (data.currentState) {
-      this.mCurrent = data.currentState.current;
-      this.state = data.currentState.state;
-      this.overrun = data.currentState.overrun;
+  updateSettings(settings: any): void {
+    if (settings.currentState) {
+      this._current = settings.currentState.current;
+      this._status = settings.currentState.state;
+      this._overrun = settings.currentState.overrun;
     }
-    if (data.settings) this.settings = { ...this.settings, ...data.settings };
-    if (data.additional)
-      this.additional = { ...this.additional, ...data.additional };
+    if (settings.settings)
+      this._settings = { ...this._settings, ...settings.settings };
+    if (settings.additional)
+      this._additional = { ...this._additional, ...settings.additional };
   }
 
   identifier: ClockIdentifier;
   type: string;
-  settings: BaseClockSettings & any;
-  state: ClockState;
-  overrun: boolean;
-  private mincorrectFramerate: boolean;
-  private mCurrent: string;
-  private additional: {
-    data: object;
-    framerate: number;
-    duration: string;
-    displayName: string;
-  };
+  private _settings: BaseClockSettings & any;
+  private _status: ClockStatus;
+  private _overrun: boolean;
+  private _incorrectFramerate: boolean;
+  private _current: string;
+  private _additional: AdditionalData;
 }

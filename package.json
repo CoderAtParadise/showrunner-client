@@ -7,7 +7,7 @@
     "@coderatparadise/showrunner-common": "portal:/D:/Dev/showrunner-common"
   },
   "dependencies": {
-    "@coderatparadise/showrunner-common": "^0.1.0",
+    "@coderatparadise/showrunner-common": "^0.2.0",
     "@emotion/eslint-plugin": "^11.7.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",

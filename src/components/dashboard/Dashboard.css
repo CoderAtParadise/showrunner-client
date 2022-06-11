@@ -1,0 +1,18 @@
+* {
+    --widget-x-scale: 15em;
+    --widget-y-scale: 5em;
+}
+
+.dashboard {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    padding: 1%;
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    border:solid;
+}

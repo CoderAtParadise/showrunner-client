@@ -1,9 +1,8 @@
 import {
     ClockSource,
     ClockDirection,
-    SMPTE,
     Offset,
-    ClockState
+    ClockStatus
 } from "@coderatparadise/showrunner-common";
 import styled from "@emotion/styled";
 import { zeroPad } from "../util/ZeroPad";
@@ -19,10 +18,10 @@ export const ClockSourceComponent = (props: {
     let time = props.clock.current();
     if (props.clock.settings !== undefined) {
         const settings = props.clock.settings;
-        if (settings.time) {
+        if (settings().time) {
             const duration = props.clock.duration();
-            if(props.clock.state === ClockState.RESET) time = duration;
-            else if (settings.direction === ClockDirection.COUNTDOWN) {
+            if(props.clock.status() === ClockStatus.RESET) time = duration;
+            else if (settings().direction === ClockDirection.COUNTDOWN) {
                 if (time.greaterThan(duration, true))
                     time = time.subtract(duration, true).setOffset(Offset.END);
                 else time = duration.subtract(time, true);

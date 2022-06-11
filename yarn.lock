@@ -11901,7 +11901,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "showrunner@workspace:."
   dependencies:
-    "@coderatparadise/showrunner-common": ^0.5.3
+    "@coderatparadise/showrunner-common": ^0.2.0
     "@emotion/eslint-plugin": ^11.7.0
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1

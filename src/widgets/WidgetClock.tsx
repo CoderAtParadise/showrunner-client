@@ -10,10 +10,9 @@ import {
   PriorityHighRounded,
 } from "@mui/icons-material";
 import {
-  ClockState,
-  ClockSource,
   SMPTE,
   Offset,
+  ClockStatus,
 } from "@coderatparadise/showrunner-common";
 import { useClock } from "../hooks/useClock";
 import { ClockSourceComponent } from "../components/ClockSourceComponent";
@@ -36,6 +35,7 @@ import {
   AmpChannelsFetcher,
 } from "../components/fetcher/fetchers/AmpChannelsFetcher";
 import { AmpChannelVideoFetcher } from "../components/fetcher/fetchers/AmpChannelVideoFetcher";
+import { RenderClockSource } from "../util/RenderClockSource";
 
 const blink = keyframes`
     50% {
@@ -129,33 +129,33 @@ const renderControlBar = (props: {
   className?: string;
   show: string;
   session: string;
-  clock: ClockSource<any> | null;
+  clock: RenderClockSource | null;
 }) => {
   return (
     <div className={props.className}>
-      {props.clock?.state === ClockState.RUNNING ? (
+      {props.clock?.status() === ClockStatus.RUNNING ? (
         <ControlBarButton>
-          <TooltipHoverable onClick={() => props.clock?.pause(false)}>
+          <TooltipHoverable onClick={() => props.clock?.pause()}>
             <PauseButton />
           </TooltipHoverable>
           <ControlBarButtonTooltip>Pause</ControlBarButtonTooltip>
         </ControlBarButton>
       ) : (
         <ControlBarButton>
-          <TooltipHoverable onClick={() => props.clock?.start()}>
+          <TooltipHoverable onClick={() => props.clock?.play()}>
             <PlayButton />
           </TooltipHoverable>
           <ControlBarButtonTooltip>Play</ControlBarButtonTooltip>
         </ControlBarButton>
       )}
       <ControlBarButton>
-        <TooltipHoverable onClick={() => props.clock?.stop(false)}>
+        <TooltipHoverable onClick={() => props.clock?.stop()}>
           <StopButton />
         </TooltipHoverable>
         <ControlBarButtonTooltip>Stop</ControlBarButtonTooltip>
       </ControlBarButton>
       <ControlBarButton>
-        <TooltipHoverable onClick={() => props.clock?.reset(false)}>
+        <TooltipHoverable onClick={() => props.clock?.reset()}>
           <ResetButton />
         </TooltipHoverable>
         <ControlBarButtonTooltip>Reset</ControlBarButtonTooltip>
@@ -224,7 +224,7 @@ const ClockDisplayContainer = (props: {
   }, [config]);
   return (
     <Container>
-      {clock?.incorrectFramerate() ? (
+      {clock?.hasIncorrectFrameRate() ? (
         <IncorrectFramerateTooltip>
           <IncorrectFramerateHoverable>
             <IncorrectFramerateIcon />
@@ -242,8 +242,8 @@ const ClockDisplayContainer = (props: {
         </ClockName>
       ) : null}
       <DisplayTime
-        paused={clock?.state === ClockState.PAUSED}
-        overrun={clock?.overrun || false}
+        paused={clock?.status() === ClockStatus.PAUSED}
+        overrun={clock?.isOverrun() || false}
         widgetStyle={props.builder.raw("display")}
         clock={clock || null}
       />
@@ -400,13 +400,13 @@ const WidgetClock: IWidget = {
         );
         const ret: { label: string; id: string }[] = [];
         Array.from(clocks.values())
-          .filter(
-            (clock) => {
-              return clock.type !== "offset" &&
+          .filter((clock) => {
+            return (
+              clock.type !== "offset" &&
               clock.type !== "offset:tod" &&
               clock.type !== "sync"
-            }
-          )
+            );
+          })
           .forEach((clock) =>
             ret.push({
               label: clock.displayName!(),

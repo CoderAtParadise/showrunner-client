@@ -10,7 +10,7 @@ import { atom, useRecoilState } from "recoil";
 
 export const clientSettingsState = atom({
   key: "clientSettings",
-  default: { client: { serverUrl: "" } },
+  default: { client: { serverUrl: "", fullscreen: false, dashboard: "" } },
 });
 
 export const ClientSettings = (props: {

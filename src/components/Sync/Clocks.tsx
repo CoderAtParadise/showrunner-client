@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import {
-  CurrentClockState,
+  CurrentClockStatus,
   RenderClockSource,
 } from "../../util/RenderClockSource";
 import {
@@ -31,9 +31,9 @@ const updateCurrent = selectorFamily({
     set: (key:{show:string, session:string}) => ({ set }, newValue:any) => {
         set(clocksState(key), (prevState) => {
             const state = new Map(prevState);
-            const data = newValue as {identifier:ClockIdentifier, currentState: CurrentClockState }[];
-            data.forEach((value: { identifier: ClockIdentifier; currentState: CurrentClockState }) => {
-                state.get(value.identifier.id)?.setData({ currentState: value.currentState });
+            const data = newValue as {identifier:ClockIdentifier, currentState: CurrentClockStatus }[];
+            data.forEach((value: { identifier: ClockIdentifier; currentState: CurrentClockStatus }) => {
+                state.get(value.identifier.id)?.updateSettings({ currentState: value.currentState });
             });
             return state;
         });
@@ -50,7 +50,7 @@ const updateSettings = selectorFamily({
         set(clocksState(key), (prevState) => {
             const state = new Map(prevState);
             const data = newValue as {id:string, data:any};
-            state.get(data.id)?.setData({ ...data.data });
+            state.get(data.id)?.updateSettings({ ...data.data });
             return state;
         });
     }
@@ -167,7 +167,7 @@ const GetEventSource = (props: { show: string; session: string }) => {
               } else if (event.event === "clocks-sync") {
                 const data = JSON.parse(event.data) as {
                   identifier: ClockIdentifier;
-                  currentState: CurrentClockState;
+                  currentState: CurrentClockStatus;
                 }[];
                 currentUpdater(data);
               } else if (event.event === "clocks-update") {
@@ -214,10 +214,10 @@ const ClockSyncState = (props: {
   children?: ReactNode;
 }) => {
   return (
-    <div>
+    <>
       {GetEventSource(props)}
       {props.children}
-    </div>
+    </>
   );
 };
 

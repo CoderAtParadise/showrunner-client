@@ -14,7 +14,7 @@ export class RecoilStorageWatcher implements ConfigStorageWatcher {
   set(builder: ConfigBuilder, key: string, value: any): any {
     const nested = key.split(".");
     let ret = null;
-    setRecoil(this.state, (prevState) => {
+    setRecoil(this.state, (prevState: any) => {
       ret = structuredClone(prevState);
       let tmp = ret;
       nested.forEach((v: string, index: number) => {

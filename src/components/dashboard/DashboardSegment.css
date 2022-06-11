@@ -1,0 +1,22 @@
+.dashboard-segment {
+    padding: 1%;
+}
+
+.dashboard-segment[data-snap-mode="snap"] {
+    width: calc(var(--width) * var(--widget-x-scale));
+    height: calc(var(--height) * var(--widget-y-scale));
+}
+
+.dashboard-segment[data-snap-mode="resize"] {
+    position: absolute;
+    width: calc(var(--width) * 1px);
+    height: calc(var(--height) * 1px);
+    top: calc(var(--x) * 1px);
+    left: calc(var(--y) * 1px);
+    min-width: var(--widget-x-scale);
+    min-height: var(--widget-y-scale);
+}
+
+.dashboard-segment[data-edit="true"]:hover {
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23969696' rx='14' ry='14' stroke-width='4' stroke-dasharray='16%2c 16' stroke-dashoffset='0' stroke-linecap='round'/%3e %3ctext x='50%25' fill='%23969696' font-size='18' y='50%25' dominant-baseline='middle' text-anchor='middle'%3eAdd Widget%3c/text%3e %3c/svg%3e");
+}

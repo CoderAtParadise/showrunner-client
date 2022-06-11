@@ -72,11 +72,9 @@ export const FetchedState = (props: {
   children?: ReactNode;
 }) => {
   return (
-    <div>
-      <>
-        {GetEventSource(props)}
-        {props.children}
-      </>
-    </div>
+    <>
+      {GetEventSource(props)}
+      {props.children}
+    </>
   );
 };

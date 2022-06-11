@@ -1,0 +1,56 @@
+.swatch {
+    grid-template-columns: 1fr;
+    width: fit-content;
+    padding: 2px;
+    background-color: rgb(124,124,124);
+    border-radius: 1px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+    display: grid;
+    cursor: pointer;
+}
+
+.swatch div {
+    grid-row-start: 1;
+    grid-column-start: 1;
+}
+
+.swatch-color {
+    width: 1em;
+    height: 1em;
+    border-radius: 2px;
+    background-color: var(--color);
+    z-index: 2;
+}
+
+.swatch-color-transparency {
+    width: 1em;
+    height:1em;
+    border-radius: 2px;
+    background-image: conic-gradient(#eee 0 25%, transparent 0 50%, #eee 0 75%, transparent 0);
+    z-index: 1;
+}
+
+.pop-over {
+    position: absolute;
+    z-index: 2;
+}
+
+.cover {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.sketch-picker {
+    background-color: rgb(54,54,54) !important;
+    color: white !important;
+    cursor: pointer !important; 
+    border-style: solid;
+    border-color: rgb(124,124,124);
+}
+
+.sketch-picker label {
+    color: white !important
+}

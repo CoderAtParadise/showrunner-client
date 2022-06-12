@@ -1497,11 +1497,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coderatparadise/showrunner-common@portal:/D:/Dev/showrunner-common::locator=showrunner%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@coderatparadise/showrunner-common@portal:/D:/Dev/showrunner-common::locator=showrunner%40workspace%3A."
+"@coderatparadise/showrunner-common@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@coderatparadise/showrunner-common@npm:0.1.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40coderatparadise%2Fshowrunner-common%2F0.1.1%2F0a03abd5520a2c2186a8399c867e4117211189aaf7221dc3b580ab6d4b7d2ebd"
+  checksum: d5e534f80b658d162d683036b514837109ffb1eff397daae6180fb5e853473c5c9e69deed38d8a97cfe78fadbff8a2dc8cf48a16a510fe4acd9aa532c6c517f0
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@csstools/normalize.css@npm:*":
   version: 12.0.0
@@ -2675,116 +2676,6 @@ __metadata:
   dependencies:
     defer-to-connect: ^2.0.0
   checksum: c29df3bcec6fc3bdec2b17981d89d9c9fc9bd7d0c9bcfe92821dc533f4440bc890ccde79971838b4ceed1921d456973c4180d7175ee1d0023ad0562240a58d95
-  languageName: node
-  linkType: hard
-
-"@tauri-apps/api@npm:^1.0.0-rc.6":
-  version: 1.0.0-rc.6
-  resolution: "@tauri-apps/api@npm:1.0.0-rc.6"
-  dependencies:
-    type-fest: 2.12.2
-  checksum: 92bbfa9ea0d2fac765f23655e2225280c484d7dea445f3bdf175967c45df02f4ef607708583ce5cbbeacc89556a2950990d9a8235f8308a517b0699f9619337d
-  languageName: node
-  linkType: hard
-
-"@tauri-apps/cli-darwin-arm64@npm:1.0.0-rc.13":
-  version: 1.0.0-rc.13
-  resolution: "@tauri-apps/cli-darwin-arm64@npm:1.0.0-rc.13"
-  conditions: os=darwin & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@tauri-apps/cli-darwin-x64@npm:1.0.0-rc.13":
-  version: 1.0.0-rc.13
-  resolution: "@tauri-apps/cli-darwin-x64@npm:1.0.0-rc.13"
-  conditions: os=darwin & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@tauri-apps/cli-linux-arm-gnueabihf@npm:1.0.0-rc.13":
-  version: 1.0.0-rc.13
-  resolution: "@tauri-apps/cli-linux-arm-gnueabihf@npm:1.0.0-rc.13"
-  conditions: os=linux & cpu=arm
-  languageName: node
-  linkType: hard
-
-"@tauri-apps/cli-linux-arm64-gnu@npm:1.0.0-rc.13":
-  version: 1.0.0-rc.13
-  resolution: "@tauri-apps/cli-linux-arm64-gnu@npm:1.0.0-rc.13"
-  conditions: os=linux & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@tauri-apps/cli-linux-arm64-musl@npm:1.0.0-rc.13":
-  version: 1.0.0-rc.13
-  resolution: "@tauri-apps/cli-linux-arm64-musl@npm:1.0.0-rc.13"
-  conditions: os=linux & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@tauri-apps/cli-linux-x64-gnu@npm:1.0.0-rc.13":
-  version: 1.0.0-rc.13
-  resolution: "@tauri-apps/cli-linux-x64-gnu@npm:1.0.0-rc.13"
-  conditions: os=linux & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@tauri-apps/cli-linux-x64-musl@npm:1.0.0-rc.13":
-  version: 1.0.0-rc.13
-  resolution: "@tauri-apps/cli-linux-x64-musl@npm:1.0.0-rc.13"
-  conditions: os=linux & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@tauri-apps/cli-win32-ia32-msvc@npm:1.0.0-rc.13":
-  version: 1.0.0-rc.13
-  resolution: "@tauri-apps/cli-win32-ia32-msvc@npm:1.0.0-rc.13"
-  conditions: os=win32 & cpu=ia32
-  languageName: node
-  linkType: hard
-
-"@tauri-apps/cli-win32-x64-msvc@npm:1.0.0-rc.13":
-  version: 1.0.0-rc.13
-  resolution: "@tauri-apps/cli-win32-x64-msvc@npm:1.0.0-rc.13"
-  conditions: os=win32 & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@tauri-apps/cli@npm:^1.0.0-rc.13":
-  version: 1.0.0-rc.13
-  resolution: "@tauri-apps/cli@npm:1.0.0-rc.13"
-  dependencies:
-    "@tauri-apps/cli-darwin-arm64": 1.0.0-rc.13
-    "@tauri-apps/cli-darwin-x64": 1.0.0-rc.13
-    "@tauri-apps/cli-linux-arm-gnueabihf": 1.0.0-rc.13
-    "@tauri-apps/cli-linux-arm64-gnu": 1.0.0-rc.13
-    "@tauri-apps/cli-linux-arm64-musl": 1.0.0-rc.13
-    "@tauri-apps/cli-linux-x64-gnu": 1.0.0-rc.13
-    "@tauri-apps/cli-linux-x64-musl": 1.0.0-rc.13
-    "@tauri-apps/cli-win32-ia32-msvc": 1.0.0-rc.13
-    "@tauri-apps/cli-win32-x64-msvc": 1.0.0-rc.13
-  dependenciesMeta:
-    "@tauri-apps/cli-darwin-arm64":
-      optional: true
-    "@tauri-apps/cli-darwin-x64":
-      optional: true
-    "@tauri-apps/cli-linux-arm-gnueabihf":
-      optional: true
-    "@tauri-apps/cli-linux-arm64-gnu":
-      optional: true
-    "@tauri-apps/cli-linux-arm64-musl":
-      optional: true
-    "@tauri-apps/cli-linux-x64-gnu":
-      optional: true
-    "@tauri-apps/cli-linux-x64-musl":
-      optional: true
-    "@tauri-apps/cli-win32-ia32-msvc":
-      optional: true
-    "@tauri-apps/cli-win32-x64-msvc":
-      optional: true
-  bin:
-    tauri: tauri.js
-  checksum: 6cea1e5e8f5d0132984f862362c1ce9e82955e109e1dcce9e03426cbf8f10e4bbb0ae9b433331113ff4c2809d7604e47cbad444e6de275a8084ddc015eb75a14
   languageName: node
   linkType: hard
 
@@ -11901,15 +11792,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "showrunner@workspace:."
   dependencies:
-    "@coderatparadise/showrunner-common": ^0.5.3
+    "@coderatparadise/showrunner-common": ^0.1.1
     "@emotion/eslint-plugin": ^11.7.0
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
     "@microsoft/fetch-event-source": ^2.0.1
     "@mui/icons-material": ^5.8.2
     "@mui/material": ^5.8.2
-    "@tauri-apps/api": ^1.0.0-rc.6
-    "@tauri-apps/cli": ^1.0.0-rc.13
     "@testing-library/jest-dom": ^5.16.4
     "@testing-library/react": ^13.3.0
     "@testing-library/user-event": ^14.2.0
@@ -12788,13 +12677,6 @@ __metadata:
   version: 4.0.8
   resolution: "type-detect@npm:4.0.8"
   checksum: 62b5628bff67c0eb0b66afa371bd73e230399a8d2ad30d852716efcc4656a7516904570cd8631a49a3ce57c10225adf5d0cbdcb47f6b0255fe6557c453925a15
-  languageName: node
-  linkType: hard
-
-"type-fest@npm:2.12.2":
-  version: 2.12.2
-  resolution: "type-fest@npm:2.12.2"
-  checksum: ee69676da1f69d2b14bbec28c7b95220a3221ab14093f54bde179c59e185a80470859553eada535ec35d8637a245c2f0efe9d7c99cc46a43f3b4c7ef64db7957
   languageName: node
   linkType: hard
 

@@ -3,7 +3,6 @@ import ClockSyncState from "./components/Sync/Clocks";
 import { RecoilRoot } from "recoil";
 import RecoilNexus from "recoil-nexus";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { createDir, BaseDirectory } from "@tauri-apps/api/fs";
 import { CreateClockMenu } from "./components/menu/CreateMenu";
 import styled from "@emotion/styled";
 import { FetchedState } from "./components/fetcher/Fetcher";

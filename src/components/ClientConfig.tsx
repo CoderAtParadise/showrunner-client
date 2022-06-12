@@ -1,10 +1,3 @@
-import {
-  createDir,
-  readTextFile,
-  BaseDirectory,
-  writeFile,
-} from "@tauri-apps/api/fs";
-
 import { ReactNode, useEffect } from "react";
 import { atom, useRecoilState } from "recoil";
 
@@ -20,37 +13,14 @@ export const ClientSettings = (props: {
   const [config, setConfig] = useRecoilState(clientSettingsState);
 
   useEffect(() => {
-    readTextFile("showrunner/settings.json", {
-      dir: BaseDirectory.LocalData,
-    })
-      .then((data) => {
-        setConfig(JSON.parse(data));
-      })
-      .catch(() => {
-        createDir("showrunner", {
-          dir: BaseDirectory.LocalData,
-          recursive: true,
-        }).then(() =>
-          writeFile(
-            {
-              path: "showrunner/settings.json",
-              contents: JSON.stringify(config),
-            },
-            { dir: BaseDirectory.LocalData }
-          )
-        );
-      });
+    const saved = localStorage.getItem("client-settings");
+    if(saved !== null)
+      setConfig(JSON.parse(saved || ""));
   }, []);
 
   useEffect(() => {
     const delayChange = setTimeout(() => {
-      writeFile(
-        {
-          path: "showrunner/settings.json",
-          contents: JSON.stringify(config),
-        },
-        { dir: BaseDirectory.LocalData }
-      );
+      localStorage.setItem("client-settings", JSON.stringify(config));
     }, 500);
     return () => clearTimeout(delayChange);
   }, [config]);

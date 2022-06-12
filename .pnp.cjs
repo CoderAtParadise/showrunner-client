@@ -32,15 +32,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
-            ["@coderatparadise/showrunner-common", "portal:/D:/Dev/showrunner-common::locator=showrunner%40workspace%3A."],\
+            ["@coderatparadise/showrunner-common", "npm:0.1.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40coderatparadise%2Fshowrunner-common%2F0.1.1%2F0a03abd5520a2c2186a8399c867e4117211189aaf7221dc3b580ab6d4b7d2ebd"],\
             ["@emotion/eslint-plugin", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:11.7.0"],\
             ["@emotion/react", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:11.9.0"],\
             ["@emotion/styled", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:11.8.1"],\
             ["@microsoft/fetch-event-source", "npm:2.0.1"],\
             ["@mui/icons-material", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:5.8.2"],\
             ["@mui/material", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:5.8.2"],\
-            ["@tauri-apps/api", "npm:1.0.0-rc.6"],\
-            ["@tauri-apps/cli", "npm:1.0.0-rc.13"],\
             ["@testing-library/jest-dom", "npm:5.16.4"],\
             ["@testing-library/react", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:13.3.0"],\
             ["@testing-library/user-event", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:14.2.0"],\
@@ -2839,12 +2837,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["@coderatparadise/showrunner-common", [\
-        ["portal:/D:/Dev/showrunner-common::locator=showrunner%40workspace%3A.", {\
-          "packageLocation": "../showrunner-common/",\
+        ["npm:0.1.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40coderatparadise%2Fshowrunner-common%2F0.1.1%2F0a03abd5520a2c2186a8399c867e4117211189aaf7221dc3b580ab6d4b7d2ebd", {\
+          "packageLocation": "./.yarn/cache/@coderatparadise-showrunner-common-npm-0.1.1-bba167ca79-d5e534f80b.zip/node_modules/@coderatparadise/showrunner-common/",\
           "packageDependencies": [\
-            ["@coderatparadise/showrunner-common", "portal:/D:/Dev/showrunner-common::locator=showrunner%40workspace%3A."]\
+            ["@coderatparadise/showrunner-common", "npm:0.1.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40coderatparadise%2Fshowrunner-common%2F0.1.1%2F0a03abd5520a2c2186a8399c867e4117211189aaf7221dc3b580ab6d4b7d2ebd"]\
           ],\
-          "linkType": "SOFT"\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@csstools/normalize.css", [\
@@ -4467,115 +4465,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@szmarczak/http-timer", "npm:4.0.6"],\
             ["defer-to-connect", "npm:2.0.1"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@tauri-apps/api", [\
-        ["npm:1.0.0-rc.6", {\
-          "packageLocation": "./.yarn/cache/@tauri-apps-api-npm-1.0.0-rc.6-0c8b6a7b78-92bbfa9ea0.zip/node_modules/@tauri-apps/api/",\
-          "packageDependencies": [\
-            ["@tauri-apps/api", "npm:1.0.0-rc.6"],\
-            ["type-fest", "npm:2.12.2"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@tauri-apps/cli", [\
-        ["npm:1.0.0-rc.13", {\
-          "packageLocation": "./.yarn/cache/@tauri-apps-cli-npm-1.0.0-rc.13-d743b9dbba-6cea1e5e8f.zip/node_modules/@tauri-apps/cli/",\
-          "packageDependencies": [\
-            ["@tauri-apps/cli", "npm:1.0.0-rc.13"],\
-            ["@tauri-apps/cli-darwin-arm64", "npm:1.0.0-rc.13"],\
-            ["@tauri-apps/cli-darwin-x64", "npm:1.0.0-rc.13"],\
-            ["@tauri-apps/cli-linux-arm-gnueabihf", "npm:1.0.0-rc.13"],\
-            ["@tauri-apps/cli-linux-arm64-gnu", "npm:1.0.0-rc.13"],\
-            ["@tauri-apps/cli-linux-arm64-musl", "npm:1.0.0-rc.13"],\
-            ["@tauri-apps/cli-linux-x64-gnu", "npm:1.0.0-rc.13"],\
-            ["@tauri-apps/cli-linux-x64-musl", "npm:1.0.0-rc.13"],\
-            ["@tauri-apps/cli-win32-ia32-msvc", "npm:1.0.0-rc.13"],\
-            ["@tauri-apps/cli-win32-x64-msvc", "npm:1.0.0-rc.13"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@tauri-apps/cli-darwin-arm64", [\
-        ["npm:1.0.0-rc.13", {\
-          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-darwin-arm64-npm-1.0.0-rc.13-67c4a85e37/node_modules/@tauri-apps/cli-darwin-arm64/",\
-          "packageDependencies": [\
-            ["@tauri-apps/cli-darwin-arm64", "npm:1.0.0-rc.13"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@tauri-apps/cli-darwin-x64", [\
-        ["npm:1.0.0-rc.13", {\
-          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-darwin-x64-npm-1.0.0-rc.13-1e59421726/node_modules/@tauri-apps/cli-darwin-x64/",\
-          "packageDependencies": [\
-            ["@tauri-apps/cli-darwin-x64", "npm:1.0.0-rc.13"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@tauri-apps/cli-linux-arm-gnueabihf", [\
-        ["npm:1.0.0-rc.13", {\
-          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-linux-arm-gnueabihf-npm-1.0.0-rc.13-f63034469b/node_modules/@tauri-apps/cli-linux-arm-gnueabihf/",\
-          "packageDependencies": [\
-            ["@tauri-apps/cli-linux-arm-gnueabihf", "npm:1.0.0-rc.13"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@tauri-apps/cli-linux-arm64-gnu", [\
-        ["npm:1.0.0-rc.13", {\
-          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-linux-arm64-gnu-npm-1.0.0-rc.13-4e2640adad/node_modules/@tauri-apps/cli-linux-arm64-gnu/",\
-          "packageDependencies": [\
-            ["@tauri-apps/cli-linux-arm64-gnu", "npm:1.0.0-rc.13"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@tauri-apps/cli-linux-arm64-musl", [\
-        ["npm:1.0.0-rc.13", {\
-          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-linux-arm64-musl-npm-1.0.0-rc.13-f66278d14f/node_modules/@tauri-apps/cli-linux-arm64-musl/",\
-          "packageDependencies": [\
-            ["@tauri-apps/cli-linux-arm64-musl", "npm:1.0.0-rc.13"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@tauri-apps/cli-linux-x64-gnu", [\
-        ["npm:1.0.0-rc.13", {\
-          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-linux-x64-gnu-npm-1.0.0-rc.13-6bcad9d59a/node_modules/@tauri-apps/cli-linux-x64-gnu/",\
-          "packageDependencies": [\
-            ["@tauri-apps/cli-linux-x64-gnu", "npm:1.0.0-rc.13"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@tauri-apps/cli-linux-x64-musl", [\
-        ["npm:1.0.0-rc.13", {\
-          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-linux-x64-musl-npm-1.0.0-rc.13-31ff8fe477/node_modules/@tauri-apps/cli-linux-x64-musl/",\
-          "packageDependencies": [\
-            ["@tauri-apps/cli-linux-x64-musl", "npm:1.0.0-rc.13"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@tauri-apps/cli-win32-ia32-msvc", [\
-        ["npm:1.0.0-rc.13", {\
-          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-win32-ia32-msvc-npm-1.0.0-rc.13-3de4e30779/node_modules/@tauri-apps/cli-win32-ia32-msvc/",\
-          "packageDependencies": [\
-            ["@tauri-apps/cli-win32-ia32-msvc", "npm:1.0.0-rc.13"]\
-          ],\
-          "linkType": "HARD"\
-        }]\
-      ]],\
-      ["@tauri-apps/cli-win32-x64-msvc", [\
-        ["npm:1.0.0-rc.13", {\
-          "packageLocation": "./.yarn/unplugged/@tauri-apps-cli-win32-x64-msvc-npm-1.0.0-rc.13-e0f8cfbcd0/node_modules/@tauri-apps/cli-win32-x64-msvc/",\
-          "packageDependencies": [\
-            ["@tauri-apps/cli-win32-x64-msvc", "npm:1.0.0-rc.13"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -16234,15 +16123,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["showrunner", "workspace:."],\
-            ["@coderatparadise/showrunner-common", "portal:/D:/Dev/showrunner-common::locator=showrunner%40workspace%3A."],\
+            ["@coderatparadise/showrunner-common", "npm:0.1.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40coderatparadise%2Fshowrunner-common%2F0.1.1%2F0a03abd5520a2c2186a8399c867e4117211189aaf7221dc3b580ab6d4b7d2ebd"],\
             ["@emotion/eslint-plugin", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:11.7.0"],\
             ["@emotion/react", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:11.9.0"],\
             ["@emotion/styled", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:11.8.1"],\
             ["@microsoft/fetch-event-source", "npm:2.0.1"],\
             ["@mui/icons-material", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:5.8.2"],\
             ["@mui/material", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:5.8.2"],\
-            ["@tauri-apps/api", "npm:1.0.0-rc.6"],\
-            ["@tauri-apps/cli", "npm:1.0.0-rc.13"],\
             ["@testing-library/jest-dom", "npm:5.16.4"],\
             ["@testing-library/react", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:13.3.0"],\
             ["@testing-library/user-event", "virtual:6becabd2d68357e8a102c77609b8efdc5f9117bc59aa3b36ea3e81de2dfcb2c2e8a1a7299e99056f3ad4c2514a224efe42501b523fcce36f32c8b589e7925e74#npm:14.2.0"],\
@@ -17323,13 +17210,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/type-fest-npm-0.21.3-5ff2a9c6fd-e6b32a3b38.zip/node_modules/type-fest/",\
           "packageDependencies": [\
             ["type-fest", "npm:0.21.3"]\
-          ],\
-          "linkType": "HARD"\
-        }],\
-        ["npm:2.12.2", {\
-          "packageLocation": "./.yarn/cache/type-fest-npm-2.12.2-5ce8e0a551-ee69676da1.zip/node_modules/type-fest/",\
-          "packageDependencies": [\
-            ["type-fest", "npm:2.12.2"]\
           ],\
           "linkType": "HARD"\
         }]\

@@ -34,10 +34,6 @@ const Content = styled.div`
 `;
 
 function App(props: { className?: string }) {
-  createDir("showrunner", {
-    dir: BaseDirectory.LocalData,
-    recursive: true,
-  });
   return (
     <ErrorBoundary>
       <ThemeProvider theme={theme}>

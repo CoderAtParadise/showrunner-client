@@ -9,18 +9,22 @@
 }
 
 .collapsed {
-    border-style: solid;
-    border-width: 1px;
-    background-color: rgb(54, 54, 54);
+  border-style: solid;
+  border-width: 1px;
+  background-color: rgb(54, 54, 54);
 }
 
 .dropdown .collapsed {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   cursor: pointer;
   user-select: none;
-  width: 100%;
-  padding: 0 20px;
+  flex-direction: row;
+}
+
+.selected p {
+  align-self: center;
+  margin: 0.5em;
 }
 
 .arrow {
@@ -32,15 +36,43 @@
 }
 
 .arrow[data-open="false"] {
-  margin-top: 1.2em;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 10px solid red;
+  margin-top: 1em;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid rgb(150, 150, 150);
 }
 
 .arrow[data-open="true"] {
-    margin-bottom: 1.2em;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 10px solid red;
-  }
+  margin-bottom: 1em;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid rgb(150, 150, 150);
+}
+
+.suggestions ul {
+  border: 1px solid;
+  border-color: rgb(150, 150, 150);
+  border-radius: 3px;
+  list-style: none;
+  margin-top: 0;
+  padding-left: 0;
+}
+
+.suggestions li {
+  padding: 0.5rem;
+  text-align: center;
+  background-color: rgb(54, 54, 54);
+}
+
+.suggestions li[data-selected="true"] {
+  background-color: rgb(100, 100, 100);
+}
+
+.suggestions li[data-hovering="true"] {
+  background-color: rgb(150, 150, 150);
+  cursor: pointer;
+}
+
+.suggestions li:not(:last-of-type) {
+  border-bottom: 1px solid #999;
+}

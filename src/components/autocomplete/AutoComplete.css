@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+}
+
+.autocomplete {
+  display: flex;
+  height: 0.5em;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  flex-direction: row;
+}
+
+.input {
+  background-color: rgb(54, 54, 54);
+  border: solid;
+  color: white;
+  margin-left: 5px;
+  border-color: rgb(150, 150, 150);
+  border-radius: 3px;
+}
+
+.suggestions ul {
+  border: 1px solid;
+  border-color: rgb(150, 150, 150);
+  border-radius: 3px;
+  list-style: none;
+  margin-top: 0;
+  padding-left: 0;
+}
+
+.suggestions li {
+  padding: 0.5rem;
+  text-align: center;
+  background-color: rgb(54, 54, 54);
+}
+
+.suggestions li[data-selected="true"] {
+  background-color: rgb(100, 100, 100);
+}
+
+.suggestions li[data-hovering="true"] {
+  background-color: rgb(150, 150, 150);
+  cursor: pointer;
+}
+
+.suggestions li:not(:last-of-type) {
+  border-bottom: 1px solid #999;
+}

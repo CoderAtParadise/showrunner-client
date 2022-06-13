@@ -5,7 +5,7 @@ import { ConfigValue } from "./ConfigValue";
 import { IConfigurable } from "./IConfigurable";
 // import { Autocomplete, TextField } from "@mui/material";
 import styled from "@emotion/styled";
-import { Dropdown } from "../Dropdown";
+import { Dropdown } from "../dropdown/Dropdown";
 
 const Content = styled.div`
   display: flex;
@@ -58,6 +58,7 @@ export class ConfigValueDropdown implements ConfigValue<string> {
         <div>{this.configurable.displayName}:</div>
         <ContentDropdown
           options={options}
+          style={{width:"160px"}}
           value={
             options.find(
               (value: { label: string; id: string }) => value.id === this.get()

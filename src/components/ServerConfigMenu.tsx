@@ -46,6 +46,21 @@ const configValues = [
     category: "settings",
     group: "client",
     key: "serverUrl",
+    default: "test",
+    Options: () => {
+      return [
+        { label: "Test", id: "test" },
+        { label: "Test2", id: "test2" },
+      ];
+    },
+  },
+  {
+    type: ConfigurableType.Dropdown,
+    UserMode: UserMode.ADVANCED,
+    displayName: "Test Dropdown",
+    category: "settings",
+    group: "client",
+    key: "test",
   },
   {
     type: ConfigurableType.List,
@@ -109,7 +124,7 @@ export const ServerConfigMenu = (props: { className?: string }) => {
   const _clientSettings = useRecoilValue(clientSettingsState);
   useEffect(() => {
     markDirty((prevState) => ({ dummy: !prevState.dummy }));
-  }, [_fetched,_clientSettings]);
+  }, [_fetched, _clientSettings]);
   const b = useMemo(() => {
     const b = new ConfigBuilder(
       "system",

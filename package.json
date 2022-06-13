@@ -14,7 +14,6 @@
     "@microsoft/fetch-event-source": "^2.0.1",
     "@mui/icons-material": "^5.8.2",
     "@mui/material": "^5.8.2",
-    "@tauri-apps/api": "^1.0.0-rc.6",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.2.0",
@@ -62,7 +61,6 @@
     ]
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.0.0-rc.13",
     "@types/lodash": "^4.14.182",
     "@types/react-color": "^3.0.6",
     "@yarnpkg/sdks": "^3.0.0-rc.6"

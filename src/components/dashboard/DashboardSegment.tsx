@@ -4,8 +4,7 @@ import {
   IWidgetLayout,
 } from "@coderatparadise/showrunner-common";
 import { CSSProperties, useState } from "react";
-import { ColorSwatch } from "../colorswatch/ColorSwatch";
-import { Dropdown } from "../dropdown/Dropdown";
+import { AutoComplete } from "../autocomplete/AutoComplete";
 
 interface DashboardSegmentTransform extends CSSProperties {
   "--width": number;
@@ -18,6 +17,7 @@ export const DashboardSegment = (props: {
   segment: IDashboardSegment;
   edit?: boolean;
 }) => {
+  const [dvalue, setValue] = useState({ label: "Test", id: "test" });
   const style: DashboardSegmentTransform = {
     "--width": props.segment.transform.dimensions.width,
     "--height": props.segment.transform.dimensions.height,
@@ -34,7 +34,15 @@ export const DashboardSegment = (props: {
       {props.segment.widgets.map((value: IWidgetLayout) => {
         return (
           <div key={value.id}>
-            <Dropdown onChange={() => {}} options={[{ label: "Test", id: "test" },{ label: "Test2", id: "test2" }]} value={{ label: "Test", id: "test" }} />
+            <AutoComplete
+              options={[
+                { label: "Test", id: "test" },
+                { label: "Test2", id: "test2" },
+              ]}
+              value={dvalue}
+              onChange={(nvalue) => setValue(nvalue)}
+              style={{ width: "12em" }}
+            />
           </div>
         );
       })}

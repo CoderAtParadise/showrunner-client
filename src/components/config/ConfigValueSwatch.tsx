@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { LooseObject } from "../../util/LooseObject";
-import { ColorSwatch } from "../ColorSwatch";
+import { ColorSwatch } from "../colorswatch/ColorSwatch";
 import { ConfigBuilder } from "./ConfigBuilder";
 import { ConfigValue } from "./ConfigValue";
 import { IConfigurable } from "./IConfigurable";

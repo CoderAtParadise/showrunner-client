@@ -12,7 +12,7 @@ import {
 import { fetchEventSource } from "@microsoft/fetch-event-source";
 import { RenderClockCodec } from "./codec/RenderClockCodec";
 import { ClockIdentifier } from "@coderatparadise/showrunner-common";
-import { clientSettingsState } from "../ClientConfig";
+import { clientSettingsState } from "../../components/ClientConfig";
 
 export const clocksState = atomFamily<
   Map<string, RenderClockSource>,

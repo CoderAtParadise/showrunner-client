@@ -5,7 +5,7 @@ import { ConfigValue } from "./ConfigValue";
 import { IConfigurable } from "./IConfigurable";
 // import { Autocomplete, TextField } from "@mui/material";
 import styled from "@emotion/styled";
-import { AutoComplete } from "../AutoComplete";
+import { AutoComplete } from "../autocomplete/AutoComplete";
 
 const Content = styled.div`
     display: flex;

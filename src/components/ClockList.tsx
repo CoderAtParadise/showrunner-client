@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useRecoilValue } from "recoil";
 import { RenderClockSource } from "../util/RenderClockSource";
-import { clocksState } from "./Sync/Clocks";
+import { clocksState } from "../network/sync/Clocks";
 import { RenderMode } from "./widget/IWidgetLayout";
 import { Widget } from "./widget/Widget";
 import { CreateClockMenu } from "./menu/CreateMenu";

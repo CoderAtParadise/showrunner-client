@@ -5,7 +5,7 @@ import { ConfigBuilder } from "../config/ConfigBuilder";
 import { Tooltip, TooltipContent, TooltipHoverable } from "../tooltip";
 import { ConfigMenu } from "../menu/ConfigMenu";
 import { useRecoilValue } from "recoil";
-import { fetched } from "../fetcher/Fetcher";
+import { fetched } from "../../network/fetcher/Fetcher";
 
 const SettingsButton = styled(Settings)`
   width: 0.8em;

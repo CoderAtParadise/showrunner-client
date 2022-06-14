@@ -1,5 +1,5 @@
 import { useRecoilValue } from "recoil";
-import { clocksState } from "../components/Sync/Clocks";
+import { clocksState } from "../network/sync/Clocks";
 
 export function useClock(source: string) {
     const [show, session, id] = source.split(":");

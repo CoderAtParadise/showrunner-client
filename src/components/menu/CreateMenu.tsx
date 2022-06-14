@@ -9,11 +9,11 @@ import { Scrollable } from "../Scrollable";
 import { ConfigurableType, IConfigurable } from "../config/IConfigurable";
 import { Offset } from "@coderatparadise/showrunner-common";
 import { Create } from "../../commands/Clock";
-import { fetched, useFetcher } from "../fetcher/Fetcher";
-import { AmpChannelsFetcher } from "../fetcher/fetchers/AmpChannelsFetcher";
+import { fetched, useFetcher } from "../../network/fetcher/Fetcher";
+import { AmpChannelsFetcher } from "../../network/fetcher/fetchers/AmpChannelsFetcher";
 import { getRecoil } from "recoil-nexus";
-import { AmpChannelVideoFetcher } from "../fetcher/fetchers/AmpChannelVideoFetcher";
-import { clocksState } from "../Sync/Clocks";
+import { AmpChannelVideoFetcher } from "../../network/fetcher/fetchers/AmpChannelVideoFetcher";
+import { clocksState } from "../../network/sync/Clocks";
 
 const Background = styled.div`
   width: 100vw;

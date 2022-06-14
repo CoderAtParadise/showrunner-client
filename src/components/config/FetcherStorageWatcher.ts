@@ -3,7 +3,7 @@ import { getRecoil, setRecoil } from "recoil-nexus";
 import { LooseObject } from "../../util/LooseObject";
 import { ConfigBuilder } from "./ConfigBuilder";
 import { ConfigStorageWatcher } from "./ConfigStorageWatcher";
-import { fetched } from "../fetcher/Fetcher";
+import { fetched } from "../../network/fetcher/Fetcher";
 
 export class FetcherStorageWatcher implements ConfigStorageWatcher {
   constructor(

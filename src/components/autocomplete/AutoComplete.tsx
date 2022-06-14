@@ -28,7 +28,6 @@ export const AutoComplete = (props: {
   };
 
   const onFocusGain = (e: FocusEvent<HTMLInputElement>) => {
-    console.log("Hello");
     const value = e.currentTarget.value;
     let filtered: { label: string; id: string }[] = props.options;
     if (value.length > 0) {

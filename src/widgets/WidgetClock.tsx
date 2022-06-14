@@ -16,7 +16,7 @@ import {
 } from "@coderatparadise/showrunner-common";
 import { useClock } from "../hooks/useClock";
 import { ClockSourceComponent } from "../components/ClockSourceComponent";
-import { clocksState } from "../components/Sync/Clocks";
+import { clocksState } from "../network/sync/Clocks";
 import { ConfigurableType } from "../components/config/IConfigurable";
 import { ConfigBuilder } from "../components/config/ConfigBuilder";
 import { getRecoil } from "recoil-nexus";
@@ -29,12 +29,12 @@ import {
   TooltipHoverable,
   TooltipContent,
 } from "../components/tooltip";
-import { fetched, useFetcher } from "../components/fetcher/Fetcher";
+import { fetched, useFetcher } from "../network/fetcher/Fetcher";
 import {
   AmpChannelInfo,
   AmpChannelsFetcher,
-} from "../components/fetcher/fetchers/AmpChannelsFetcher";
-import { AmpChannelVideoFetcher } from "../components/fetcher/fetchers/AmpChannelVideoFetcher";
+} from "../network/fetcher/fetchers/AmpChannelsFetcher";
+import { AmpChannelVideoFetcher } from "../network/fetcher/fetchers/AmpChannelVideoFetcher";
 import { RenderClockSource } from "../util/RenderClockSource";
 
 const blink = keyframes`

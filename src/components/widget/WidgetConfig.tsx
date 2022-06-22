@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Settings } from "@mui/icons-material";
 import styled from "@emotion/styled";
 import { ConfigBuilder } from "../config/ConfigBuilder";
-import { Tooltip, TooltipContent, TooltipHoverable } from "../tooltip";
 import { ConfigMenu } from "../menu/ConfigMenu";
 import { useRecoilValue } from "recoil";
 import { fetched } from "../../network/fetcher/Fetcher";
+import { TooltipContent } from "../tooltip/TooltipContent";
+import { Tooltip } from "../tooltip/Tooltip";
+import { TooltipHoverable } from "../tooltip/TooltipHoverable";
 
 const SettingsButton = styled(Settings)`
   width: 0.8em;

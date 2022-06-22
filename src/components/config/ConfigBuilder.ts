@@ -8,7 +8,6 @@ import { ConfigValueText } from "./ConfigValueText";
 import { ConfigValueOptions } from "./ConfigValueOptions";
 import { ConfigValueDropdown } from "./ConfigValueDropdown";
 import { ConfigurableType, IConfigurable } from "./IConfigurable";
-import { ConfigValueTime } from "./ConfigValueTime";
 import { ConfigValueNumber } from "./ConfigValueNumber";
 import { isArray } from "lodash";
 import { ConfigValueList } from "./ConfigValueList";
@@ -105,9 +104,6 @@ export class ConfigBuilder {
                         );
                         break;
                     case ConfigurableType.Time:
-                        this.configs.push(
-                            new ConfigValueTime(this, value, storage)
-                        );
                         break;
                     case ConfigurableType.List:
                         this.configs.push(

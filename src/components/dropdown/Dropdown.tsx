@@ -1,19 +1,17 @@
-import { indexOf } from "lodash";
 import {
   useState,
   KeyboardEvent,
   MouseEvent,
-  CSSProperties,
   useCallback,
 } from "react";
 import { VerticalScrollable } from "../scrollable/VerticalScrollable";
 import "./Dropdown.css";
 
 export const Dropdown = (props: {
+  className?: string;
   options: { label: string; id: string }[];
   value: { label: string; id: string };
   onChange: (value: { label: string; id: string }) => void;
-  style?: CSSProperties;
 }) => {
   const [open, setOpen] = useState(false);
   const [highlightedSuggested, setHighlightedSuggested] = useState(0);
@@ -55,7 +53,9 @@ export const Dropdown = (props: {
       setOpen(true);
       let suggested = highlightedSuggested;
       if (suggested === -1) {
-        suggested = props.options.findIndex((value) => value.id === props.value.id);
+        suggested = props.options.findIndex(
+          (value) => value.id === props.value.id
+        );
         setHighlightedSuggested(suggested);
       }
       setHighlightedSuggested(suggested - 1);
@@ -64,7 +64,9 @@ export const Dropdown = (props: {
       setOpen(true);
       let suggested = highlightedSuggested;
       if (suggested === -1) {
-        suggested = props.options.findIndex((value) => value.id === props.value.id);
+        suggested = props.options.findIndex(
+          (value) => value.id === props.value.id
+        );
         setHighlightedSuggested(suggested);
       }
       if (suggested + 1 === props.options.length) return;
@@ -83,29 +85,27 @@ export const Dropdown = (props: {
   };
 
   return (
-    <div className="dropdown">
+    <div className={`dropdown ${props.className}`}>
       <div
-        className="collapsed"
+        className={`collapsed ${props.className}`}
         tabIndex={0}
         role="button"
         onKeyDown={onKeyDown}
         onBlur={onFocusLost}
         onClick={onCollapsedClick}
-        style={props.style}
       >
-        <div className="selected">
+        <div className={`selected ${props.className}`}>
           <p>{props.value.label}</p>
         </div>
-        <div className="arrow" data-open={open} />
+        <div className={`arrow ${props.className}`} data-open={open} />
       </div>
       {open ? (
         <div
-          className="suggestions"
-          style={props.style}
+          className={`suggestions ${props.className}`}
           onMouseOut={handleMouseOut}
         >
           <VerticalScrollable
-            style={{ height: "fit-content", maxHeight: "12em" }}
+            className={props.className}
           >
             <ul>
               {props.options.map((value, index) => (

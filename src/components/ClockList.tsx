@@ -5,7 +5,6 @@ import { clocksState } from "../network/sync/Clocks";
 import { RenderMode } from "./widget/IWidgetLayout";
 import { Widget } from "./widget/Widget";
 import { CreateClockMenu } from "./menu/CreateMenu";
-import { useEffect, useState } from "react";
 
 const Container = styled.div`
   display: flex;

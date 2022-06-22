@@ -1,12 +1,14 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useState,MouseEvent } from "react";
 import { LooseObject } from "../../util/LooseObject";
 import { ConfigBuilder } from "./ConfigBuilder";
 import { ConfigValue } from "./ConfigValue";
 import { IConfigurable } from "./IConfigurable";
 import { Add, Remove, Edit } from "@mui/icons-material";
 import styled from "@emotion/styled";
-import { Tooltip, TooltipContent, TooltipHoverable } from "../tooltip";
 import { Scrollable } from "../Scrollable";
+import { Tooltip } from "../tooltip/Tooltip";
+import { TooltipHoverable } from "../tooltip/TooltipHoverable";
+import { TooltipContent } from "../tooltip/TooltipContent";
 
 const Content = styled.div`
   display: flex;
@@ -129,7 +131,7 @@ const TableComponent = (props: {
           </ControlButtonTooltip>
           <ControlButtonTooltip>
             <ControlButtonTooltipHoverable
-              onClick={(event) => {
+              onClick={(event:MouseEvent<HTMLDivElement>) => {
                 if (selected !== "") {
                   if (props.configurable.onClick)
                     props.configurable.onClick(props.builder, event, "edit", {

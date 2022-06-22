@@ -1497,9 +1497,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@coderatparadise/showrunner-common@portal:/D:/Dev/showrunner-common::locator=showrunner%40workspace%3A.":
+"@coderatparadise/showrunner-common@portal:/E:/Dev/showrunner-common::locator=showrunner-display%40workspace%3A.":
   version: 0.0.0-use.local
-  resolution: "@coderatparadise/showrunner-common@portal:/D:/Dev/showrunner-common::locator=showrunner%40workspace%3A."
+  resolution: "@coderatparadise/showrunner-common@portal:/E:/Dev/showrunner-common::locator=showrunner-display%40workspace%3A."
   languageName: node
   linkType: soft
 
@@ -3278,13 +3278,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ungap__structured-clone@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@types/ungap__structured-clone@npm:0.3.0"
-  checksum: 1502276e64645c2157e7a6d0dc6b572787b99f5a4e64d11711fcc05edb9c5be5d0a7827939d269746a29f24ae96c9581b16f12d00604dacfbfdc6b62ba6025c5
-  languageName: node
-  linkType: hard
-
 "@types/ws@npm:^8.5.1":
   version: 8.5.3
   resolution: "@types/ws@npm:8.5.3"
@@ -3444,13 +3437,6 @@ __metadata:
     "@typescript-eslint/types": 5.25.0
     eslint-visitor-keys: ^3.3.0
   checksum: ec4d0558cf53305703c18dfd7e1cd53fc0736303a51d93a875227896a230fd049951cc0600c539719cc351d2c96cb4abc6aa9dd9b3a8401f27bb8033093f35b7
-  languageName: node
-  linkType: hard
-
-"@ungap/structured-clone@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@ungap/structured-clone@npm:1.0.1"
-  checksum: cd614e038fa63dcd5da0070d9ed5214d74d1f72b04d88e884d5a6563bb77d52a566fdd26b889f09c534fb72ab1d6ad8efe6bb678a56a5ccd3f0d6946234d1113
   languageName: node
   linkType: hard
 
@@ -11787,9 +11773,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"showrunner@workspace:.":
+"showrunner-display@workspace:.":
   version: 0.0.0-use.local
-  resolution: "showrunner@workspace:."
+  resolution: "showrunner-display@workspace:."
   dependencies:
     "@coderatparadise/showrunner-common": ^0.2.0
     "@emotion/eslint-plugin": ^11.7.0
@@ -11807,8 +11793,6 @@ __metadata:
     "@types/react": ^18.0.11
     "@types/react-color": ^3.0.6
     "@types/react-dom": ^18.0.5
-    "@types/ungap__structured-clone": ^0.3.0
-    "@ungap/structured-clone": ^1.0.1
     "@yarnpkg/sdks": ^3.0.0-rc.6
     lodash: ^4.17.21
     react: ^18.1.0

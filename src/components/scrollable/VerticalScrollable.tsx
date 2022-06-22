@@ -14,11 +14,11 @@ interface ScrollThumbCSSProperties extends CSSProperties {
   "--thumb-top": number;
 }
 
-const SCROLL_BOX_MIN_HEIGHT = 20;
+const SCROLL_BOX_MIN_HEIGHT = 5;
 
 export const VerticalScrollable = (props: {
+  className?: string;
   children?: ReactNode;
-  style?: CSSProperties;
 }) => {
   const [hovering, setHovering] = useState(false);
   const [scrollBoxHeight, setScrollBoxHeight] = useState(SCROLL_BOX_MIN_HEIGHT);
@@ -129,16 +129,28 @@ export const VerticalScrollable = (props: {
     "--thumb-top": scrollBoxTop,
   };
   return (
-    <div className="scroll-container" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-      <div ref={scrollHostRef} style={props.style} className="scroll-host">
+    <div
+      className={`scroll-container ${props.className}`}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+    >
+      <div
+        ref={scrollHostRef}
+        className={`scroll-host ${props.className}`}
+      >
         {props.children}
       </div>
       <div
-        className="scrollbar"
+        className={`scrollbar ${props.className}`}
         data-type="vertical"
         data-hovering={(hovering && shouldDisplayScroll()) || isDragging}
       >
-        <div className="scroll-thumb" data-type="vertical" style={thumbStyle} onMouseDown={handleScrollThumbMouseDown}/>
+        <div
+          className={`scroll-thumb ${props.className}`}
+          data-type={`vertical`}
+          style={thumbStyle}
+          onMouseDown={handleScrollThumbMouseDown}
+        />
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
 import { Dispatch } from "react";
 import { LooseObject } from "../../util/LooseObject";
-import { ConfigStorageWatcher } from "./ConfigStorageWatcher";
-import { ConfigBuilder } from "./ConfigBuilder";
+import { IStorageWatcher } from "../IStorageWatcher";
+import { ConfigBuilder } from "../ConfigBuilder";
 
-export class StateStorageWatcher implements ConfigStorageWatcher {
+export class StateStorageWatcher implements IStorageWatcher {
     constructor(
         storage: LooseObject,
         dispatcher: Dispatch<LooseObject>,

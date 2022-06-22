@@ -1,7 +1,9 @@
 import { WidgetConfig } from "./WidgetConfig";
 import styled from "@emotion/styled";
 import { ConfigBuilder } from "../config/ConfigBuilder";
-import { Tooltip, TooltipContent, TooltipHoverable } from "../tooltip";
+import { Tooltip } from "../tooltip/Tooltip";
+import { TooltipHoverable } from "../tooltip/TooltipHoverable";
+import { TooltipContent } from "../tooltip/TooltipContent";
 
 const Header = styled.div`
     position: relative;

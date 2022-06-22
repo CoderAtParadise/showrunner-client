@@ -4,24 +4,33 @@ import "./ColorSwatch.css";
 import { zeroPad } from "@coderatparadise/showrunner-common";
 
 export const ColorSwatch = (props: {
+  className?: string;
   color: string;
   onChange: (color: string) => void;
 }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="color-swatch">
-      <div className="swatch" onClick={() => setOpen(!open)}>
-        <div className="swatch-color-transparency" />
+    <div className={`color-swatch ${props.className}`}>
+      <div
+        className={`swatch ${props.className}`}
+        onClick={() => setOpen(!open)}
+      >
+        <div className={`swatch-color-transparency ${props.className}`} />
         <div
-          className="swatch-color"
+          className={`swatch-color ${props.className}`}
           style={{ "--color": props.color } as CSSProperties}
         />
       </div>
       {open ? (
-        <div className="pop-over">
-          <div className="cover" onClick={() => setOpen(false)} tabIndex={-1} />
+        <div className={`pop-over ${props.className}`}>
+          <div
+            className={`cover ${props.className}`}
+            onClick={() => setOpen(false)}
+            tabIndex={-1}
+          />
           <SketchPicker
+            className={props.className}
             color={props.color}
             onChange={(color: ColorResult) => {
               const alpha = Math.floor(color.rgb.a! * 255);

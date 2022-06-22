@@ -4,7 +4,6 @@ import { useEffect, useState, MouseEvent, useMemo } from "react";
 import { ConfigBuilder } from "./config/ConfigBuilder";
 import { fetched, useFetcher } from "../network/fetcher/Fetcher";
 import { ConfigMenu } from "./menu/ConfigMenu";
-import { Tooltip, TooltipContent, TooltipHoverable } from "./tooltip";
 import { ServerSettingsFetcher } from "../network/fetcher/fetchers/ServerSettingsFetcher";
 import { LooseObject } from "../util/LooseObject";
 import { FetcherStorageWatcher } from "./config/FetcherStorageWatcher";
@@ -13,6 +12,9 @@ import { useRecoilValue } from "recoil";
 import { sendCommand } from "../commands/SendCommand";
 import { RecoilStorageWatcher } from "./config/RecoilStorageWatcher";
 import { clientSettingsState } from "./ClientConfig";
+import { TooltipContent } from "./tooltip/TooltipContent";
+import { Tooltip } from "./tooltip/Tooltip";
+import { TooltipHoverable } from "./tooltip/TooltipHoverable";
 
 const SettingsButton = styled(Settings)`
   width: 1.2em;

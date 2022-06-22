@@ -1,10 +1,10 @@
 import { getRecoil, setRecoil } from "recoil-nexus";
 import { LooseObject } from "../../util/LooseObject";
-import { ConfigBuilder } from "./ConfigBuilder";
-import { ConfigStorageWatcher } from "./ConfigStorageWatcher";
+import { ConfigBuilder } from "../ConfigBuilder";
+import { IStorageWatcher } from "../IStorageWatcher";
 import { fetched } from "../../network/fetcher/Fetcher";
 
-export class FetcherStorageWatcher implements ConfigStorageWatcher {
+export class FetcherStorageWatcher implements IStorageWatcher {
   constructor(
     identifier: { show: string; session: string; key: string },
     forceUpdate: () => void
@@ -51,8 +51,6 @@ export class FetcherStorageWatcher implements ConfigStorageWatcher {
     }
     return undefined;
   }
-
-  updateStorage(storage: LooseObject): void {}
 
   raw(): LooseObject {
     const _fetched = getRecoil(fetched(this.identifier));

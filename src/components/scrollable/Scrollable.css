@@ -16,13 +16,13 @@
 }
 
 .scroll-host[data-type="vertical"] {
-  height: 100%;
+  height: fit-content;
 }
 
 .scrollbar {
   position: absolute;
   border-radius: 7px;
-  background-color: rgba(160, 160, 160, 0.35);
+  background-color: rgba(255, 255, 255, 0.35);
   opacity: 0;
 }
 
@@ -48,8 +48,9 @@
 
 .scroll-thumb {
   position: absolute;
+  z-index: 1;
   border-radius: 7px;
-  background-color: rgba(160, 160, 160, 0.65);
+  background-color: rgba(255, 255, 255, 0.65);
 }
 
 .scroll-thumb[data-type="vertical"] {

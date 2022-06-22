@@ -24,11 +24,6 @@ import { StateStorageWatcher } from "../components/config/StateStorageWatcher";
 import { isEqual } from "lodash";
 import { sendCommand } from "../commands/SendCommand";
 import { diffObject } from "../util/Diffobject";
-import {
-  Tooltip,
-  TooltipHoverable,
-  TooltipContent,
-} from "../components/tooltip";
 import { fetched, useFetcher } from "../network/fetcher/Fetcher";
 import {
   AmpChannelInfo,
@@ -36,6 +31,9 @@ import {
 } from "../network/fetcher/fetchers/AmpChannelsFetcher";
 import { AmpChannelVideoFetcher } from "../network/fetcher/fetchers/AmpChannelVideoFetcher";
 import { RenderClockSource } from "../util/RenderClockSource";
+import { Tooltip } from "../components/tooltip/Tooltip";
+import { TooltipContent } from "../components/tooltip/TooltipContent";
+import { TooltipHoverable } from "../components/tooltip/TooltipHoverable";
 
 const blink = keyframes`
     50% {

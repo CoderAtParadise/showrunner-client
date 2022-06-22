@@ -5,7 +5,9 @@ import { capitalizeFirstLetter } from "../../util/StringUtil";
 import { ConfigBuilder } from "../config/ConfigBuilder";
 import { ConfigValue } from "../config/ConfigValue";
 import { Scrollable } from "../Scrollable";
-import { TooltipContent, TooltipHoverable, Tooltip } from "../tooltip";
+import { Tooltip } from "../tooltip/Tooltip";
+import { TooltipContent } from "../tooltip/TooltipContent";
+import { TooltipHoverable } from "../tooltip/TooltipHoverable";
 
 const Background = styled.div`
   width: 100vw;

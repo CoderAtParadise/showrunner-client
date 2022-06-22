@@ -1,10 +1,10 @@
 import { RecoilState } from "recoil";
 import { getRecoil, setRecoil } from "recoil-nexus";
 import { LooseObject } from "../../util/LooseObject";
-import { ConfigBuilder } from "./ConfigBuilder";
-import { ConfigStorageWatcher } from "./ConfigStorageWatcher";
+import { ConfigBuilder } from "../ConfigBuilder";
+import { IStorageWatcher } from "../IStorageWatcher";
 
-export class RecoilStorageWatcher implements ConfigStorageWatcher {
+export class RecoilStorageWatcher implements IStorageWatcher {
   constructor(recoilState: RecoilState<any>, forceUpdate: () => void) {
     this.state = recoilState;
     this.forceUpdate = forceUpdate;
@@ -25,7 +25,6 @@ export class RecoilStorageWatcher implements ConfigStorageWatcher {
           builder.invokeListeners(key, oldValue, value);
         }
       });
-      this.updateStorage(ret);
       this.forceUpdate();
       return ret;
     });
@@ -42,8 +41,6 @@ export class RecoilStorageWatcher implements ConfigStorageWatcher {
     }
     return tmp;
   }
-
-  updateStorage(storage: LooseObject): void {}
 
   raw(): LooseObject {
     return getRecoil(this.state);

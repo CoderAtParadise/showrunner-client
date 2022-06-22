@@ -1,10 +1,10 @@
 {
-  "name": "showrunner",
+  "name": "showrunner-display",
   "version": "0.1.0",
   "packageManager": "yarn@3.2.1",
   "private": true,
   "resolutions": {
-    "@coderatparadise/showrunner-common": "portal:/D:/Dev/showrunner-common"
+    "@coderatparadise/showrunner-common": "portal:/E:/Dev/showrunner-common"
   },
   "dependencies": {
     "@coderatparadise/showrunner-common": "^0.2.0",
@@ -21,8 +21,6 @@
     "@types/node": "^16.11.38",
     "@types/react": "^18.0.11",
     "@types/react-dom": "^18.0.5",
-    "@types/ungap__structured-clone": "^0.3.0",
-    "@ungap/structured-clone": "^1.0.1",
     "lodash": "^4.17.21",
     "react": "^18.1.0",
     "react-color": "^2.19.3",

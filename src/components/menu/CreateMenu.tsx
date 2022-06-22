@@ -2,18 +2,20 @@ import styled from "@emotion/styled";
 import { Add, CloseRounded } from "@mui/icons-material";
 import { Fragment, useMemo, useState } from "react";
 import { ConfigBuilder } from "../config/ConfigBuilder";
-import { Tooltip, TooltipContent, TooltipHoverable } from "../tooltip";
 import { StateStorageWatcher } from "../config/StateStorageWatcher";
 import { ConfigValue } from "../config/ConfigValue";
 import { Scrollable } from "../Scrollable";
 import { ConfigurableType, IConfigurable } from "../config/IConfigurable";
 import { Offset } from "@coderatparadise/showrunner-common";
-import { Create } from "../../commands/Clock";
 import { fetched, useFetcher } from "../../network/fetcher/Fetcher";
 import { AmpChannelsFetcher } from "../../network/fetcher/fetchers/AmpChannelsFetcher";
 import { getRecoil } from "recoil-nexus";
 import { AmpChannelVideoFetcher } from "../../network/fetcher/fetchers/AmpChannelVideoFetcher";
 import { clocksState } from "../../network/sync/Clocks";
+import { sendCommand } from "../../commands/SendCommand";
+import { Tooltip } from "../tooltip/Tooltip";
+import { TooltipContent } from "../tooltip/TooltipContent";
+import { TooltipHoverable } from "../tooltip/TooltipHoverable";
 
 const Background = styled.div`
   width: 100vw;
@@ -374,8 +376,9 @@ const creator: IConfigurable[] = [
       }
 
       if (!error) {
-        Create(
+        sendCommand(
           { show: builder.show, session: builder.session },
+          "clock.edit",
           { owner: "", ...out }
         );
         return true;
@@ -487,17 +490,19 @@ export const CreateClockMenu = (props: {
                     .map((value: ConfigValue<any>) => {
                       if (value.configurable.Enabled) {
                         return value.configurable.Enabled(builder) ? (
-                          <Fragment key={`${value.configurable.group}:${value.configurable.key}`}>
-                            {value.render(
-                            )}
+                          <Fragment
+                            key={`${value.configurable.group}:${value.configurable.key}`}
+                          >
+                            {value.render()}
                             <Br />
                           </Fragment>
                         ) : null;
                       } else {
                         return (
-                          <Fragment key={`${value.configurable.group}:${value.configurable.key}`}>
-                            {value.render(
-                            )}
+                          <Fragment
+                            key={`${value.configurable.group}:${value.configurable.key}`}
+                          >
+                            {value.render()}
                             <Br />
                           </Fragment>
                         );

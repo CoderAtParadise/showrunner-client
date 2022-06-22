@@ -58,7 +58,6 @@ export class ConfigValueDropdown implements ConfigValue<string> {
         <div>{this.configurable.displayName}:</div>
         <ContentDropdown
           options={options}
-          style={{width:"160px"}}
           value={
             options.find(
               (value: { label: string; id: string }) => value.id === this.get()

@@ -11,6 +11,7 @@ import { VerticalScrollable } from "../scrollable/VerticalScrollable";
 import "./AutoComplete.css";
 
 export const AutoComplete = (props: {
+  className?: string;
   options: { label: string; id: string }[];
   value: { label: string; id: string };
   onChange: (value: { label: string; id: string }) => void;
@@ -124,7 +125,7 @@ export const AutoComplete = (props: {
   };
 
   return (
-    <div className="autocomplete">
+    <div className={`autocomplete ${props.className}`}>
       <input
         className="input"
         onChange={onTextChange}
@@ -135,12 +136,12 @@ export const AutoComplete = (props: {
         style={props.style}
       />
       <div
-        className="suggestions"
+        className={`suggestions ${props.className}`}
         style={props.style}
         onMouseOut={handleMouseOut}
       >
         <VerticalScrollable
-          style={{ height: "fit-content", maxHeight: "12em" }}
+          className={props.className}
         >
           {open ? (
             <ul>

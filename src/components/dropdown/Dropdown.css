@@ -49,6 +49,14 @@
   border-bottom: 4px solid rgb(150, 150, 150);
 }
 
+.suggestions {
+  z-index: 1;
+}
+
+.suggestions .scroll-host {
+  max-height: 10.6em;
+}
+
 .suggestions ul {
   border: 1px solid;
   border-color: rgb(150, 150, 150);

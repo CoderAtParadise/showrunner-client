@@ -1,0 +1,101 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.display {
+  padding: 2%;
+}
+
+.text {
+  background-color: rgb(54, 54, 54);
+  border: solid;
+  color: white;
+  margin-left: 5px;
+  border-color: rgb(150, 150, 150);
+  border-radius: 3px;
+}
+
+.checkbox {
+  margin-right: 5px;
+  padding: 6%;
+}
+
+.button {
+  margin-right: 5px;
+  background-color: rgb(54, 54, 54);
+  border: solid;
+  color: white;
+  margin-left: 5px;
+  border-color: rgb(150, 150, 150);
+  border-radius: 3px;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: rgb(100, 100, 100);
+}
+
+.time {
+  background-color: rgb(54, 54, 54);
+  border: solid;
+  color: white;
+  margin-left: 5px;
+  border-color: rgb(150, 150, 150);
+  border-radius: 3px;
+  width: 3em;
+}
+
+.seperator {
+  padding: 2%;
+  padding-left: 3%;
+  padding-right: 0.5%;
+  font-weight: bold;
+}
+
+.config-search {
+  width: 14em;
+}
+
+.config-offset.collapsed,
+.config-dropdown.collapsed {
+  height: 1.8em;
+  border-color: rgb(150, 150, 150);
+  border-radius: 3px;
+  border-width: 3px;
+  width: 10em;
+}
+
+.config-dropdown .suggestions {
+  width: 10em;
+}
+
+.config-offset.selected p,
+.config-dropdown.selected p {
+  margin-top: 0.1em;
+  margin-left: 0.6em;
+}
+
+.config-offset.arrow[data-open="false"],
+.config-dropdown.arrow[data-open="false"] {
+  margin-top: 0.6em;
+}
+
+.config-offset.arrow[data-open="true"],
+.config-dropdown.arrow[data-open="true"] {
+  margin-bottom: 0.6em;
+}
+
+.config-offset .suggestions {
+  width: 3em;
+}
+
+.config-offset.collapsed {
+  width: 3em;
+}
+
+.config-swatch {
+  padding: 2%;
+  padding-left: 0%;
+}

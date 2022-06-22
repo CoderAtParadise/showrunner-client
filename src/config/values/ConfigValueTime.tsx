@@ -1,38 +1,17 @@
 import { ReactNode } from "react";
 import { LooseObject } from "../../util/LooseObject";
-import { ConfigBuilder } from "./ConfigBuilder";
-import { ConfigValue } from "./ConfigValue";
-import { IConfigurable } from "./IConfigurable";
-import styled from "@emotion/styled";
-import { Offset, SMPTE } from "@coderatparadise/showrunner-common";
-import { zeroPad } from "../../util/ZeroPad";
-import { DropdownSmall } from "../DropdownSmall";
+import { IConfigBuilder } from "../IConfigBuilder";
+import { IConfigValueRender } from "../IConfigValueRender";
+import { IConfigurable } from "../IConfigurable";
+import { Offset, SMPTE, zeroPad } from "@coderatparadise/showrunner-common";
+import { Dropdown } from "../../components/dropdown/Dropdown";
+import "./ConfigValue.css";
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const Input = styled.input`
-  background-color: rgb(54, 54, 54);
-  border: solid;
-  color: white;
-  margin-left: 5px;
-  border-color: rgb(150, 150, 150);
-  border-radius: 3px;
-  width: 2.5em;
-`;
-
-const OffsetDropdown = styled(DropdownSmall)`
-  display: inline-block;
-  width: 3em;
-`;
-
-export class ConfigValueTime implements ConfigValue<string> {
+export class ConfigValueTime implements IConfigValueRender<string> {
   constructor(
-    builder: ConfigBuilder,
+    builder: IConfigBuilder,
     configurable: IConfigurable,
-    storage: (config: ConfigBuilder) => LooseObject
+    storage: (config: IConfigBuilder) => LooseObject
   ) {
     this.builder = builder;
     this.configurable = configurable;
@@ -42,7 +21,7 @@ export class ConfigValueTime implements ConfigValue<string> {
   get(): string {
     return (
       this.storage(this.builder).get(
-        `${this.configurable.group}.${this.configurable.key}`
+        `${this.configurable.identifier.group}.${this.configurable.identifier.key}`
       ) || this.configurable?.defaultValue
     );
   }
@@ -50,51 +29,58 @@ export class ConfigValueTime implements ConfigValue<string> {
   set(value: string): void {
     this.storage(this.builder).set(
       this.builder,
-      `${this.configurable.group}.${this.configurable.key}`,
+      `${this.configurable.identifier.group}.${this.configurable.identifier.key}`,
       value
     );
   }
 
   render(): ReactNode {
     const clock = new SMPTE(this.get() || "00:00:00:00");
-    const offset = this.configurable
-      .Options?.(this.builder)
-      .find((v) => v.id === "offset");
     if (
       this.storage(this.builder).get(
-        `${this.configurable.group}.${this.configurable.key}`
+        `${this.configurable.identifier.group}.${this.configurable.identifier.key}`
       ) === undefined &&
       this.configurable.defaultValue
     ) {
-      if (offset !== undefined) this.set(`+${this.configurable?.defaultValue}`);
+      if (this.configurable.variant !== "offset")
+        this.set(`+${this.configurable?.defaultValue}`);
       else this.set(this.configurable?.defaultValue);
     }
     return (
-      <Content>
-        <div>{this.configurable.displayName}: </div>
-        {offset !== undefined ? (
-          <OffsetDropdown
-            options={[
-              { id: Offset.START, label: Offset.START },
-              { id: Offset.END, label: Offset.END },
-            ]}
-            value={{
-              label:
-                clock.offset() !== Offset.NONE ? clock.offset() : Offset.START,
-              id:
-                clock.offset() !== Offset.NONE ? clock.offset() : Offset.START,
-            }}
-            onChange={(e) => {
-              this.set(
-                `${e.id}${zeroPad(clock.hours(), 2)}:${zeroPad(
-                  clock.minutes(),
-                  2
-                )}:${zeroPad(clock.seconds(), 2)}:00`
-              );
-            }}
-          />
+      <div className="container">
+        <div className="display">{this.configurable.displayName}: </div>
+        {this.configurable.variant === "offset" ? (
+          <>
+            <Dropdown
+              className="config-offset"
+              options={[
+                { id: Offset.START, label: Offset.START },
+                { id: Offset.END, label: Offset.END },
+              ]}
+              value={{
+                label:
+                  clock.offset() !== Offset.NONE
+                    ? clock.offset()
+                    : Offset.START,
+                id:
+                  clock.offset() !== Offset.NONE
+                    ? clock.offset()
+                    : Offset.START,
+              }}
+              onChange={(e) => {
+                this.set(
+                  `${e.id}${zeroPad(clock.hours(), 2)}:${zeroPad(
+                    clock.minutes(),
+                    2
+                  )}:${zeroPad(clock.seconds(), 2)}:00`
+                );
+              }}
+            />
+            <span className="seperator"> </span>
+          </>
         ) : null}
-        <Input
+        <input
+          className="time"
           type="number"
           min={0}
           max={23}
@@ -127,8 +113,9 @@ export class ConfigValueTime implements ConfigValue<string> {
             }
           }}
         />
-        :
-        <Input
+        <span className="seperator">:</span>
+        <input
+          className="time"
           type="number"
           min={0}
           max={59}
@@ -158,8 +145,9 @@ export class ConfigValueTime implements ConfigValue<string> {
             }
           }}
         />
-        :
-        <Input
+        <span className="seperator">:</span>
+        <input
+          className="time"
           type="number"
           min={0}
           max={59}
@@ -189,11 +177,11 @@ export class ConfigValueTime implements ConfigValue<string> {
             }
           }}
         />
-      </Content>
+      </div>
     );
   }
 
-  builder: ConfigBuilder;
+  builder: IConfigBuilder;
   configurable: IConfigurable;
-  storage: (config: ConfigBuilder) => LooseObject;
+  storage: (config: IConfigBuilder) => LooseObject;
 }
